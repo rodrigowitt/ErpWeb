@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+.navbar{
+    height: 50px;
+}
+.menu{
+    font-size: 14px;
+    align-items: center;  
+}
+.navbar-nav :not(.dropdown) > .nav-link:hover {
+    color: black;
+    font-style: inherit;
+    border-bottom: 2px solid black;
+}
+
+.navbar-nav li a {
+    padding: 15px 25px; 
+    text-decoration: none; 
+    color: #333; 
+    border-right: 1px solid #ccc; 
+   
+  }
+
+  .navbar-nav li:last-child a {
+    border-right: none; 
+  }
+
