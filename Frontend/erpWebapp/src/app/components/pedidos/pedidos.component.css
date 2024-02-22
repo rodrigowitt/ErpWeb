@@ -1,5 +1,10 @@
+*{
+    
+}
+
 .titulos{
     display: flex;
+    justify-content: center;
 }
 
 .buscador{
@@ -21,4 +26,20 @@
     margin-left: 250px;
     margin-top: 10px;
 }
+.table-striped thead {
+    background-color: #6C79DF; /* Cor roxo escura */
+    color: white; /* Letras brancas */
+    height: 45px;
+  }
 
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f5f5f5;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #ffffff; /* Azul claro quase branco */
+  }
+
+  .table-striped tbody tr:nth-of-type(even) {
+    background-color: white; /* Branco para as linhas pares */
+  }
