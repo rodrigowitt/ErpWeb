@@ -1,12 +1,22 @@
-<div class="titulos">
+<div class="titulos justify-content-center">
     <h2>Pedidos</h2>
-    <p> Você tem 000 Pedidos	</p>
 </div>
-<div class="buscador">
-    <input type="search" ngModel
-    name="key" id="searchName"class="form-control w-25" placeholder="Buscar pedido" required>
-    <i class="fa-sharp fa-solid fa-magnifying-glass tupla" data-toggle="tooltip" ></i>
-</div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="pedido1">Digite o número do pedido:</label>
+        <input type="text" id="pedido1" class="form-control rounded-input">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="pedido2">Digite o número do cliente:</label>
+        <input type="text" id="pedido2" class="form-control rounded-input">
+      </div>
+    </div>
+  </div>
+
 <table class="table table-striped table-primary">
     <thead>
       <tr>
