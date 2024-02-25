@@ -1,10 +1,7 @@
-*{
-    
-}
-
 .titulos{
     display: flex;
-    justify-content: center;
+    margin-left: 82vh;
+    margin-bottom: 2vh;
 }
 
 .buscador{
@@ -43,3 +40,21 @@
   .table-striped tbody tr:nth-of-type(even) {
     background-color: white; /* Branco para as linhas pares */
   }
+  .botao button{
+    width: 20vh;
+    margin-top: 24px;
+  }
+  .row{
+    margin-left: 50vh;
+  }
+  .deletar{
+    color: #F44336;
+    font-size: 1.3rem;
+}
+.editar{
+  color: #FFC107;
+  font-size: 1.3rem;
+}
+.table td a:nth-child(n+2) {
+  margin-left: 15px;
+}

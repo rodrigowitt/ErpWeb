@@ -15,46 +15,37 @@
         <input type="text" id="pedido2" class="form-control rounded-input">
       </div>
     </div>
-  </div>
+    <div class="col-3">
+      <div class="botao">
+        <button type="button" class="btn btn-primary">Pesquisar</button>
+      </div>
+    </div>
+
+    </div>
 
 <table class="table table-striped capa  mt-4">
     <thead class="">
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Número</th>
         <th scope="col">Horário</th>
         <th scope="col">Cliente</th>
+        <th scope="col">Desconto</th>
         <th scope="col">Total</th>
+        <th scope="col">Ações</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>mdo</td>
-        <td>1000</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>fat</td>
-        <td>1000</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>twitter</td>
-        <td>1000</td>
-      </tr>
-      <tr>
-        <th scope="row">4</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>twitter</td>
-        <td>1000</td>
-      </tr>
+    <tr *ngFor="let pedidos of pedido">
+      <td>{{pedidos.pedidoid}}</td>
+      <td>{{pedidos.entrada}}</td>
+      <td>{{pedidos.cliente}}</td>
+      <td>{{pedidos.desconto}}</td>
+      <td>{{pedidos.total}}</td>
+      <td>
+        <a href="#" class="deletar" data-toggle="modal"><i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i></a>
+        <a href="#" class="editar" data-toggle="modal"><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i></a>
+      </td>
+
+    </tr>
     </tbody>
   </table>
