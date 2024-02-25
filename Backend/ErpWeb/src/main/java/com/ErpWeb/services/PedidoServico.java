@@ -62,6 +62,7 @@ public class PedidoServico {
             }
             if (numeroCliente.equals("0") && numeroPedido.equals("0")){
                 sql = "Select * From tb_pedido";
+                System.out.println("Executando o sql:" + sql);
             }
 
 

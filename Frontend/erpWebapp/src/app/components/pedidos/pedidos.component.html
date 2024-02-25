@@ -6,7 +6,7 @@
     <div class="col-md-3">
       <div class="form-group">
         <label for="pedido1">Digite o número do pedido:</label>
-        <input type="text" id="pedido1" class="form-control rounded-input">
+        <input type="text" id="pedido1" class="form-control rounded-input" [(ngModel)]="numeroPedido">
       </div>
     </div>
     <div class="col-md-3">
@@ -17,7 +17,7 @@
     </div>
     <div class="col-3">
       <div class="botao">
-        <button type="button" class="btn btn-primary">Pesquisar</button>
+        <button (click)="getBuscar(numeroPedido, numeroCliente)" type="button" class="btn btn-primary">Pesquisar</button>
       </div>
     </div>
 

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './components/nav/nav.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import  {HttpClientModule}  from '@angular/common/http'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import  {HttpClientModule}  from '@angular/common/http'
   imports: [
     BrowserModule,
     HttpClientModule, 
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
