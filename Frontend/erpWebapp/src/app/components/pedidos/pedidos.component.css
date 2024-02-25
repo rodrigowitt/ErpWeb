@@ -24,8 +24,8 @@
     margin-top: 10px;
 }
 .table-striped thead {
-    background-color: #6C79DF; /* Cor roxo escura */
-    color: white; /* Letras brancas */
+    background-color: #6C79DF; 
+    color: white; 
     height: 45px;
   }
 
@@ -34,11 +34,11 @@
   }
 
   .table-striped tbody tr:nth-of-type(odd) {
-    background-color: #ffffff; /* Azul claro quase branco */
+    background-color: #ffffff; 
   }
 
   .table-striped tbody tr:nth-of-type(even) {
-    background-color: white; /* Branco para as linhas pares */
+    background-color: white; 
   }
   .botao button{
     width: 20vh;

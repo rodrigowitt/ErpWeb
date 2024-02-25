@@ -64,8 +64,16 @@ public class PedidoControle {
             pedidoServico.delete(pedidoModeloOptional.get());
             return  ResponseEntity.status(HttpStatus.OK).body("Pedido Deletado!");
         }
+
+
+
     }
 
+
+    @GetMapping(value = "/buscar/{pedido}/{cliente}")
+    public ResponseEntity<List<PedidoModelo>> buscarPedidos(@PathVariable (value = "pedido") String numeroPedido,@PathVariable(value = "cliente") String numeroCliente){
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoServico.findBySearch(numeroPedido, numeroCliente));
+    }
 
 
 }
