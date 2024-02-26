@@ -3,16 +3,22 @@
 </div>
 
   <div class="row">
-    <div class="col-md-3">
-      <div class="form-group">
-        <label for="pedido1">Digite o número do pedido:</label>
-        <input type="text" id="pedido1" class="form-control rounded-input" [(ngModel)]="numeroPedido">
+    <div class="col-2">
+      <div class="adicionar">
+        <button  type="button" class="btn  btn-light rounded-pill"><i class="fa-solid fa-plus fa-beat-fade add"></i>Adicionar</button>
+        
       </div>
     </div>
     <div class="col-md-3">
-      <div class="form-group">
-        <label for="pedido2">Digite o número do cliente:</label>
-        <input type="text" id="pedido2" class="form-control rounded-input" [(ngModel)]="numeroCliente">
+      <div class="form-group pedidoin">
+        <label for="pedido1">Digite o número do pedido:</label>
+        <input type="text" id="pedido1"  placeholder="Digite o número do pedido"    class="form-control rounded-input" [(ngModel)]="numeroPedido">
+      </div>
+    </div>
+    <div class="col-md-3 ">
+      <div class="form-group ">
+        <label for="pedido2 ">Digite o número do cliente:</label>
+        <input type="text" id="pedido2"  placeholder="Digite o número do cliente" class="form-control rounded-input " [(ngModel)]="numeroCliente">
       </div>
     </div>
     <div class="col-3">
