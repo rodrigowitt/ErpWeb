@@ -7,12 +7,14 @@ import { NavComponent } from './components/nav/nav.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import  {HttpClientModule}  from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
+import { PaginaPedidosComponent } from './pagina-pedidos/pagina-pedidos.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    PedidosComponent
+    PedidosComponent,
+    PaginaPedidosComponent
   ],
   imports: [
     BrowserModule,

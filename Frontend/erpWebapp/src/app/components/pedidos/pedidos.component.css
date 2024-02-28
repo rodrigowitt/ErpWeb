@@ -4,17 +4,9 @@
     margin-bottom: 2vh;
 }
 
-.buscador{
-    margin-left: 10px;
-    display: flex;
-}
-
-
 .tupla{
     font-size: 1.2rem ;
-    position: absolute;
-    margin-left: 250px;
-    margin-top: 10px;
+    margin-right: 15px;
 }
 .table-striped thead {
     background-color: #6C79DF; 
@@ -45,7 +37,7 @@
     border-color: #000
   }
   .row{
-    margin-left: 20vh;
+    margin-left: 25vh;
   }
   .deletar{
     color: #F44336;
@@ -62,4 +54,12 @@
 }
 .table td a:nth-child(n+2) {
   margin-left: 15px;
+}
+
+.cliente_input{
+  margin-left: 70px!important;
+}
+button.btn a {
+  text-decoration: none;
+  color: inherit; 
 }
