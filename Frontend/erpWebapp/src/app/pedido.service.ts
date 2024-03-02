@@ -19,4 +19,8 @@ export class PedidosService {
   public getPesquisa(numeroPedido : string, numeroCliente: string): Observable<Pedidos[]>{
     return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/buscar/${numeroPedido}/${numeroCliente}`)
   }
+  public addPedido(pedido: Pedidos): Observable<Pedidos>{
+    return this.http.post<Pedidos>(`${this.apiServerUrl}pedido`, pedido)
+  }
+  
 }

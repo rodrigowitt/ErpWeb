@@ -4,5 +4,5 @@ export interface Pedidos {
     cliente: string;
     desconto: number;
     total: number;
-    forma_pagamento : string;
+    forma_pagamento: string;
 }

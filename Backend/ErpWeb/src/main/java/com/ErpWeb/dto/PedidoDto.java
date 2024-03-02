@@ -11,7 +11,7 @@ public class PedidoDto {
     private double desconto;
     @NotNull
     private double total;
-    @NotBlank
+    @NotNull(message = "A forma de pagamento não deve estar em branco")
     private String forma_pagamento;
 
     public String getCliente() {

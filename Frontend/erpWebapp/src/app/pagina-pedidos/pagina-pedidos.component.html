@@ -1,28 +1,30 @@
 <div class="container mt-5">
     <h2>Cadastro de Pedido</h2>
-    <form>
+    <form #addForm="ngForm" (ngSubmit)="onAddPed(addForm)">
       <div class="form-group">
         <label for="cliente">Cliente:</label>
-        <input type="text" class="form-control" id="cliente" placeholder="Nome do cliente">
+        <input type="text" ngModel name="cliente" class="form-control" id="cliente" placeholder="Nome do cliente">
       </div>
       <div class="form-group">
         <label for="desconto">Desconto:</label>
-        <input type="text" class="form-control" id="desconto" placeholder="Desconto">
+        <input type="text" ngModel name="desconto"class="form-control" id="desconto" placeholder="Desconto">
       </div>
       <div class="form-group">
         <label for="total">Total:</label>
-        <input type="text" class="form-control" id="total" placeholder="Total">
+        <input type="text" ngModel name="total" class="form-control" id="total" placeholder="Total">
       </div>
       <div class="form-group">
         <label for="formaPagamento">Forma de Pagamento:</label>
-        <select class="form-control" id="formaPagamento">
-          <option>Cartão de Crédito</option>
-          <option>Dinheiro</option>
-          <option>Transferência Bancária</option>
-          <option>PIX</option>
+        <select class="form-control" id="forma_pagamento" ngModel name="forma_pagamento" required>
+          <option value="" disabled selected hidden>Selecione uma opção</option>
+          <option value="cartão de crédito">Cartão de Crédito</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Transferência Bancária">Transferência Bancária</option>
+          <option value="PIX">PIX</option>
         </select>
+        
       </div>
-      <button type="submit" class="btn btn-primary">Salvar</button>
+      <button type="submit" id="add-ped-form" class="btn btn-primary">Salvar</button>
     </form>
   </div>
   
