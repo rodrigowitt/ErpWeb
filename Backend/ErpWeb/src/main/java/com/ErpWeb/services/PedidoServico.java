@@ -39,28 +39,28 @@ public class PedidoServico {
         pedidoRepositorio.delete(pedidoModelo);
     }
 
-    public List<PedidoModelo> findBySearch(String numeroPedido, String numeroCliente){
+    public List<PedidoModelo> findBySearch(String numeroPedido, String Cliente){
         String sql = "Select * From tb_pedido";
 
-        if (!numeroPedido.isEmpty() || !numeroCliente.isEmpty()){
+        if (!numeroPedido.isEmpty() || !Cliente.isEmpty()){
 
 
             if (!numeroPedido.equals("0")){
                 sql += " Where pedidoid = '" + numeroPedido + "'";
             }
 
-            if (!numeroCliente.equals(0)){
+            if (!Cliente.equals(0)){
                 if (!numeroPedido.equals("0")){
-                    sql += " and cliente = '" + numeroCliente + "'";
+                    sql += " and cliente = '" + Cliente + "'";
                 }else{
-                    sql += " where cliente = '" + numeroCliente + "'";
+                    sql += " where cliente like %'" + Cliente + "%'";
                 }
 
             }
-            if (numeroCliente.equals("0") && !numeroPedido.equals("0")){
+            if (Cliente.equals("0") && !numeroPedido.equals("0")){
                 sql = "Select * From tb_pedido where pedidoid = '" + numeroPedido + "'";
             }
-            if (numeroCliente.equals("0") && numeroPedido.equals("0")){
+            if (Cliente.equals("0") && numeroPedido.equals("0")){
                 sql = "Select * From tb_pedido";
                 System.out.println("Executando o sql:" + sql);
             }
