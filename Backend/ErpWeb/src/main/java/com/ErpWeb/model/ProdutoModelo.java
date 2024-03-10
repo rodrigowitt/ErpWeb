@@ -2,9 +2,11 @@ package com.ErpWeb.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_produto")
@@ -15,6 +17,10 @@ public class ProdutoModelo {
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime entrada;
+
+    @OneToMany(mappedBy = "produtoModelo", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<ItensPedidoModelo> itensPedidoModelo;
 
     private String nome;
 
@@ -80,5 +86,13 @@ public class ProdutoModelo {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public List<ItensPedidoModelo> getItensPedidoModelo() {
+        return itensPedidoModelo;
+    }
+
+    public void setItensPedidoModelo(List<ItensPedidoModelo> itensPedidoModelo) {
+        this.itensPedidoModelo = itensPedidoModelo;
     }
 }
