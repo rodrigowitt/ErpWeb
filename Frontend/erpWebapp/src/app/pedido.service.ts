@@ -9,6 +9,9 @@ import {Pedidos} from 'src/pedidos'
 })
 export class PedidosService {
 
+  itensPedido: any[] = [];
+  novoProduto: any = {};
+
   private apiServerUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) { }
@@ -21,6 +24,15 @@ export class PedidosService {
   }
   public addPedido(pedido: Pedidos): Observable<Pedidos>{
     return this.http.post<Pedidos>(`${this.apiServerUrl}pedido`, pedido)
+  }
+
+  adicionarProduto() {
+    this.itensPedido.push({
+      produto: this.novoProduto.produto,
+      quantidade: this.novoProduto.quantidade,
+      preco: this.novoProduto.preco
+    });
+    this.novoProduto = {};
   }
   
 }

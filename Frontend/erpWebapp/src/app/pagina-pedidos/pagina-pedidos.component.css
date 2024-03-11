@@ -1,0 +1,11 @@
+.colunapreco{
+    width: 90vh!important;
+}
+
+.colunapreco input{
+    
+    border-radius: 0.375rem!important;
+}
+.colunapreco button{
+ margin-left: 25px;
+}
