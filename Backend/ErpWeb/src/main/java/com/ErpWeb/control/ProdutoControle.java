@@ -70,8 +70,14 @@ public class ProdutoControle {
             produtoServico.delete(produtoModeloOptional.get());
             return  ResponseEntity.status(HttpStatus.OK).body("Produto Deletado!");
         }
+    }
 
-
-
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object> getIdProduto(@PathVariable(value = "id") Long id){
+        Optional<ProdutoModelo> produtoModeloOptional = produtoServico.findById(id);
+        if (!produtoModeloOptional.isPresent()){
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(produtoModeloOptional.get());
     }
 }
