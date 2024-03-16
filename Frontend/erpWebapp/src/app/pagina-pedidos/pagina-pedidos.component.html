@@ -15,15 +15,21 @@
               <option value="PIX">PIX</option>
           </select>
       </div>
-      <div class="form-group colunapreco mt-3">
+      <div class="form-group colunapreco col mt-3">
         <label for="codigoProduto">Código do Produto:</label>
         <div class="input-group">
             <input type="text" [(ngModel)]="codigoProduto" class="form-control" id="codigoProduto" name="codigoProduto" placeholder="Código do produto">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" (click)="adicionarProduto(codigoProduto)">Adicionar Produto</button>
-            </div>
         </div>
     </div>
+    <div class="form-group colunapreco col mt-3 ">
+      <label for="codigoProduto">Quantidade do Produto:</label>
+      <div class="input-group">
+          <input type="text" [(ngModel)]="quantidadeProduto" class="form-control" id="codigoProduto" name="quantidadeProduto" placeholder="Quantidade do produto">
+                  <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" (click)="adicionarProduto()">Adicionar Produto</button>
+            </div>
+        </div>
+  </div>
     
     <div class="form-group col-md-12">
         <table class="table table-striped mt-4">
@@ -33,18 +39,21 @@
               <th>Código do Produto</th>
               <th>Nome do Produto</th>
               <th>Preço</th>
+              <th>Quantidade</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let produto of produtoslista">
-              <ng-container *ngIf="produtoValido(produto)"> 
-                <td>{{ produto.produtoid }}</td>
-                <td>{{ produto.codigo }}</td>
-                <td>{{ produto.nome }}</td>
-                <td>{{ produto.preco }}</td>
+            <tr *ngFor="let item of produtoslista">
+              <ng-container *ngIf="produtoValido(item.produto)"> 
+                <td>{{ item.produto.produtoid }}</td>
+                <td>{{ item.produto.codigo }}</td>
+                <td>{{ item.produto.nome }}</td>
+                <td>{{ item.produto.preco }}</td>
+                <td>{{ item.quantidade }}</td> 
               </ng-container>
             </tr>
           </tbody>
+          
         </table>
       </div>
       

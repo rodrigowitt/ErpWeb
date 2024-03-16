@@ -5,5 +5,4 @@ export interface Produtos{
     codigo: string;
     codigoEan: string;
     preco: number
-
 }

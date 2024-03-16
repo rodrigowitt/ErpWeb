@@ -6,6 +6,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {ProdutosService} from 'src/app/produtos.service'
 import { Produtos } from 'src/produtos';
 import { environment } from 'src/environments/environment';
+import { ItensPedidos } from 'src/itenspedidos';
 
 @Component({
   selector: 'app-pagina-pedidos',
@@ -15,9 +16,12 @@ import { environment } from 'src/environments/environment';
 export class PaginaPedidosComponent {
   public pedidos: Pedidos [] = [];
   public produtos: Produtos [] = [];
+  public itens: ItensPedidos[] = [];
   private apiServerUrl = environment.apiBaseUrl;
   codigoProduto!: string;
+  quantidadeProduto!: string;
   public produtoslista: any[] = []
+  quantidade!:string
 
   constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private http: HttpClient){};
 
@@ -37,12 +41,12 @@ export class PaginaPedidosComponent {
       )    
 }
 
-async adicionarProduto(codigoProduto: string ) {
+async adicionarProduto() {
   try {
-    console.log("o produto é: " + codigoProduto)
-    const produto = await this.http.get<Produtos[]>(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
+    console.log("O produto é: " + this.codigoProduto);
+    const produto = await this.http.get<Produtos>(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
     if (produto) {
-      this.produtoslista.push(produto);
+      this.produtoslista.push({ produto: produto, quantidade: this.quantidadeProduto });
     } else {
       console.error('Produto não encontrado.');
     }
@@ -51,8 +55,9 @@ async adicionarProduto(codigoProduto: string ) {
   }
 }
 
-produtoValido(produto: any): boolean {
-  return produto && produto.produtoid && produto.codigo && produto.nome && produto.preco;
+
+produtoValido(produto: Produtos | any): boolean {
+  return produto && produto.produtoid && produto.codigo && produto.nome && produto.preco 
 }
 
 

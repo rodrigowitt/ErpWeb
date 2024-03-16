@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +77,7 @@ public class ProdutoControle {
     public ResponseEntity<Object> getIdProduto(@PathVariable(value = "id") Long id){
         Optional<ProdutoModelo> produtoModeloOptional = produtoServico.findById(id);
         if (!produtoModeloOptional.isPresent()){
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
+            return  ResponseEntity.status(HttpStatus.OK).body(new HashMap<>());
         }
         return ResponseEntity.status(HttpStatus.OK).body(produtoModeloOptional.get());
     }
