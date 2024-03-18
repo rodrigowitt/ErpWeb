@@ -1,11 +1,11 @@
-<div class="container mt-5">
-  <h2>Cadastro de Pedido</h2>
-  <form #addForm="ngForm" class="row">
-      <div class="form-group col-md-6">
+<div class="mt-2">
+  <h5 class="text-center">Cadastro de Pedido</h5>
+  <form #addForm="ngForm" class="row mt-3" (ngSubmit)="onAddPedido(addForm)">
+      <div class="form-group col-md-4">
           <label for="cliente">Cliente:</label>
           <input type="text" ngModel name="cliente" class="form-control" id="cliente" placeholder="Nome do cliente">
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
           <label for="formaPagamento">Forma de Pagamento:</label>
           <select class="form-control" id="forma_pagamento" ngModel name="forma_pagamento" required>
               <option value="" disabled selected hidden>Selecione uma opção</option>
@@ -15,49 +15,67 @@
               <option value="PIX">PIX</option>
           </select>
       </div>
+      <div class="form-group col-md-4">
+        <label for="desconto">Desconto:</label>
+        <input type="text" ngModel name="desconto" class="form-control" id="desconto" placeholder="Desconto do pedido">
+    </div>
+    <input type="hidden" [(ngModel)]="totalPedido" name="total" />
+
       <div class="form-group colunapreco col mt-3">
         <label for="codigoProduto">Código do Produto:</label>
         <div class="input-group">
             <input type="text" [(ngModel)]="codigoProduto" class="form-control" id="codigoProduto" name="codigoProduto" placeholder="Código do produto">
         </div>
+        <div *ngIf="produtoNaoEncontrado" class="mensagem mt-2">Produto não encontrado</div>
     </div>
     <div class="form-group colunapreco col mt-3 ">
       <label for="codigoProduto">Quantidade do Produto:</label>
       <div class="input-group">
-          <input type="text" [(ngModel)]="quantidadeProduto" class="form-control" id="codigoProduto" name="quantidadeProduto" placeholder="Quantidade do produto">
+          <input type="text" [(ngModel)]="quantidadeProduto" class="form-control" id="quantidadeProduto" name="quantidadeProduto" placeholder="Quantidade do produto">
                   <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" (click)="adicionarProduto()">Adicionar Produto</button>
+                <button class="btn btn-outline-secondary adicionar" type="button" [disabled]="!codigoProduto || !quantidadeProduto || quantidadeProduto <= 0"   (click)="adicionarProduto()">{{ editandoItem ? 'Editar Produto' : 'Adicionar Produto' }}</button>
             </div>
         </div>
   </div>
     
     <div class="form-group col-md-12">
-        <table class="table table-striped mt-4">
+        <table class="table table-striped mt-2">
           <thead>
             <tr>
-              <th>Id do Produto</th>
+              <th>#</th>
               <th>Código do Produto</th>
               <th>Nome do Produto</th>
               <th>Preço</th>
               <th>Quantidade</th>
+              <th>Total</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of produtoslista">
+            <tr *ngFor="let item of produtoslista ; let i = index">
               <ng-container *ngIf="produtoValido(item.produto)"> 
-                <td>{{ item.produto.produtoid }}</td>
+                <td>{{ i + 1}}</td>
                 <td>{{ item.produto.codigo }}</td>
                 <td>{{ item.produto.nome }}</td>
-                <td>{{ item.produto.preco }}</td>
+                <td>{{ 'R$ ' + (item.produto.preco | number:'1.2-2') }}</td>
                 <td>{{ item.quantidade }}</td> 
+                <td>{{ 'R$ ' + (item.quantidade * item.produto.preco | number:'1.2-2')}}</td> 
+                <td><a href="#" class="editar" data-toggle="modal" [ngClass]="{ 'disabled': editandoItem }" (click)="editarItem(i)"  ><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar" ></i></a>
+                  <a href="#" class="deletar" (click)="removerItemPedido(item)" [ngClass]="{ 'disabled': editandoItem }"data-toggle="modal"><i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i></a></td>
               </ng-container>
             </tr>
           </tbody>
           
         </table>
       </div>
+        <div class="form-group">
+          <h5 class="totalpedido">{{'Total do pedido: R$  ' + (calcularTotalPedido() | number:'1.2-2') }}</h5>
+        </div>
+
+  
+
       
-      <div class="form-group col-md-12">
+      <div class="form-group">
           <button type="submit" id="add-ped-form" class="btn btn-primary">Salvar</button>
       </div>
   </form>

@@ -26,3 +26,32 @@
 .table-striped tbody tr:nth-of-type(even) {
     background-color: white; 
   }
+.mensagem {
+    color: red;
+    font-weight: bold;
+  }
+.totalpedido{
+  text-align: right;
+  margin-right: 43px;
+}
+.deletar{
+  color: #F44336;
+  font-size: 1.3rem;
+}
+.editar{
+color: #FFC107;
+font-size: 1.3rem;
+}
+.table td a:nth-child(n+2) {
+  margin-left: 15px;
+}
+.adicionar{
+  width: 20vh;
+}
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
