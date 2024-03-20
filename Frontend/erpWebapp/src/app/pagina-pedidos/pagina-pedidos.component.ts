@@ -49,20 +49,45 @@ export class PaginaPedidosComponent {
       )    
 }
 
-public onAddPedido(addForm: NgForm): void {
+
+
+onAddPedido(addForm: NgForm): void {
+  const cliente = addForm.value.cliente;
+  const formaPagamento = addForm.value.forma_pagamento;
+  const desconto = addForm.value.desconto;
   const total = this.calcularTotalPedido();
-  const pedido = { ...addForm.value,  total};
-  document.getElementById('add-ped-form')?.click();
-  this.pedidoService.addPedido(pedido).subscribe(
-    (response: Pedidos) => {
-      console.log(response)
-      addForm.reset();
-      location.reload();
-    },
-    (error: HttpErrorResponse) => {
-      alert(error.message)
-    }
-  )
+  const itempedido = this.codigoProduto
+
+  const pedido: Pedidos = {
+    cliente: cliente,
+    forma_pagamento: formaPagamento,
+    desconto: desconto,
+    total: total,
+    pedidoid: '',
+    entrada: ''
+  };
+
+  this.pedidoService.addPedido(pedido).subscribe((pedidoAdicionado) => {
+    this.produtoslista.forEach((item) => {
+      const itemPedido: ItensPedidos = {
+        pedido: pedidoAdicionado.pedidoid, 
+        preco: item.produto.preco,
+        produto_id: item.produto.produtoid,
+        quantidade: item.quantidade,
+        itensPedidoid: '',
+        produto: ''
+      };
+      console.log("segue o produto_id =" + itemPedido.produto_id)
+      this.pedidoService.addITensPedido(itemPedido).subscribe(() => {
+      }, (error) => {
+        console.error('Erro ao adicionar item de pedido:', error);
+      });
+    });
+    this.produtoslista = [];
+    addForm.resetForm();
+  }, (error) => {
+    console.error('Erro ao adicionar pedido:', error);
+  });
 }
 
 async adicionarProduto() {

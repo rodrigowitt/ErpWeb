@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ItensPedidos } from 'src/itenspedidos';
 import {Pedidos} from 'src/pedidos'
 
 @Injectable({
@@ -24,6 +25,9 @@ export class PedidosService {
   }
   public addPedido(pedido: Pedidos): Observable<Pedidos>{
     return this.http.post<Pedidos>(`${this.apiServerUrl}pedido`, pedido)
+  }
+  public addITensPedido(itenspedido : ItensPedidos): Observable<ItensPedidos>{
+    return this.http.post<ItensPedidos>(`${this.apiServerUrl}itenspedido`, itenspedido)
   }
 
   adicionarProduto() {

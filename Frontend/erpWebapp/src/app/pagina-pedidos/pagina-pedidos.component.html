@@ -55,7 +55,7 @@
             <tr *ngFor="let item of produtoslista ; let i = index">
               <ng-container *ngIf="produtoValido(item.produto)"> 
                 <td>{{ i + 1}}</td>
-                <td>{{ item.produto.codigo }}</td>
+                <td>{{ item.produto.produtoid }}</td>
                 <td>{{ item.produto.nome }}</td>
                 <td>{{ 'R$ ' + (item.produto.preco | number:'1.2-2') }}</td>
                 <td>{{ item.quantidade }}</td> 
