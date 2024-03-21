@@ -20,11 +20,14 @@ export class PaginaPedidosComponent {
   private apiServerUrl = environment.apiBaseUrl;
   codigoProduto!: string;
   quantidadeProduto!: number | any;
+  desconto : number = 0;
   public produtoslista: any[] = []
   produtoNaoEncontrado: boolean = false;
   editandoItem: boolean = false;
   indiceItemEditando: number = -1;
   totalPedido!: number;
+  produto: any;
+  nomeProduto: string = '';
 
 
   constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private http: HttpClient){};
@@ -127,6 +130,25 @@ async adicionarProduto() {
   
 }}
 
+buscarProduto() {
+  if (this.codigoProduto.trim() !== '') {
+    this.http.get<any>(`${this.apiServerUrl}produto/${this.codigoProduto}`).subscribe(
+      (produto: any) => {
+        if (produto && produto.nome) {
+          this.nomeProduto = produto.nome;
+        } else {
+          this.nomeProduto = 'Produto não encontrado';
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.error('Erro ao obter produto:', error);
+        this.nomeProduto = 'Erro ao obter produto';
+      }
+    );
+  } else {
+    this.nomeProduto = '';
+  }
+}
 
 produtoValido(produto: Produtos | any): boolean {
   return produto && produto.produtoid && produto.codigo && produto.nome && produto.preco 
@@ -158,6 +180,10 @@ editarItem(indice: number) {
   this.quantidadeProduto = itemEditando.quantidade;
   this.indiceItemEditando = indice;
   this.editandoItem = true
+}
+
+verificarSeHaItens(): boolean {
+  return this.produtoslista.length > 0;
 }
 
 
