@@ -53,5 +53,10 @@ font-size: 1.3rem;
   opacity: 0.5;
   cursor: not-allowed;
 }
+.enviarpedido{
+  color: white;
+  font-size: 1.1rem;
+  background-color: green;
+}
 
 

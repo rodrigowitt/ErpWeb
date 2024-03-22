@@ -57,9 +57,14 @@ export class PaginaPedidosComponent {
 onAddPedido(addForm: NgForm): void {
   const cliente = addForm.value.cliente;
   const formaPagamento = addForm.value.forma_pagamento;
-  const desconto = addForm.value.desconto;
+  let  desconto = addForm.value.desconto;
   const total = this.calcularTotalPedido();
   const itempedido = this.codigoProduto
+
+  if (!desconto || isNaN(desconto)) {
+    desconto = 0;
+  }
+  
 
   const pedido: Pedidos = {
     cliente: cliente,
@@ -162,6 +167,11 @@ calcularTotalPedido(): number {
     return total;
   }, 0);
   return + total.toFixed(2);
+}
+
+calcularTotalLiquidoPedido(totalpedido : number, desconto : number) {
+  if (desconto > totalpedido){desconto = 0}
+  return totalpedido - desconto;
 }
 
 removerItemPedido(item: any) {

@@ -18,6 +18,9 @@
       <div class="form-group col-md-4">
         <label for="desconto">Desconto:</label>
         <input type="text" ngModel name="desconto" class="form-control" id="desconto" placeholder="Desconto do pedido">
+        <div class="mensagem mt-2" *ngIf="produtoslista.length > 0 && addForm.value.desconto > calcularTotalPedido()">
+          O desconto não pode ser maior que o total do pedido.
+        </div>
     </div>
 
       <div class="form-group colunapreco col mt-3">
@@ -76,15 +79,18 @@
         </table>
       </div>
         <div class="form-group">
-          <h5 class="total">{{'Total do pedido: R$  ' + (calcularTotalPedido() | number:'1.2-2') }}</h5>
-          <h5 class="total">{{'Desconto: R$  ' + (addForm.value.desconto | number:'1.2-2') }}</h5>
+          <h5 class="total">{{'Total dos Produtos : R$  ' + (calcularTotalPedido() | number:'1.2-2') }}</h5>
+          <h5 class="total mt-4" *ngIf="produtoslista.length > 0 && (addForm.value.desconto || addForm.value.desconto === 0) && (addForm.value.desconto <= calcularTotalPedido())">
+            {{ 'Desconto: R$ ' + (addForm.value.desconto || 0 | number:'1.2-2') }}
+          </h5>
+          <h5 class="total mt-4" >{{'Total Líquido: R$  ' + (calcularTotalLiquidoPedido(calcularTotalPedido(),addForm.value.desconto) | number:'1.2-2') }}</h5>
         </div>
 
   
 
       
-      <div class="form-group">
-          <button type="submit" id="add-ped-form" class="btn btn-primary" [disabled]="!addForm.value.cliente || !addForm.value.forma_pagamento || !verificarSeHaItens()">Salvar</button>
+      <div class="form-group text-center">
+          <button type="submit" id="add-ped-form" class="btn btn-outline enviarpedido" [disabled]="!addForm.value.cliente || !addForm.value.forma_pagamento || !verificarSeHaItens()">Enviar Pedido</button>
       </div>
   </form>
 </div>
