@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { PedidosService } from '../pedido.service';
 import { Pedidos } from 'src/pedidos';
@@ -7,6 +7,7 @@ import {ProdutosService} from 'src/app/produtos.service'
 import { Produtos } from 'src/produtos';
 import { environment } from 'src/environments/environment';
 import { ItensPedidos } from 'src/itenspedidos';
+
 
 @Component({
   selector: 'app-pagina-pedidos',
@@ -18,6 +19,12 @@ export class PaginaPedidosComponent {
   public produtos: Produtos [] = [];
   public itens: ItensPedidos[] = [];
   private apiServerUrl = environment.apiBaseUrl;
+  public codigoNovoPedido: any = 0;
+  public ultimocliente: string= '';
+  public ultimaFormaPagamento: string= '';
+  public ultimoTotal : number | any;
+  public ultimoDesconto : number | any;
+  public pedidoFeito : number | any;
   codigoProduto!: string;
   quantidadeProduto!: number | any;
   desconto : number = 0;
@@ -29,8 +36,8 @@ export class PaginaPedidosComponent {
   totalPedido!: number;
   produto: any;
   nomeProduto: string = '';
-  
 
+  
 
   constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private http: HttpClient){};
 
@@ -41,6 +48,34 @@ export class PaginaPedidosComponent {
     this.calcularTotalPedido();
   }
 
+  
+  openModal() {
+    const modal = document.getElementById('exampleModal');
+    const body = document.body;
+    const closeButton = document.querySelector('.btn-close');
+    if (modal && body && closeButton) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+      body.classList.add('modal-open');
+      const backdrop = document.createElement('div');
+      closeButton.addEventListener('click', this.closeModal.bind(this)); // Adiciona evento de clique ao botão fechar
+    }
+  }
+  
+  closeModal() {
+    const modal = document.getElementById('exampleModal');
+    const body = document.body;
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (modal && body) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      body.classList.remove('modal-open');
+    }
+  }
+  
+
+  
+  
 
   ajustarDesconto() {
     this.descontoDigitado = true;
@@ -69,7 +104,6 @@ onAddPedido(addForm: NgForm): void {
   const formaPagamento = addForm.value.forma_pagamento;
   let  desconto = addForm.value.desconto;
   const total = this.calcularTotalPedido();
-  const itempedido = this.codigoProduto
 
   if (!desconto || isNaN(desconto)) {
     desconto = 0;
@@ -84,7 +118,10 @@ onAddPedido(addForm: NgForm): void {
     pedidoid: '',
     entrada: ''
   };
-
+  this.ultimocliente = cliente;
+  this.ultimaFormaPagamento = formaPagamento;
+  this.ultimoTotal = total;
+  this.ultimoDesconto = desconto;
   this.pedidoService.addPedido(pedido).subscribe((pedidoAdicionado) => {
     this.produtoslista.forEach((item) => {
       const itemPedido: ItensPedidos = {
@@ -94,8 +131,10 @@ onAddPedido(addForm: NgForm): void {
         quantidade: item.quantidade,
         itensPedidoid: '',
         produto: ''
+        
       };
-      console.log("segue o produto_id =" + itemPedido.produto_id)
+      this.pedidoFeito = pedidoAdicionado.pedidoid;
+      this.openModal();
       this.pedidoService.addITensPedido(itemPedido).subscribe(() => {
       }, (error) => {
         console.error('Erro ao adicionar item de pedido:', error);
@@ -118,6 +157,7 @@ async adicionarProduto() {
       itemEditando.quantidade = this.quantidadeProduto;
       this.codigoProduto = '';
       this.quantidadeProduto = '';
+      this.nomeProduto = '';
       this.indiceItemEditando = -1; 
       this.editandoItem = false;
       this.produtoNaoEncontrado = false;

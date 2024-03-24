@@ -58,5 +58,21 @@ font-size: 1.3rem;
   font-size: 1.1rem;
   background-color: green;
 }
+.btn-close{
+  margin-left: 49vh;
+}
+.enviado{
+  font-size: 3rem;
+  margin-left: 22vh;
+}
+.modal-title{
+  margin-left: 14vh;
+  color: #27a17d;
+}
+.modal-open .modal-backdrop{
+  background-color:yellow
 
-
+}
+div#exampleModal {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}

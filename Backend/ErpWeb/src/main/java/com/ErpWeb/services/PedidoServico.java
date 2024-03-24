@@ -53,7 +53,8 @@ public class PedidoServico {
                 if (!numeroPedido.equals("0")){
                     sql += " and cliente = '" + Cliente + "'";
                 }else{
-                    sql += " where cliente like %'" + Cliente + "%'";
+                    sql += " where cliente like '%" + Cliente + "%'";
+                    System.out.println("Executando o sql DE CLIENTE:" + sql);
                 }
 
             }

@@ -18,9 +18,6 @@ public class ProdutoModelo {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime entrada;
 
-    @OneToMany(mappedBy = "produtoModelo", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<ItensPedidoModelo> itensPedidoModelo;
 
     private String nome;
 
@@ -88,11 +85,4 @@ public class ProdutoModelo {
         this.preco = preco;
     }
 
-    public List<ItensPedidoModelo> getItensPedidoModelo() {
-        return itensPedidoModelo;
-    }
-
-    public void setItensPedidoModelo(List<ItensPedidoModelo> itensPedidoModelo) {
-        this.itensPedidoModelo = itensPedidoModelo;
-    }
 }
