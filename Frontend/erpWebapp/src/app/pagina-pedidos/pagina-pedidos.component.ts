@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { PedidosService } from '../pedido.service';
 import { Pedidos } from 'src/pedidos';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -21,6 +21,7 @@ export class PaginaPedidosComponent {
   codigoProduto!: string;
   quantidadeProduto!: number | any;
   desconto : number = 0;
+  descontoDigitado: boolean = false;
   public produtoslista: any[] = []
   produtoNaoEncontrado: boolean = false;
   editandoItem: boolean = false;
@@ -28,6 +29,7 @@ export class PaginaPedidosComponent {
   totalPedido!: number;
   produto: any;
   nomeProduto: string = '';
+  
 
 
   constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private http: HttpClient){};
@@ -37,6 +39,14 @@ export class PaginaPedidosComponent {
   
    ngAfterViewInit() {
     this.calcularTotalPedido();
+  }
+
+
+  ajustarDesconto() {
+    this.descontoDigitado = true;
+    if (this.desconto > this.calcularTotalPedido()) {
+      this.desconto = 0;
+    }
   }
 
  
@@ -122,6 +132,7 @@ async adicionarProduto() {
       this.produtoslista.push({ produto: produto, quantidade: this.quantidadeProduto });
       this.codigoProduto = '';
       this.quantidadeProduto = '';
+      this.nomeProduto = '';
       this.produtoNaoEncontrado = false;
     } else {
       this.produtoNaoEncontrado = true;
@@ -168,6 +179,16 @@ calcularTotalPedido(): number {
   }, 0);
   return + total.toFixed(2);
 }
+calcularQuantidadeTotalPedido(): number {
+  let total = 0;
+
+  for (let item of this.produtoslista) {
+    total += Number(item.quantidade);
+  }
+
+  return total;
+}
+
 
 calcularTotalLiquidoPedido(totalpedido : number, desconto : number) {
   if (desconto > totalpedido){desconto = 0}
@@ -195,6 +216,8 @@ editarItem(indice: number) {
 verificarSeHaItens(): boolean {
   return this.produtoslista.length > 0;
 }
+
+
 
 
 

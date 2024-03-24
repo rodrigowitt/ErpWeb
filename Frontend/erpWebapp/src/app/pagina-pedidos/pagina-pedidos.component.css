@@ -9,7 +9,7 @@
 .colunapreco button{
  margin-left: 25px;
 }
-.table-striped thead {
+.table thead {
     background-color: #6C79DF; 
     color: white; 
     height: 45px;

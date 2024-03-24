@@ -17,11 +17,13 @@
       </div>
       <div class="form-group col-md-4">
         <label for="desconto">Desconto:</label>
-        <input type="text" ngModel name="desconto" class="form-control" id="desconto" placeholder="Desconto do pedido">
-        <div class="mensagem mt-2" *ngIf="produtoslista.length > 0 && addForm.value.desconto > calcularTotalPedido()">
+        <input type="text" [(ngModel)]="desconto" name="desconto" class="form-control" id="desconto" placeholder="Desconto do pedido" (ngModelChange)="ajustarDesconto()">
+        <div class="mensagem mt-2" *ngIf="(desconto > calcularTotalPedido() || desconto === 0) && descontoDigitado">
           O desconto não pode ser maior que o total do pedido.
-        </div>
+      </div>
     </div>
+
+    
 
       <div class="form-group colunapreco col mt-3">
         <label for="codigoProduto">Código do Produto:</label>
@@ -30,14 +32,13 @@
         </div>
         <div *ngIf="produtoNaoEncontrado" class="mensagem mt-2">Produto não encontrado</div>
     </div>
-    <div class="form-group col mt-3 ">
+    <div class="form-group col mt-3">
       <label for="codigoProduto">Produto:</label>
       <div class="input-group">
-          <input type="text" class="form-control" id="descricaoProduto" name="descricaoProduto" placeholder="Descrição do produto" readonly [value]="nomeProduto">
-                  <div class="input-group-append">
-            </div>
-        </div>
+          <input type="text" class="form-control" id="descricaoProduto" name="descricaoProduto" placeholder="Descrição do produto"  [(ngModel)]="nomeProduto">
+      </div>
   </div>
+  
     <div class="form-group colunapreco col mt-3 ">
       <label for="codigoProduto">Quantidade do Produto:</label>
       <div class="input-group">
@@ -49,7 +50,7 @@
   </div>
     
     <div class="form-group col-md-12">
-        <table class="table table-striped mt-2">
+        <table class="table table-bordered mt-2">
           <thead>
             <tr>
               <th>#</th>
@@ -74,21 +75,30 @@
                   <a href="#" class="deletar" (click)="removerItemPedido(item)" [ngClass]="{ 'disabled': editandoItem }"data-toggle="modal"><i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i></a></td>
               </ng-container>
             </tr>
+            <tr>
+              <td colspan="5"></td>
+              <td>Quantidade de Produtos:</td>
+              <td>{{ calcularQuantidadeTotalPedido() }}</td>
+            </tr>
+            <tr>
+              <td colspan="5"></td>
+              <td>Total dos Produtos:</td>
+              <td>{{'R$ ' + (calcularTotalPedido() | number:'1.2-2')}}</td>
+            </tr>
+            <tr>
+              <td colspan="5"></td>
+              <td *ngIf="addForm.value.desconto !== undefined">Desconto:</td>
+              <td *ngIf="(addForm.value.desconto <= calcularTotalPedido() || 0)">{{'R$ ' + (addForm.value.desconto || 0 | number:'1.2-2') }}</td>
+            </tr>
+            <tr>
+              <td colspan="5"></td>
+              <td>Total Líquido:</td>
+              <td>{{ calcularTotalLiquidoPedido(calcularTotalPedido(), addForm.value.desconto) | currency:'BRL' }}</td>
+            </tr>
           </tbody>
-          
         </table>
       </div>
-        <div class="form-group">
-          <h5 class="total">{{'Total dos Produtos : R$  ' + (calcularTotalPedido() | number:'1.2-2') }}</h5>
-          <h5 class="total mt-4" *ngIf="produtoslista.length > 0 && (addForm.value.desconto || addForm.value.desconto === 0) && (addForm.value.desconto <= calcularTotalPedido())">
-            {{ 'Desconto: R$ ' + (addForm.value.desconto || 0 | number:'1.2-2') }}
-          </h5>
-          <h5 class="total mt-4" >{{'Total Líquido: R$  ' + (calcularTotalLiquidoPedido(calcularTotalPedido(),addForm.value.desconto) | number:'1.2-2') }}</h5>
-        </div>
 
-  
-
-      
       <div class="form-group text-center">
           <button type="submit" id="add-ped-form" class="btn btn-outline enviarpedido" [disabled]="!addForm.value.cliente || !addForm.value.forma_pagamento || !verificarSeHaItens()">Enviar Pedido</button>
       </div>
