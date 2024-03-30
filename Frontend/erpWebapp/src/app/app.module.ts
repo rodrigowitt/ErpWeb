@@ -8,7 +8,10 @@ import { PedidosComponent } from './components/pedidos/pedidos.component';
 import  {HttpClientModule}  from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { PaginaPedidosComponent } from './pagina-pedidos/pagina-pedidos.component';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Importando o arquivo do plugin Bootstrap
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { CadastrarClientesComponent } from './components/cadastrar-clientes/cadastrar-clientes.component';
+
+
 
 
 @NgModule({
@@ -16,7 +19,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Importando o arquivo do p
     AppComponent,
     NavComponent,
     PedidosComponent,
-    PaginaPedidosComponent
+    PaginaPedidosComponent,
+    CadastrarClientesComponent
   ],
   imports: [
     BrowserModule,

@@ -29,11 +29,13 @@ public class ClienteModelo {
 
     private String estado;
 
+    private String municipio;
+
     private String bairro;
 
     private String rua;
 
-    private String numero;
+    private int numero;
 
     private String complemento;
 
@@ -117,6 +119,14 @@ public class ClienteModelo {
         return bairro;
     }
 
+    public String getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
+    }
+
     public void setBairro(String bairro) {
         this.bairro = bairro;
     }
@@ -129,11 +139,11 @@ public class ClienteModelo {
         this.rua = rua;
     }
 
-    public String getNumero() {
+    public int getNumero() {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
 
