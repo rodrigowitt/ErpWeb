@@ -14,16 +14,30 @@ export class CadastrarClientesComponent {
   cnpjoucpf: string = '';
   cliente: ClientesConsulta | undefined; // Definido como opcional
   clienteApi!: Clientes; // Definido como opcional
+  public numeroCliente ?: number
+  public cnpj ?: string
+  public razaosocial ?: string
+  public telefone ?: string
+  public email ?: string
   
 
-  constructor(private clientesService: ClienteService) { }
+  constructor(private clientesService: ClienteService) {
+    
+   }
+
+   ngOnInit(): void {
+  }
+
+
+  
 
   @ViewChild('addForm') addForm!: NgForm;
 
   
 
   public onAddCli(addForm: NgForm): void {
-    const cliente: Clientes = {
+    const clienteApi: Clientes = {
+      clienteid: 0,
       cnpjoucpf: addForm.value.cnpjoucpf || this.cliente?.cnpj || '',
       nomeFantasia: addForm.value.nomeFantasia || this.cliente?.nome || '',
       cep: addForm.value.cep || this.cliente?.cep || '',
@@ -42,9 +56,15 @@ export class CadastrarClientesComponent {
 
 
     if (addForm.valid) {
-        this.clientesService.addCliente(cliente).subscribe(
+        this.clientesService.addCliente(clienteApi).subscribe(
             (response: Clientes) => {
-                console.log(response);
+              this.numeroCliente = response.clienteid
+              this.cnpj = response.cnpjoucpf;
+              this.razaosocial = response.razaoSocial;
+              this.telefone = response.telefone;
+              this.email = response.email;
+              clienteApi.clienteid = response.clienteid;
+                this.openModal();
                 addForm.resetForm();
             },
             (error: HttpErrorResponse) => {
@@ -138,6 +158,31 @@ export class CadastrarClientesComponent {
       this.addForm.setValue(addFormValue);
     }
   }
+
+  openModal() {
+    const modal = document.getElementById('exampleModal');
+    const body = document.body;
+    const closeButton = document.querySelector('.btn-close');
+    if (modal && body && closeButton) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+      body.classList.add('modal-open');
+      const backdrop = document.createElement('div');
+      closeButton.addEventListener('click', this.closeModal.bind(this)); // Adiciona evento de clique ao botão fechar
+    }
+  }
+  
+  closeModal() {
+    const modal = document.getElementById('exampleModal');
+    const body = document.body;
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (modal && body) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      body.classList.remove('modal-open');
+    }
+  }
+  
 
   
 

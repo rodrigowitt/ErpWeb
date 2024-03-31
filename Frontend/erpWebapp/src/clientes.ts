@@ -1,4 +1,5 @@
 export interface Clientes {
+    clienteid: number;
     cnpjoucpf: string;
     inscricaoEstadual: string;
     nomeFantasia: string;

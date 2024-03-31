@@ -1,5 +1,5 @@
 <div class="container mt-1">
-    <h5 class="mb-4">Cadastro de Clientes</h5>
+    <h5 class="mb-4"><i class="fa-solid fa-user"></i>Cadastro de Clientes</h5>
     <form #addForm="ngForm" (ngSubmit)="onAddCli(addForm)">
       <div class="row mb-3">
         <div class="col">
@@ -74,15 +74,43 @@
 
  <button type="submit" class="btn btn-primary" [disabled]="((!cliente?.cep && !addForm.value.cep) || (!cliente?.nome && !addForm.value.nomeFantasia) || (!addForm.value.email && !cliente?.email) || !addForm.value.cnpjoucpf && !cliente?.cnpj)">Salvar Cliente</button>
       </div>
-
-
-
-
-
-
-
-
-
-
     </form>
   </div>
+
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header">
+          <div class="titulomodal">
+            <i class="fa-solid fa-circle-check enviado" style="color: #63E6BE;"></i>
+            <h4 class="modal-title mt-4">Cliente Cadastrado</h4>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Número do Cliente:</strong></p>
+              <p><strong>Cnpj:</strong></p>
+              <p><strong>Razão Social:</strong></p>
+              <p><strong>Telefone:</strong></p>
+              <p><strong>E-mail:</strong></p>
+            </div>
+            <div class="col-md-6">
+              <p class="text-end">{{numeroCliente}}</p>
+              <p class="text-end">{{cnpj}}</p>
+              <p class="text-end">{{razaosocial}}</p>
+              <p class="text-end">{{telefone}}</p>
+              <p class="text-end">{{email}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-primary">Download</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
