@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginaPedidosComponent } from './pagina-pedidos/pagina-pedidos.component';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { CadastrarClientesComponent } from './components/cadastrar-clientes/cadastrar-clientes.component';
+import { ListarclientesComponent } from './listarclientes/listarclientes.component';
 
 
 
@@ -20,7 +21,8 @@ import { CadastrarClientesComponent } from './components/cadastrar-clientes/cada
     NavComponent,
     PedidosComponent,
     PaginaPedidosComponent,
-    CadastrarClientesComponent
+    CadastrarClientesComponent,
+    ListarclientesComponent
   ],
   imports: [
     BrowserModule,
