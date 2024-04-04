@@ -8,7 +8,7 @@
     <div class="col-2">
       <div class="adicionar">
         <button type="button" class="btn btn-light rounded-pill">
-          <a href="/pedidos/novo">
+          <a href="/clientes/novo">
             <i class="fa-solid fa-plus fa-beat-fade add"></i> Adicionar
           </a>
         </button>
@@ -17,14 +17,14 @@
     </div>
     <div class="col-2">
       <div class="form-group pedidoin">
-        <label for="pedido1">Digite o número do pedido:</label>
-        <input type="text" id="pedido1"  placeholder="Número do pedido"    class="form-control rounded-input" >
+        <label for="pedido1">Digite o número do cliente:</label>
+        <input type="text" id="pedido1"  placeholder="Número do cliente"    class="form-control rounded-input" >
       </div>
     </div>
     <div class="col-2 cliente_input">
       <div class="form-group ">
-        <label for="pedido2 ">Digite o cliente:</label>
-        <input type="text" id="cliente"  placeholder="Código do cliente" class="form-control rounded-input ">
+        <label for="pedido2 ">Digite o Cnpj do cliente:</label>
+        <input type="text" id="cliente"  placeholder="Cnpj do cliente" class="form-control rounded-input ">
       </div>
     </div>
     <div class="col-3">
@@ -35,17 +35,31 @@
 
     </div>
 
-<table class="table table-striped capa  mt-4">
+<table class="table table-bordered capa  mt-4">
     <thead class="">
       <tr>
         <th scope="col">Número</th>
-        <th scope="col">Horário</th>
-        <th scope="col">Cliente</th>
-        <th scope="col">Desconto</th>
-        <th scope="col">Total</th>
+        <th scope="col">Cnpj/Cpf</th>
+        <th scope="col">Nome Fantasia</th>
+        <th scope="col">Status</th>
+        <th scope="col">E-mail</th>
+        <th scope="col">Telefone</th>
         <th scope="col">Ações</th>
       </tr>
     </thead>
     <tbody>
+      <tr *ngFor="let clientes of cliente">
+        <td>{{clientes.clienteid}}</td>
+        <td>{{clientes.cnpjoucpf}}</td>
+        <td>{{clientes.nomeFantasia}}</td>
+        <td>{{clientes.status}}</td>
+        <td>{{clientes.email}}</td>
+        <td>{{clientes.telefone}}</td>
+        <td>
+          <a href="#" class="editar" data-toggle="modal"><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i></a>
+          <a (click)="deletarClientes(clientes.clienteid)" href="#" class="deletar" data-toggle="modal"><i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i></a>
+        </td>
+  
+      </tr>
     </tbody>
   </table>

@@ -66,7 +66,7 @@ public class ClienteControle {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro não encontrado");
         }else {
             clienteServico.delete(clienteModeloOptional.get());
-            return  ResponseEntity.status(HttpStatus.OK).body("Cliente Deletado!");
+            return  ResponseEntity.status(HttpStatus.OK).body("");
         }
     }
 

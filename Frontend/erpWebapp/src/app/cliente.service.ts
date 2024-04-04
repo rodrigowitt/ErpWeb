@@ -24,5 +24,12 @@ export class ClienteService {
   public addCliente(cliente: Clientes): Observable<Clientes>{
     return this.http.post<Clientes>(`${this.apiServerUrl}cliente`, cliente);
   }
+
+  public getClientes(): Observable<Clientes[]>{
+    return this.http.get<Clientes[]>(`${this.apiServerUrl}cliente`)}
+
+    public deleteCliente(clienteId: number): Observable<void>{
+      return this.http.delete<void>(`${this.apiServerUrl}cliente/${clienteId}`)
+    }
   
 }

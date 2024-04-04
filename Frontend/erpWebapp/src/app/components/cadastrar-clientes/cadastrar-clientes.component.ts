@@ -39,6 +39,7 @@ export class CadastrarClientesComponent {
     const clienteApi: Clientes = {
       clienteid: 0,
       cnpjoucpf: addForm.value.cnpjoucpf || this.cliente?.cnpj || '',
+      status: addForm.value.cnpjoucpf || this.cliente?.cnpj || '',
       nomeFantasia: addForm.value.nomeFantasia || this.cliente?.nome || '',
       cep: addForm.value.cep || this.cliente?.cep || '',
       email: addForm.value.email || this.cliente?.email || '',
