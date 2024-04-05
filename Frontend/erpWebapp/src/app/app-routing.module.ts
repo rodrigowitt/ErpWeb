@@ -4,12 +4,14 @@ import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { PaginaPedidosComponent } from './pagina-pedidos/pagina-pedidos.component';
 import { CadastrarClientesComponent } from './components/cadastrar-clientes/cadastrar-clientes.component';
 import { ListarclientesComponent } from './listarclientes/listarclientes.component';
+import { EditarclientesComponent } from './editarclientes/editarclientes.component';
 
 const routes:Routes = [
   {path: 'pedidos', component: PedidosComponent},
   {path: 'pedidos/novo', component: PaginaPedidosComponent},
   {path: 'clientes/novo', component: CadastrarClientesComponent},
-  {path: 'clientes', component: ListarclientesComponent}
+  {path: 'clientes', component: ListarclientesComponent},
+  {path: 'clientes/editar/:id', component: EditarclientesComponent}
 ]
 
 @NgModule({

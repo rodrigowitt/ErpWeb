@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { ClienteService } from '../cliente.service';
 import { Clientes } from 'src/clientes';
 import { HttpErrorResponse } from '@angular/common/http';
-import { response } from 'express';
+import {  response } from 'express';
 import { error } from 'jquery';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listarclientes',
@@ -13,7 +14,8 @@ import { error } from 'jquery';
 export class ListarclientesComponent {
   public cliente: Clientes[] = []
 
-  constructor(private clientesService : ClienteService){}
+
+  constructor(private clientesService : ClienteService, private router: Router){}
 
   ngOnInit(): void {
     this.getClientes();
@@ -38,4 +40,14 @@ public deletarClientes(clienteId: number ):void{
   )
 }
 
+public AbrirCliente(clienteId: number): void {
+  this.clientesService.getClienteById(clienteId).subscribe(
+    (cliente: Clientes) => {
+      this.router.navigate(['clientes/editar/', clienteId], { state: { cliente: cliente } });
+    },
+    (error: HttpErrorResponse) => {
+      alert(error.message);
+    }
+  );
+}
 }

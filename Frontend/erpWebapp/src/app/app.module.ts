@@ -11,6 +11,7 @@ import { PaginaPedidosComponent } from './pagina-pedidos/pagina-pedidos.componen
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { CadastrarClientesComponent } from './components/cadastrar-clientes/cadastrar-clientes.component';
 import { ListarclientesComponent } from './listarclientes/listarclientes.component';
+import { EditarclientesComponent } from './editarclientes/editarclientes.component';
 
 
 
@@ -22,7 +23,8 @@ import { ListarclientesComponent } from './listarclientes/listarclientes.compone
     PedidosComponent,
     PaginaPedidosComponent,
     CadastrarClientesComponent,
-    ListarclientesComponent
+    ListarclientesComponent,
+    EditarclientesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,116 @@
+<div class="container mt-1">
+    <h5 class="mb-4"><i class="fa-solid fa-user"></i>Editar Cadastro de Clientes</h5>
+    <form #addForm="ngForm" (ngSubmit)="onAddCli(addForm)">
+      <div class="row mb-3">
+        <div class="col">
+          <label for="cnpj" class="form-label">CNPJ</label>
+          <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="cnpjoucpf" ngModel name="cnpjoucpf" (input)="formatarDocumento($event)" (keydown)="handleKeyPress($event)" name="cnpjoucpf" maxlength="18" placeholder="Digite o CNPJ/CPF">
+
+            <button class="btn btn-outline-secondary" type="button" (click)="getBuscarCliente(cnpjoucpf)">Buscar</button>
+          </div>
+        </div>
+        <div class="col">
+          <label for="inscricaoEstadual" class="form-label">Inscrição Estadual</label>
+          <input type="text" class="form-control" id="inscricaoEstadual" ngModel name="inscricaoEstadual" placeholder="Digite a Inscrição Estadual">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
+          <input type="text" class="form-control" id="nomeFantasia"  ngModel name="nomeFantasia" placeholder="Digite o Nome Fantasia" [value]="cliente?.nome">
+          
+        </div>
+        <div class="col">
+          <label for="razaoSocial" class="form-label">Razão Social</label>
+          <input type="text" class="form-control" id="razaoSocial" ngModel name="razaoSocial"  placeholder="Digite a Razão Social" [value]="cliente?.nome">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label for="cep" class="form-label">CEP</label>
+          <input type="text" class="form-control" id="cep" ngModel name="cep" placeholder="Digite o CEP" [value]="cliente?.cep">
+        </div>
+        <div class="col">
+            <label for="municipio" class="form-label">Município</label>
+            <input type="text" class="form-control" id="municipio" ngModel name="municipio" placeholder="Digite o Município" [value]="cliente?.municipio">
+          </div>
+        <div class="col">
+          <label for="estado" class="form-label">Estado</label>
+          <input type="text" class="form-control" id="estado"  ngModel name="estado"placeholder="Digite o Estado" [value]="cliente?.uf">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label for="bairro" class="form-label">Bairro</label>
+          <input type="text" class="form-control" id="bairro" ngModel name="bairro" placeholder="Digite o Bairro" [value]="cliente?.bairro">
+        </div>
+        <div class="col">
+          <label for="rua" class="form-label">Rua</label>
+          <input type="text" class="form-control" id="rua" ngModel name="rua" placeholder="Digite a Rua" [value]="cliente?.logradouro">
+        </div>
+        <div class="col">
+          <label for="numero" class="form-label">Número</label>
+          <input type="text" class="form-control" id="numero" ngModel name="numero" placeholder="Digite o Número" [value]="cliente?.numero">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label for="complemento" class="form-label">Complemento</label>
+          <input  type="text" class="form-control" id="complemento" ngModel name="complemento" placeholder="Digite o Complemento" [value]="cliente?.complemento">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" ngModel name="email" class="form-control" id="email" ngModel name="email" placeholder="Digite o Email" [value]="cliente?.email">
+        </div>
+        <div class="col">
+          <label for="telefone" class="form-label">Telefone</label>
+          <input type="text" class="form-control" id="telefone" ngModel name="telefone" placeholder="Digite o Telefone" [value]="cliente?.telefone">
+        </div>
+      </div>
+      <div class="text-center mt-2">
+
+ <button type="submit" class="btn btn-primary" [disabled]="((!cliente?.cep && !addForm.value.cep) || (!cliente?.nome && !addForm.value.nomeFantasia) || (!addForm.value.email && !cliente?.email) || !addForm.value.cnpjoucpf && !cliente?.cnpj)">Salvar Cliente</button>
+      </div>
+    </form>
+  </div>
+
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header">
+          <div class="titulomodal">
+            <i class="fa-solid fa-circle-check enviado" style="color: #63E6BE;"></i>
+            <h4 class="modal-title mt-4">Cliente Cadastrado</h4>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Número do Cliente:</strong></p>
+              <p><strong>Cnpj:</strong></p>
+              <p><strong>Razão Social:</strong></p>
+              <p><strong>Telefone:</strong></p>
+              <p><strong>E-mail:</strong></p>
+            </div>
+            <div class="col-md-6">
+              <p class="text-end">{{numeroCliente}}</p>
+              <p class="text-end">{{cnpj}}</p>
+              <p class="text-end">{{razaosocial}}</p>
+              <p class="text-end">{{telefone}}</p>
+              <p class="text-end">{{email}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-primary">Download</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+

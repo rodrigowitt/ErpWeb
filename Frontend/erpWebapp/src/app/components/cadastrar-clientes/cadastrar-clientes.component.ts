@@ -24,13 +24,7 @@ export class CadastrarClientesComponent {
   constructor(private clientesService: ClienteService) {
     
    }
-
-   ngOnInit(): void {
-  }
-
-
   
-
   @ViewChild('addForm') addForm!: NgForm;
 
   

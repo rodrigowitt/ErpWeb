@@ -28,8 +28,16 @@ export class ClienteService {
   public getClientes(): Observable<Clientes[]>{
     return this.http.get<Clientes[]>(`${this.apiServerUrl}cliente`)}
 
-    public deleteCliente(clienteId: number): Observable<void>{
+  public deleteCliente(clienteId: number): Observable<void>{
       return this.http.delete<void>(`${this.apiServerUrl}cliente/${clienteId}`)
-    }
+  }
+
+  public updateCliente(clienteId: number , cliente: Clientes): Observable<Clientes>{
+    return this.http.put<Clientes>(`${this.apiServerUrl}cliente/${clienteId}`, cliente)
+  }
+
+  public getClienteById(clienteId: number): Observable<Clientes> {
+    return this.http.get<Clientes>(`${this.apiServerUrl}cliente/${clienteId}`);
+  }
   
 }

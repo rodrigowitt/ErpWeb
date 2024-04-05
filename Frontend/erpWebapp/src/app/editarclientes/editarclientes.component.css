@@ -1,0 +1,28 @@
+.salvar{
+    color: white;
+    font-size: 1.1rem;
+    background-color: rgb(69, 82, 201);
+  }
+
+  .modal-title{
+    margin-left: 14vh;
+    color: #27a17d;
+  }
+  .modal-open .modal-backdrop{
+    background-color:yellow
+  
+  }
+  div#exampleModal {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+  }
+  
+  .enviado{
+    font-size: 3rem;
+    margin-left: 22vh;
+  }
+  .btn-close{
+    margin-left: 49vh;
+  }
+  .fa-user{
+    margin-right: 10px;
+  }
