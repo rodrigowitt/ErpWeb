@@ -56,7 +56,7 @@
         <td>{{clientes.email}}</td>
         <td>{{clientes.telefone}}</td>
         <td>
-          <a (click)="AbrirCliente(clientes.clienteid)" [href]="'/clientes/editar/' + clientes.clienteid" class="editar" data-toggle="modal"><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i></a>
+          <a (click)="AbrirCliente(clientes.clienteid)" class="editar" data-toggle="modal"><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i></a>
           <a (click)="deletarClientes(clientes.clienteid)" href="#" class="deletar" data-toggle="modal"><i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i></a>
         </td>
   

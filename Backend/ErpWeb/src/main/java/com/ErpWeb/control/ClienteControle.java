@@ -40,7 +40,7 @@ public class ClienteControle {
 
     @GetMapping
     public ResponseEntity<List<ClienteModelo>> todosClientes(){
-        return ResponseEntity.status(HttpStatus.OK).body(clienteServico.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(clienteServico.findAllOrderbyAsc());
     }
 
     @PutMapping("/{id}")

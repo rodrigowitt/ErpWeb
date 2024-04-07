@@ -46,6 +46,7 @@
 .editar{
   color: #FFC107;
   font-size: 1.3rem;
+  cursor: pointer;
 }
 .add{
   margin-right: 15px;

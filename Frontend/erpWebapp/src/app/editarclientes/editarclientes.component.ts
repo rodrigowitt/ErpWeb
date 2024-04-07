@@ -1,9 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Clientes } from 'src/clientes';
 import { ClientesConsulta } from 'src/clientesConsulta';
 import { ClienteService } from '../cliente.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-editarclientes',
@@ -19,58 +20,90 @@ export class EditarclientesComponent {
   public razaosocial ?: string
   public telefone ?: string
   public email ?: string
+  clienteId?: any;
+
+
   
 
-  constructor(private clientesService: ClienteService) {
+  constructor(private clientesService: ClienteService, private route: ActivatedRoute, private router: Router) {
     
    }
 
    @ViewChild('addForm') addForm!: NgForm;
+   @ViewChild('submitButton') submitButton!: ElementRef;
+
+   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.clienteId = params['id'];
+      this.carregarCliente(this.clienteId);
+    });
+  }
 
   
 
-   public onAddCli(addForm: NgForm): void {
-     const clienteApi: Clientes = {
-       clienteid: 0,
-       cnpjoucpf: addForm.value.cnpjoucpf || this.cliente?.cnpj || '',
-       status: addForm.value.cnpjoucpf || this.cliente?.cnpj || '',
-       nomeFantasia: addForm.value.nomeFantasia || this.cliente?.nome || '',
-       cep: addForm.value.cep || this.cliente?.cep || '',
-       email: addForm.value.email || this.cliente?.email || '',
-       inscricaoEstadual: addForm.value.inscricaoEstadual || '',
-       razaoSocial: addForm.value.razaoSocial || this.cliente?.nome || '',
-       estado: addForm.value.estado || this.cliente?.uf || '',
-       municipio: addForm.value.municipio || this.cliente?.municipio || '',
-       bairro: addForm.value.bairro || this.cliente?.bairro || '',
-       rua: addForm.value.rua || this.cliente?.logradouro || '',
-       numero: addForm.value.numero || this.cliente?.numero || '',
-       complemento: addForm.value.complemento || this.cliente?.complemento || '',
-       telefone: addForm.value.telefone || this.cliente?.telefone || ''
-     };
+  public deletarClientes(clienteId: number): void {
+    this.clientesService.deleteCliente(clienteId).subscribe(
+      () => {
+        this.router.navigate(['/clientes']);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+  
+
+   
+
+   carregarCliente(id: number): void {
+    this.clientesService.getClienteById(id).subscribe(
+      (clienteApi) => {
+        this.clienteApi = clienteApi;
+      },
+      (error) => {
+        console.error('Erro ao carregar cliente:', error);
+      }
+    );
+  }
  
- 
- 
-     if (addForm.valid) {
-         this.clientesService.addCliente(clienteApi).subscribe(
-             (response: Clientes) => {
-               this.numeroCliente = response.clienteid
-               this.cnpj = response.cnpjoucpf;
-               this.razaosocial = response.razaoSocial;
-               this.telefone = response.telefone;
-               this.email = response.email;
-               clienteApi.clienteid = response.clienteid;
-                 this.openModal();
-                 addForm.resetForm();
-             },
-             (error: HttpErrorResponse) => {
-                 alert(error.message);
-             }
-         );
-     } else {
-         alert('Por favor, preencha todos os campos obrigatórios.');
-     }
- }
- 
+
+  
+
+  public onAddCli(addForm: NgForm): void {
+    const clienteApi: Clientes = {
+      clienteid: this.clienteApi ? this.clienteApi.clienteid : 0,
+      cnpjoucpf: addForm.value.cnpjoucpf || this.cliente?.cnpj || '',
+      status: addForm.value.cnpjoucpf || this.cliente?.cnpj || '',
+      nomeFantasia: addForm.value.nomeFantasia || this.cliente?.nome || '',
+      cep: addForm.value.cep || this.cliente?.cep || '',
+      email: addForm.value.email || this.cliente?.email || '',
+      inscricaoEstadual: addForm.value.inscricaoEstadual || '',
+      razaoSocial: addForm.value.razaoSocial || this.cliente?.nome || '',
+      estado: addForm.value.estado || this.cliente?.uf || '',
+      municipio: addForm.value.municipio || this.cliente?.municipio || '',
+      bairro: addForm.value.bairro || this.cliente?.bairro || '',
+      rua: addForm.value.rua || this.cliente?.logradouro || '',
+      numero: addForm.value.numero || this.cliente?.numero || '',
+      complemento: addForm.value.complemento || this.cliente?.complemento || '',
+      telefone: addForm.value.telefone || this.cliente?.telefone || ''
+    };
+      this.clientesService.updateCliente(this.clienteApi.clienteid, clienteApi).subscribe(
+        (response: Clientes) => {
+          this.numeroCliente = response.clienteid;
+          this.cnpj = response.cnpjoucpf;
+          this.razaosocial = response.razaoSocial;
+          this.telefone = response.telefone;
+          this.email = response.email;
+          clienteApi.clienteid = response.clienteid;
+          this.openModal();
+          addForm.resetForm();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+   
+  }
  
  
  
@@ -137,6 +170,7 @@ export class EditarclientesComponent {
        const addFormValue = this.addForm.value;
    
        // Atualizar os valores do objeto associado ao formulário
+       addFormValue.cnpj = this.cliente.cnpj;
        addFormValue.nomeFantasia = this.cliente.nome;
        addFormValue.razaoSocial = this.cliente.nome;
        addFormValue.cep = this.cliente.cep;
@@ -162,10 +196,21 @@ export class EditarclientesComponent {
        modal.classList.add('show');
        modal.style.display = 'block';
        body.classList.add('modal-open');
-       const backdrop = document.createElement('div');
        closeButton.addEventListener('click', this.closeModal.bind(this)); // Adiciona evento de clique ao botão fechar
      }
    }
+
+   openModalexclusao() {
+    const modal = document.getElementById('exampleModal2');
+    const body = document.body;
+    const closeButton = document.querySelector('.btn-close');
+    if (modal && body && closeButton) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+      body.classList.add('modal-open');
+      closeButton.addEventListener('click', this.closeModal.bind(this)); // Adiciona evento de clique ao botão fechar
+    }
+  }
    
    closeModal() {
      const modal = document.getElementById('exampleModal');
@@ -177,4 +222,17 @@ export class EditarclientesComponent {
        body.classList.remove('modal-open');
      }
    }
+
+   closeModalexclusao() {
+    const modal = document.getElementById('exampleModal2');
+    const body = document.body;
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (modal && body) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      body.classList.remove('modal-open');
+    }
+  }
+
+
 }

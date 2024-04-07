@@ -1,78 +1,80 @@
-<div class="container mt-1">
+<div class="container mt-1" *ngIf="clienteApi">
     <h5 class="mb-4"><i class="fa-solid fa-user"></i>Editar Cadastro de Clientes</h5>
-    <form #addForm="ngForm" (ngSubmit)="onAddCli(addForm)">
+    <form #addForm="ngForm">
       <div class="row mb-3">
         <div class="col">
           <label for="cnpj" class="form-label">CNPJ</label>
-          <div class="input-group">
-            <input type="text" class="form-control" [(ngModel)]="cnpjoucpf" ngModel name="cnpjoucpf" (input)="formatarDocumento($event)" (keydown)="handleKeyPress($event)" name="cnpjoucpf" maxlength="18" placeholder="Digite o CNPJ/CPF">
-
+          <div class="input-group" >
+            <input type="text" class="form-control" [(ngModel)]="clienteApi.cnpjoucpf" name="cnpjoucpf" maxlength="18" [placeholder]="clienteApi.cnpjoucpf ? clienteApi.cnpjoucpf : 'Digite o CNPJ/CPF'">
+          
             <button class="btn btn-outline-secondary" type="button" (click)="getBuscarCliente(cnpjoucpf)">Buscar</button>
           </div>
+          
         </div>
-        <div class="col">
+        <div class="col" >
           <label for="inscricaoEstadual" class="form-label">Inscrição Estadual</label>
-          <input type="text" class="form-control" id="inscricaoEstadual" ngModel name="inscricaoEstadual" placeholder="Digite a Inscrição Estadual">
+          <input type="text" class="form-control" id="inscricaoEstadual" [(ngModel)]="clienteApi.inscricaoEstadual" ngModel name="inscricaoEstadual" placeholder="Digite a Inscrição Estadual">
         </div>
       </div>
       <div class="row mb-3">
         <div class="col">
           <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
-          <input type="text" class="form-control" id="nomeFantasia"  ngModel name="nomeFantasia" placeholder="Digite o Nome Fantasia" [value]="cliente?.nome">
+          <input type="text" class="form-control" id="nomeFantasia" [(ngModel)]="clienteApi.nomeFantasia" ngModel name="nomeFantasia" placeholder="Digite o Nome Fantasia" [value]="cliente?.nome">
           
         </div>
         <div class="col">
           <label for="razaoSocial" class="form-label">Razão Social</label>
-          <input type="text" class="form-control" id="razaoSocial" ngModel name="razaoSocial"  placeholder="Digite a Razão Social" [value]="cliente?.nome">
+          <input type="text" class="form-control" id="razaoSocial" [(ngModel)]="clienteApi.razaoSocial"  ngModel name="razaoSocial"  placeholder="Digite a Razão Social" [value]="cliente?.nome">
         </div>
       </div>
       <div class="row mb-3">
         <div class="col">
           <label for="cep" class="form-label">CEP</label>
-          <input type="text" class="form-control" id="cep" ngModel name="cep" placeholder="Digite o CEP" [value]="cliente?.cep">
+          <input type="text" class="form-control" id="cep" [(ngModel)]="clienteApi.cep" ngModel name="cep" placeholder="Digite o CEP" [value]="cliente?.cep">
         </div>
         <div class="col">
             <label for="municipio" class="form-label">Município</label>
-            <input type="text" class="form-control" id="municipio" ngModel name="municipio" placeholder="Digite o Município" [value]="cliente?.municipio">
+            <input type="text" class="form-control" id="municipio" [(ngModel)]="clienteApi.municipio" ngModel name="municipio" placeholder="Digite o Município" [value]="cliente?.municipio">
           </div>
         <div class="col">
           <label for="estado" class="form-label">Estado</label>
-          <input type="text" class="form-control" id="estado"  ngModel name="estado"placeholder="Digite o Estado" [value]="cliente?.uf">
+          <input type="text" class="form-control" id="estado"  [(ngModel)]="clienteApi.estado" ngModel name="estado"placeholder="Digite o Estado" [value]="cliente?.uf">
         </div>
       </div>
       <div class="row mb-3">
         <div class="col">
           <label for="bairro" class="form-label">Bairro</label>
-          <input type="text" class="form-control" id="bairro" ngModel name="bairro" placeholder="Digite o Bairro" [value]="cliente?.bairro">
+          <input type="text" class="form-control" id="bairro" [(ngModel)]="clienteApi.bairro" ngModel name="bairro" placeholder="Digite o Bairro" [value]="cliente?.bairro">
         </div>
         <div class="col">
           <label for="rua" class="form-label">Rua</label>
-          <input type="text" class="form-control" id="rua" ngModel name="rua" placeholder="Digite a Rua" [value]="cliente?.logradouro">
+          <input type="text" class="form-control" id="rua" [(ngModel)]="clienteApi.rua" ngModel name="rua" placeholder="Digite a Rua" [value]="cliente?.logradouro">
         </div>
         <div class="col">
           <label for="numero" class="form-label">Número</label>
-          <input type="text" class="form-control" id="numero" ngModel name="numero" placeholder="Digite o Número" [value]="cliente?.numero">
+          <input type="text" class="form-control" id="numero" [(ngModel)]="clienteApi.numero" ngModel name="numero" placeholder="Digite o Número" [value]="cliente?.numero">
         </div>
       </div>
       <div class="row mb-3">
         <div class="col">
           <label for="complemento" class="form-label">Complemento</label>
-          <input  type="text" class="form-control" id="complemento" ngModel name="complemento" placeholder="Digite o Complemento" [value]="cliente?.complemento">
+          <input  type="text" class="form-control" id="complemento" [(ngModel)]="clienteApi.complemento" ngModel name="complemento" placeholder="Digite o Complemento" [value]="cliente?.complemento">
         </div>
       </div>
       <div class="row mb-3">
         <div class="col">
           <label for="email" class="form-label">Email</label>
-          <input type="email" ngModel name="email" class="form-control" id="email" ngModel name="email" placeholder="Digite o Email" [value]="cliente?.email">
+          <input type="email" ngModel name="email" class="form-control" id="email" [(ngModel)]="clienteApi.email" ngModel name="email" placeholder="Digite o Email" [value]="cliente?.email">
         </div>
         <div class="col">
           <label for="telefone" class="form-label">Telefone</label>
-          <input type="text" class="form-control" id="telefone" ngModel name="telefone" placeholder="Digite o Telefone" [value]="cliente?.telefone">
+          <input type="text" class="form-control" id="telefone" [(ngModel)]="clienteApi.telefone" ngModel name="telefone" placeholder="Digite o Telefone" [value]="cliente?.telefone">
         </div>
       </div>
       <div class="text-center mt-2">
 
- <button type="submit" class="btn btn-primary" [disabled]="((!cliente?.cep && !addForm.value.cep) || (!cliente?.nome && !addForm.value.nomeFantasia) || (!addForm.value.email && !cliente?.email) || !addForm.value.cnpjoucpf && !cliente?.cnpj)">Salvar Cliente</button>
+ <button type="submit" class="btn btn-primary" (click)="onAddCli(addForm)" [disabled]="((!cliente?.cep && !addForm.value.cep && !clienteApi.cep) || (!cliente?.nome && !addForm.value.nomeFantasia && !clienteApi.nomeFantasia) || (!addForm.value.email && !cliente?.email && !clienteApi.email) || !addForm.value.cnpjoucpf && !cliente?.cnpj && !clienteApi.cnpjoucpf)" >Salvar Cliente</button>
+ <button type="button" class="btn btn-danger deletar" (click)="openModalexclusao()" >Deletar Cliente</button>
       </div>
     </form>
   </div>
@@ -85,7 +87,7 @@
         <div class="modal-header">
           <div class="titulomodal">
             <i class="fa-solid fa-circle-check enviado" style="color: #63E6BE;"></i>
-            <h4 class="modal-title mt-4">Cliente Cadastrado</h4>
+            <h4 class="modal-title mt-4">Cliente Editado</h4>
           </div>
         </div>
         <div class="modal-body">
@@ -113,4 +115,24 @@
       </div>
     </div>
   </div>
+
+
+
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModalexclusao()"></button>
+        <div class="modal-header">
+          <div class="titulomodal">
+            <h4 class="modal-title-exclusao mt-2">{{"Deseja deletar o cliente: " + clienteApi.nomeFantasia}}</h4>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-danger" (click)="deletarClientes(clienteApi.clienteid)">Deletar</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModalexclusao()">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 

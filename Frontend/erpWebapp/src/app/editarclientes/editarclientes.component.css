@@ -8,11 +8,18 @@
     margin-left: 14vh;
     color: #27a17d;
   }
+  .modal-title-exclusao{
+    justify-content: center;
+    margin-left: 2vh;
+  }
   .modal-open .modal-backdrop{
     background-color:yellow
   
   }
   div#exampleModal {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+  }
+  div#exampleModal2 {
     background-color: rgba(0, 0, 0, 0.8) !important;
   }
   
@@ -25,4 +32,7 @@
   }
   .fa-user{
     margin-right: 10px;
+  }
+  .deletar{
+    margin-left: 15px;
   }
