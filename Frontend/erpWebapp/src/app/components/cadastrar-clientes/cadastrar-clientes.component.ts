@@ -114,16 +114,20 @@ export class CadastrarClientesComponent {
 
   getBuscarCliente(cnpj: string): void {
     const cnpjNumerico = cnpj.replace(/\D/g, '');
-
+  
     if (cnpjNumerico.length !== 14) {
       alert('CNPJ deve ter exatamente 14 dígitos');
       return;
     }
-
+  
     this.clientesService.getClientesConsulta(cnpjNumerico).subscribe(
-      (response: ClientesConsulta) => { // Corrigido para receber um único objeto, não um array
-        this.cliente = response; // Armazenar o objeto retornado
-        this.preencherCamposFormulario(); // Chamar a função para preencher os campos do formulário
+      (response: any) => { 
+        if (response && response.status && response.status === 'ERROR') {
+          alert(response.message); 
+        } else {
+          this.cliente = response; 
+          this.preencherCamposFormulario(); 
+        }
       },
       (error: HttpErrorResponse) => {
         console.error('Erro ao buscar cliente:', error);
@@ -133,27 +137,34 @@ export class CadastrarClientesComponent {
   }
 
   preencherCamposFormulario(): void {
-    if (this.cliente) {
-      const addFormValue = this.addForm.value;
+    
   
-      // Atualizar os valores do objeto associado ao formulário
-      addFormValue.nomeFantasia = this.cliente.nome;
-      addFormValue.razaoSocial = this.cliente.nome;
-      addFormValue.cep = this.cliente.cep;
-      addFormValue.municipio = this.cliente.municipio;
-      addFormValue.estado = this.cliente.uf;
-      addFormValue.bairro = this.cliente.bairro;
-      addFormValue.rua = this.cliente.logradouro;
-      addFormValue.numero = this.cliente.numero;
-      addFormValue.complemento = this.cliente.complemento;
-      addFormValue.email = this.cliente.email;
-      addFormValue.telefone = this.cliente.telefone;
-  
-      // Atualizar os campos do formulário com os novos valores
-      this.addForm.setValue(addFormValue);
-    }
-  }
 
+    if (!this.cliente || this.cliente.cep === 'undefined') {
+      alert('CNPJ inválido');
+      return; 
+    }
+  
+    const addFormValue = this.addForm.value;
+  
+    addFormValue.nomeFantasia = this.cliente.nome;
+    addFormValue.razaoSocial = this.cliente.nome;
+    addFormValue.cep = this.cliente.cep;
+    addFormValue.municipio = this.cliente.municipio;
+    addFormValue.estado = this.cliente.uf;
+    addFormValue.bairro = this.cliente.bairro;
+    addFormValue.rua = this.cliente.logradouro;
+    addFormValue.numero = this.cliente.numero;
+    addFormValue.complemento = this.cliente.complemento;
+    addFormValue.email = this.cliente.email;
+    addFormValue.telefone = this.cliente.telefone;
+
+    // Verificar se a resposta da API indica um erro
+    if (addFormValue.cep == "Undefined"){console.log("Errdsdsds")}
+  
+    // Atualizar os campos do formulário com os novos valores
+    this.addForm.setValue(addFormValue);
+  }
   openModal() {
     const modal = document.getElementById('exampleModal');
     const body = document.body;

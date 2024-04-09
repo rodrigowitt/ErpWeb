@@ -107,87 +107,97 @@ export class EditarclientesComponent {
  
  
  
-   formatarDocumento(event: any) {
-     let cnpjoucpf = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+  formatarDocumento(event: any) {
+    let cnpjoucpf = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+    // Limita o tamanho do documento
+    const maxLength = 14; // CNPJ: 14 dígitos + 3 caracteres de formatação
+    if (cnpjoucpf.length > maxLength) {
+      cnpjoucpf = cnpjoucpf.substring(0, maxLength);
+    }
+
+    if (cnpjoucpf.length <= 11) {
+      this.cnpjoucpf = this.formatarCPF(cnpjoucpf);
+    } else {
+      this.cnpjoucpf = this.formatarCNPJ(cnpjoucpf);
+    }
+  }
+
+  handleKeyPress(event: KeyboardEvent) {
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight']; // Teclas permitidas
+
+    // Verifica se a tecla pressionada é uma das teclas permitidas ou um número
+    if (!allowedKeys.includes(event.key) && isNaN(Number(event.key))) {
+      event.preventDefault(); // Impede a entrada de caracteres não numéricos e não permitidos
+    }
+  }
+
+  private formatarCPF(cpf: string): string {
+    return cpf.replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  }
+
+  private formatarCNPJ(cnpj: string): string {
+    return cnpj.replace(/^(\d{2})(\d)/, '$1.$2')
+      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+      .replace(/\.(\d{3})(\d)/, '.$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2');
+  }
  
-     // Limita o tamanho do documento
-     const maxLength = 14; // CNPJ: 14 dígitos + 3 caracteres de formatação
-     if (cnpjoucpf.length > maxLength) {
-       cnpjoucpf = cnpjoucpf.substring(0, maxLength);
-     }
+  getBuscarCliente(cnpj: string): void {
+    const cnpjNumerico = cnpj.replace(/\D/g, '');
+  
+    if (cnpjNumerico.length !== 14) {
+      alert('CNPJ deve ter exatamente 14 dígitos');
+      return;
+    }
+  
+    this.clientesService.getClientesConsulta(cnpjNumerico).subscribe(
+      (response: any) => { 
+        if (response && response.status && response.status === 'ERROR') {
+          alert(response.message); 
+        } else {
+          this.cliente = response; 
+          this.preencherCamposFormulario(); 
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.error('Erro ao buscar cliente:', error);
+        alert('Erro ao buscar cliente: ' + error.message);
+      }
+    );
+  }
  
-     if (cnpjoucpf.length <= 11) {
-       this.cnpjoucpf = this.formatarCPF(cnpjoucpf);
-     } else {
-       this.cnpjoucpf = this.formatarCNPJ(cnpjoucpf);
-     }
-   }
- 
-   handleKeyPress(event: KeyboardEvent) {
-     const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight']; // Teclas permitidas
- 
-     // Verifica se a tecla pressionada é uma das teclas permitidas ou um número
-     if (!allowedKeys.includes(event.key) && isNaN(Number(event.key))) {
-       event.preventDefault(); // Impede a entrada de caracteres não numéricos e não permitidos
-     }
-   }
- 
-   private formatarCPF(cpf: string): string {
-     return cpf.replace(/(\d{3})(\d)/, '$1.$2')
-       .replace(/(\d{3})(\d)/, '$1.$2')
-       .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-   }
- 
-   private formatarCNPJ(cnpj: string): string {
-     return cnpj.replace(/^(\d{2})(\d)/, '$1.$2')
-       .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-       .replace(/\.(\d{3})(\d)/, '.$1/$2')
-       .replace(/(\d{4})(\d)/, '$1-$2');
-   }
- 
-   getBuscarCliente(cnpj: string): void {
-     const cnpjNumerico = cnpj.replace(/\D/g, '');
- 
-     if (cnpjNumerico.length !== 14) {
-       alert('CNPJ deve ter exatamente 14 dígitos');
-       return;
-     }
- 
-     this.clientesService.getClientesConsulta(cnpjNumerico).subscribe(
-       (response: ClientesConsulta) => { // Corrigido para receber um único objeto, não um array
-         this.cliente = response; // Armazenar o objeto retornado
-         this.preencherCamposFormulario(); // Chamar a função para preencher os campos do formulário
-       },
-       (error: HttpErrorResponse) => {
-         console.error('Erro ao buscar cliente:', error);
-         alert('Erro ao buscar cliente: ' + error.message);
-       }
-     );
-   }
- 
-   preencherCamposFormulario(): void {
-     if (this.cliente) {
-       const addFormValue = this.addForm.value;
-   
-       // Atualizar os valores do objeto associado ao formulário
-       addFormValue.cnpj = this.cliente.cnpj;
-       addFormValue.nomeFantasia = this.cliente.nome;
-       addFormValue.razaoSocial = this.cliente.nome;
-       addFormValue.cep = this.cliente.cep;
-       addFormValue.municipio = this.cliente.municipio;
-       addFormValue.estado = this.cliente.uf;
-       addFormValue.bairro = this.cliente.bairro;
-       addFormValue.rua = this.cliente.logradouro;
-       addFormValue.numero = this.cliente.numero;
-       addFormValue.complemento = this.cliente.complemento;
-       addFormValue.email = this.cliente.email;
-       addFormValue.telefone = this.cliente.telefone;
-   
-       // Atualizar os campos do formulário com os novos valores
-       this.addForm.setValue(addFormValue);
-     }
-   }
- 
+  preencherCamposFormulario(): void {
+    
+  
+
+    if (!this.cliente || this.cliente.cep === 'undefined') {
+      alert('CNPJ inválido');
+      return; 
+    }
+  
+    const addFormValue = this.addForm.value;
+  
+    addFormValue.nomeFantasia = this.cliente.nome;
+    addFormValue.razaoSocial = this.cliente.nome;
+    addFormValue.cep = this.cliente.cep;
+    addFormValue.municipio = this.cliente.municipio;
+    addFormValue.estado = this.cliente.uf;
+    addFormValue.bairro = this.cliente.bairro;
+    addFormValue.rua = this.cliente.logradouro;
+    addFormValue.numero = this.cliente.numero;
+    addFormValue.complemento = this.cliente.complemento;
+    addFormValue.email = this.cliente.email;
+    addFormValue.telefone = this.cliente.telefone;
+
+    // Verificar se a resposta da API indica um erro
+    if (addFormValue.cep == "Undefined"){console.log("Errdsdsds")}
+  
+    // Atualizar os campos do formulário com os novos valores
+    this.addForm.setValue(addFormValue);
+  }
    openModal() {
      const modal = document.getElementById('exampleModal');
      const body = document.body;

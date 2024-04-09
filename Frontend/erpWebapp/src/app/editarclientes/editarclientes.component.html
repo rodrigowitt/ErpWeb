@@ -5,7 +5,7 @@
         <div class="col">
           <label for="cnpj" class="form-label">CNPJ</label>
           <div class="input-group" >
-            <input type="text" class="form-control" [(ngModel)]="clienteApi.cnpjoucpf" name="cnpjoucpf" maxlength="18" [placeholder]="clienteApi.cnpjoucpf ? clienteApi.cnpjoucpf : 'Digite o CNPJ/CPF'">
+            <input type="text" class="form-control" [(ngModel)]="cnpjoucpf" ngModel name="cnpjoucpf" (input)="formatarDocumento($event)" (keydown)="handleKeyPress($event)" name="cnpjoucpf" maxlength="18" placeholder="Digite o CNPJ/CPF">
           
             <button class="btn btn-outline-secondary" type="button" (click)="getBuscarCliente(cnpjoucpf)">Buscar</button>
           </div>
@@ -124,7 +124,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModalexclusao()"></button>
         <div class="modal-header">
           <div class="titulomodal">
-            <h4 class="modal-title-exclusao mt-2">{{"Deseja deletar o cliente: " + clienteApi.nomeFantasia}}</h4>
+            <h4 class="modal-title-exclusao mt-2">{{clienteApi && clienteApi.nomeFantasia ? "Deseja deletar o cliente: " + clienteApi.nomeFantasia : "Cliente não encontrado"}}</h4>
           </div>
         </div>
         <div class="modal-footer d-flex justify-content-center">
