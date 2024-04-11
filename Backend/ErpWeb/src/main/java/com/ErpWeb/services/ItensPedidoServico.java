@@ -28,4 +28,7 @@ public class ItensPedidoServico {
     public Optional<ItensPedidoModelo> findById(Long id) {return itensPedidoRepositorio.findById(id);}
 
     public void delete(ItensPedidoModelo itensPedidoModelo) { itensPedidoRepositorio.delete(itensPedidoModelo);}
+
+    public List<ItensPedidoModelo> findByPedido(Long pedido) {
+    return itensPedidoRepositorio.findByPedido(pedido);}
 }

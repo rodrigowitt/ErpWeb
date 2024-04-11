@@ -12,6 +12,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { CadastrarClientesComponent } from './components/cadastrar-clientes/cadastrar-clientes.component';
 import { ListarclientesComponent } from './listarclientes/listarclientes.component';
 import { EditarclientesComponent } from './editarclientes/editarclientes.component';
+import { EditarpedidosComponent } from './editarpedidos/editarpedidos.component';
 
 
 
@@ -24,7 +25,8 @@ import { EditarclientesComponent } from './editarclientes/editarclientes.compone
     PaginaPedidosComponent,
     CadastrarClientesComponent,
     ListarclientesComponent,
-    EditarclientesComponent
+    EditarclientesComponent,
+    EditarpedidosComponent
   ],
   imports: [
     BrowserModule,

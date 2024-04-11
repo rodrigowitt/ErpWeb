@@ -5,13 +5,15 @@ import { PaginaPedidosComponent } from './pagina-pedidos/pagina-pedidos.componen
 import { CadastrarClientesComponent } from './components/cadastrar-clientes/cadastrar-clientes.component';
 import { ListarclientesComponent } from './listarclientes/listarclientes.component';
 import { EditarclientesComponent } from './editarclientes/editarclientes.component';
+import { EditarpedidosComponent } from './editarpedidos/editarpedidos.component';
 
 const routes:Routes = [
   {path: 'pedidos', component: PedidosComponent},
   {path: 'pedidos/novo', component: PaginaPedidosComponent},
   {path: 'clientes/novo', component: CadastrarClientesComponent},
   {path: 'clientes', component: ListarclientesComponent},
-  {path: 'clientes/editar/:id', component: EditarclientesComponent}
+  {path: 'clientes/editar/:id', component: EditarclientesComponent},
+  {path: 'pedidos/editar/:id', component: EditarpedidosComponent}
 ]
 
 @NgModule({

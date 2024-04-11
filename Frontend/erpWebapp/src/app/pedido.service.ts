@@ -30,6 +30,10 @@ export class PedidosService {
     return this.http.post<ItensPedidos>(`${this.apiServerUrl}itenspedido`, itenspedido)
   }
 
+  public getPedidoById(pedido: number): Observable<Pedidos> {
+    return this.http.get<Pedidos>(`${this.apiServerUrl}cliente/${pedido}`);
+  }
+
   adicionarProduto() {
     this.itensPedido.push({
       produto: this.novoProduto.produto,

@@ -1,6 +1,7 @@
 package com.ErpWeb.control;
 
 import com.ErpWeb.dto.PedidoDto;
+import com.ErpWeb.model.ClienteModelo;
 import com.ErpWeb.model.PedidoModelo;
 import com.ErpWeb.services.PedidoServico;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,6 +75,15 @@ public class PedidoControle {
     @GetMapping(value = "/buscar/{pedido}/{cliente}")
     public ResponseEntity<List<PedidoModelo>> buscarPedidos(@PathVariable (value = "pedido") String numeroPedido,@PathVariable(value = "cliente") String numeroCliente){
         return ResponseEntity.status(HttpStatus.OK).body(pedidoServico.findBySearch(numeroPedido, numeroCliente));
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object> getIdPedido(@PathVariable(value = "id") Long id){
+        Optional<PedidoModelo> pedidoModeloOptional = pedidoServico.findById(id);
+        if (!pedidoModeloOptional.isPresent()){
+            return  ResponseEntity.status(HttpStatus.OK).body(new HashMap<>());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoModeloOptional.get());
     }
 
 

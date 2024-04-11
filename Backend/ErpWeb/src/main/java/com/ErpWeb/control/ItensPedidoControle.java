@@ -1,13 +1,10 @@
 package com.ErpWeb.control;
 
 import com.ErpWeb.dto.ItensPedidoDto;
-import com.ErpWeb.dto.PedidoDto;
 import com.ErpWeb.dto.ProdutoDto;
 import com.ErpWeb.model.ItensPedidoModelo;
-import com.ErpWeb.model.PedidoModelo;
 import com.ErpWeb.model.ProdutoModelo;
 import com.ErpWeb.services.ItensPedidoServico;
-import com.ErpWeb.services.PedidoServico;
 import com.ErpWeb.services.ProdutoServico;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -16,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,8 +73,14 @@ public class ItensPedidoControle {
             itensPedidoServico.delete(itensPedidoModeloOptional.get());
             return  ResponseEntity.status(HttpStatus.OK).body("Item de Pedido Deletado!");
         }
-
-
-
     }
+
+    @GetMapping(value = "/{pedido}")
+    public ResponseEntity<List<ItensPedidoModelo>> getIdItenspedido(@PathVariable(value = "pedido") Long pedido){
+
+        return ResponseEntity.status(HttpStatus.OK).body(itensPedidoServico.findByPedido(pedido));
+    }
+
+
+
 }

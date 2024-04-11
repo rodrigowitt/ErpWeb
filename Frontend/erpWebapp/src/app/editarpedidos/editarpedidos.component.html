@@ -1,0 +1,147 @@
+<div class="mt-2">
+    <h5 class="text-center">Edição de Pedido</h5>
+    <form #addForm="ngForm" class="row mt-3" (ngSubmit)="onAddPedido(addForm)">
+        <div class="form-group col-md-4">
+            <label for="cliente">Cliente:</label>
+            <input type="text" ngModel name="cliente" class="form-control" id="cliente" placeholder="Nome do cliente">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="formaPagamento">Forma de Pagamento:</label>
+            <select class="form-control" id="forma_pagamento" ngModel name="forma_pagamento" required>
+                <option value="" disabled selected hidden>Selecione uma opção</option>
+                <option value="Cartão de crédito">Cartão de Crédito</option>
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Transferência Bancária">Transferência Bancária</option>
+                <option value="PIX">PIX</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="desconto">Desconto:</label>
+          <input type="text" [(ngModel)]="desconto" name="desconto" class="form-control" id="desconto" placeholder="Desconto do pedido" (ngModelChange)="ajustarDesconto()">
+          <div class="mensagem mt-2" *ngIf="(desconto > calcularTotalPedido() || desconto === 0) && descontoDigitado">
+            O desconto não pode ser maior que o total do pedido.
+        </div>
+      </div>
+  
+      
+  
+        <div class="form-group colunapreco col mt-3">
+          <label for="codigoProduto">Código do Produto:</label>
+          <div class="input-group">
+              <input type="text" [(ngModel)]="codigoProduto" class="form-control" id="codigoProduto" name="codigoProduto" placeholder="Código do produto" (change)="buscarProduto()">
+          </div>
+          <div *ngIf="produtoNaoEncontrado" class="mensagem mt-2">Produto não encontrado</div>
+      </div>
+      <div class="form-group col mt-3">
+        <label for="codigoProduto">Produto:</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="descricaoProduto" name="descricaoProduto" placeholder="Descrição do produto"  [(ngModel)]="nomeProduto">
+        </div>
+    </div>
+    
+      <div class="form-group colunapreco col mt-3 ">
+        <label for="codigoProduto">Quantidade do Produto:</label>
+        <div class="input-group">
+            <input type="text" [(ngModel)]="quantidadeProduto" class="form-control" id="quantidadeProduto" name="quantidadeProduto" placeholder="Quantidade do produto">
+                    <div class="input-group-append">
+                  <button class="btn btn-outline-secondary adicionar" type="button" [disabled]="!codigoProduto || !quantidadeProduto || quantidadeProduto <= 0"   (click)="adicionarProduto()">{{ editandoItem ? 'Editar Produto' : 'Adicionar Produto' }}</button>
+              </div>
+          </div>
+    </div>
+      
+      <div class="form-group col-md-12">
+          <table class="table table-bordered mt-2">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Código do Produto</th>
+                <th>Nome do Produto</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of produtoslista ; let i = index">
+                <ng-container *ngIf="produtoValido(item.produto)"> 
+                  <td>{{ i + 1}}</td>
+                  <td>{{ item.produto.produtoid }}</td>
+                  <td>{{ item.produto.nome }}</td>
+                  <td>{{ 'R$ ' + (item.produto.preco | number:'1.2-2') }}</td>
+                  <td>{{ item.quantidade }}</td> 
+                  <td>{{ 'R$ ' + (item.quantidade * item.produto.preco | number:'1.2-2')}}</td> 
+                  <td><a href="#" class="editar" data-toggle="modal" [ngClass]="{ 'disabled': editandoItem }" (click)="editarItem(i)"  ><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar" ></i></a>
+                    <a href="#" class="deletar" (click)="removerItemPedido(item)" [ngClass]="{ 'disabled': editandoItem }"data-toggle="modal"><i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i></a></td>
+                </ng-container>
+              </tr>
+              <tr>
+                <td colspan="5"></td>
+                <td>Quantidade de Produtos:</td>
+                <td>{{ calcularQuantidadeTotalPedido() }}</td>
+              </tr>
+              <tr>
+                <td colspan="5"></td>
+                <td>Total dos Produtos:</td>
+                <td>{{'R$ ' + (calcularTotalPedido() | number:'1.2-2')}}</td>
+              </tr>
+              <tr>
+                <td colspan="5"></td>
+                <td *ngIf="addForm.value.desconto !== undefined">Desconto:</td>
+                <td *ngIf="(addForm.value.desconto <= calcularTotalPedido() || 0)">{{'R$ ' + (addForm.value.desconto || 0 | number:'1.2-2') }}</td>
+              </tr>
+              <tr>
+                <td colspan="5"></td>
+                <td>Total Líquido:</td>
+                <td>{{ 'R$ ' + (calcularTotalLiquidoPedido(calcularTotalPedido(), addForm.value.desconto) | number:'1.2-2' )}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <div class="form-group text-center">
+            <button type="submit" id="add-ped-form" class="btn btn-outline enviarpedido" [disabled]="!addForm.value.cliente || !addForm.value.forma_pagamento || !verificarSeHaItens()">Enviar Pedido</button>
+        </div>
+    </form>
+  </div>
+  
+  
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header">
+          <div class="titulomodal">
+            <i class="fa-solid fa-circle-check enviado" style="color: #63E6BE;"></i>
+            <h4 class="modal-title mt-4">Pedido Enviado</h4>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Pedido:</strong></p>
+              <p><strong>Cliente:</strong></p>
+              <p><strong>Forma de Pagamento:</strong></p>
+              <p><strong>Desconto:</strong></p>
+              <p><strong>Total:</strong></p>
+            </div>
+            <div class="col-md-6">
+              <p class="text-end">{{pedidoFeito}}</p>
+              <p class="text-end">{{ultimocliente}}</p>
+              <p class="text-end">{{ultimaFormaPagamento}}</p>
+              <p class="text-end">{{' R$ ' + (ultimoDesconto | number:'1.2-2') }}</p>
+              <p class="text-end">{{'R$ ' + (ultimoTotal | number:'1.2-2' )}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-primary">Download</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
