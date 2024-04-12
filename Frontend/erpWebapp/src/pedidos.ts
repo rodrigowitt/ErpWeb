@@ -1,5 +1,5 @@
 export interface Pedidos {
-    pedidoid: string;
+    pedidoid: number;
     entrada: string;
     cliente: string;
     desconto: number;

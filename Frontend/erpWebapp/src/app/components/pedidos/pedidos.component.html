@@ -54,7 +54,7 @@
       <td>{{pedidos.desconto}}</td>
       <td>{{pedidos.total}}</td>
       <td>
-        <a href="#" class="editar" data-toggle="modal"><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i></a>
+        <a (click)="AbrirPedido(pedidos.pedidoid)" class="editar" data-toggle="modal"><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i></a>
         <a href="#" class="deletar" data-toggle="modal"><i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i></a>
       </td>
 

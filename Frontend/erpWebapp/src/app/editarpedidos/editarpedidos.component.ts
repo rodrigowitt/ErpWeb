@@ -7,6 +7,7 @@ import { Pedidos } from 'src/pedidos';
 import { Produtos } from 'src/produtos';
 import { PedidosService } from '../pedido.service';
 import { ProdutosService } from '../produtos.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-editarpedidos',
@@ -24,6 +25,8 @@ export class EditarpedidosComponent {
   public ultimoTotal : number | any;
   public ultimoDesconto : number | any;
   public pedidoFeito : number | any;
+  pedidosApi : Pedidos | any;
+  itenspedidoApi: ItensPedidos | any;
   codigoProduto!: string;
   quantidadeProduto!: number | any;
   desconto : number = 0;
@@ -35,17 +38,48 @@ export class EditarpedidosComponent {
   totalPedido!: number;
   produto: any;
   nomeProduto: string = '';
+  pedidoId: any;
+  itenspedidoId: any;
 
-  
-
-  constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private http: HttpClient){};
+  constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private route: ActivatedRoute, private http: HttpClient, private router: Router){};
 
   ngOnInit(): void {
-   }
+    this.route.params.subscribe(params => {
+      this.pedidoId = params['id'];
+      this.itenspedidoId = params['id'];
+      this.carregarPedido(this.pedidoId);
+      this.carregarItensPedido(this.itenspedidoId);
+    });
+  }
+  
   
    ngAfterViewInit() {
     this.calcularTotalPedido();
   }
+
+  carregarPedido(id: number): void {
+    this.pedidoService.getPedidoById(id).subscribe(
+      (pedidosApi) => {
+        this.pedidosApi = pedidosApi;
+      },
+      (error) => {
+        console.error('Erro ao carregar pedido:', error);
+      }
+    );
+  }
+
+  carregarItensPedido(id: number): void {
+    this.pedidoService.getItensPedidoById(id).subscribe(
+      (itenspedidoApi) => {
+        this.itenspedidoApi = itenspedidoApi;
+        itenspedidoApi.forEach(item => {
+          console.log("Preço do item:", item.preco);
+        });
+      },
+      (error) => {
+        console.error('Erro ao carregar os itens de pedido:', error);
+      }
+    )}
 
   
   openModal() {
@@ -114,7 +148,7 @@ onAddPedido(addForm: NgForm): void {
     forma_pagamento: formaPagamento,
     desconto: desconto,
     total: total,
-    pedidoid: '',
+    pedidoid: 0,
     entrada: ''
   };
   this.ultimocliente = cliente;

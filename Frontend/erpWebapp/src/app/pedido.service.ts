@@ -30,9 +30,16 @@ export class PedidosService {
     return this.http.post<ItensPedidos>(`${this.apiServerUrl}itenspedido`, itenspedido)
   }
 
-  public getPedidoById(pedido: number): Observable<Pedidos> {
-    return this.http.get<Pedidos>(`${this.apiServerUrl}cliente/${pedido}`);
+  public getPedidoById(pedidoId: number): Observable<Pedidos> {
+    return this.http.get<Pedidos>(`${this.apiServerUrl}pedido/${pedidoId}`);
   }
+
+  public getItensPedidoById(pedidoId: number): Observable<ItensPedidos[]> {
+    return this.http.get<ItensPedidos[]>(`${this.apiServerUrl}itenspedido/${pedidoId}`);
+  }
+  
+  
+
 
   adicionarProduto() {
     this.itensPedido.push({

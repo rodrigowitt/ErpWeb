@@ -115,7 +115,7 @@ onAddPedido(addForm: NgForm): void {
     forma_pagamento: formaPagamento,
     desconto: desconto,
     total: total,
-    pedidoid: '',
+    pedidoid: 0,
     entrada: ''
   };
   this.ultimocliente = cliente;
@@ -256,6 +256,7 @@ editarItem(indice: number) {
 verificarSeHaItens(): boolean {
   return this.produtoslista.length > 0;
 }
+
 
 
 

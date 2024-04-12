@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Pedidos } from 'src/pedidos';
 import {PedidosService} from 'src/app/pedido.service'
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pedidos',
@@ -18,7 +19,7 @@ export class PedidosComponent {
    this.getPedidos();
   }
 
-  constructor( private pedidosService : PedidosService ){}
+  constructor( private pedidosService : PedidosService, private router: Router ){}
 
   public getPedidos():void{
     this.pedidosService.getPedidos().subscribe(
@@ -37,4 +38,16 @@ public getBuscar(numeroPedido : string, numeroCliente : string):void{
     }, (error: HttpErrorResponse) => {alert(error.message)}
     )
 }
+
+public AbrirPedido(pedidoId: number): void {
+  this.pedidosService.getPedidoById(pedidoId).subscribe(
+    (pedido: Pedidos) => {
+      this.router.navigate(['pedidos/editar/', pedidoId], { state: { pedido: pedido } });
+    },
+    (error: HttpErrorResponse) => {
+      alert(error.message);
+    }
+  );
 }
+}
+
