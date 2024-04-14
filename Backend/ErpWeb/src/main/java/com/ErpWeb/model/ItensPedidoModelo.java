@@ -44,6 +44,14 @@ public class ItensPedidoModelo {
         return produtoModelo != null ? produtoModelo.getProdutoid() : null;
     }
 
+    public void setProduto_id(Long produto_id) {
+        if (produtoModelo == null) {
+            produtoModelo = new ProdutoModelo();
+        }
+        produtoModelo.setProdutoid(produto_id);
+    }
+
+
     public Double getPreco() {
         return preco;
     }

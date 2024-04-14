@@ -55,6 +55,8 @@ public class PedidoControle {
 
         pedidoModelo.setPedidoid(pedidoModeloOptional.get().getPedidoid());
 
+        System.out.println("Pedido editado com sucesso !");
+
         return ResponseEntity.status(HttpStatus.OK).body(pedidoServico.save(pedidoModelo));
     }
     @DeleteMapping("/{id}")

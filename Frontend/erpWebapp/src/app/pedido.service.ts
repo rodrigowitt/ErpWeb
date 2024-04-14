@@ -37,6 +37,21 @@ export class PedidosService {
   public getItensPedidoById(pedidoId: number): Observable<ItensPedidos[]> {
     return this.http.get<ItensPedidos[]>(`${this.apiServerUrl}itenspedido/${pedidoId}`);
   }
+
+  public updatePedido(pedidoId: number , pedido: Pedidos): Observable<Pedidos>{
+    return this.http.put<Pedidos>(`${this.apiServerUrl}pedido/${pedidoId}`, pedido)
+  }
+
+  public updateItensPedido(itemPedidoId: number , itemPedido: ItensPedidos): Observable<ItensPedidos>{
+    return this.http.put<ItensPedidos>(`${this.apiServerUrl}itenspedido/${itemPedidoId}`, itemPedido);
+  }
+
+  public updateItensPedidoLista(itemPedidoId: number ,itensPedidos: ItensPedidos[]): Observable<ItensPedidos[]> {
+    return this.http.put<ItensPedidos[]>(`${this.apiServerUrl}itenspedido/${itemPedidoId}`, itensPedidos);
+  }
+  
+  
+  
   
   
 

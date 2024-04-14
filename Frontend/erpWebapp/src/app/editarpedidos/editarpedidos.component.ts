@@ -138,13 +138,12 @@ export class EditarpedidosComponent {
 onAddPedido(addForm: NgForm): void {
   const cliente = addForm.value.cliente;
   const formaPagamento = addForm.value.forma_pagamento;
-  let  desconto = addForm.value.desconto;
+  let desconto = addForm.value.desconto;
   const total = this.calcularTotalPedido();
 
   if (!desconto || isNaN(desconto)) {
     desconto = 0;
   }
-  
 
   const pedido: Pedidos = {
     cliente: cliente,
@@ -154,34 +153,52 @@ onAddPedido(addForm: NgForm): void {
     pedidoid: 0,
     entrada: ''
   };
+
   this.ultimocliente = cliente;
   this.ultimaFormaPagamento = formaPagamento;
   this.ultimoTotal = total;
   this.ultimoDesconto = desconto;
-  this.pedidoService.addPedido(pedido).subscribe((pedidoAdicionado) => {
-    this.produtoslista.forEach((item) => {
-      const itemPedido: ItensPedidos = {
-        pedido: pedidoAdicionado.pedidoid, 
-        preco: item.produto.preco,
-        produto_id: item.produto.produtoid,
-        quantidade: item.quantidade,
-        itensPedidoid: '',
-        produto: ''
-        
-      };
-      this.pedidoFeito = pedidoAdicionado.pedidoid;
-      this.openModal();
-      this.pedidoService.addITensPedido(itemPedido).subscribe(() => {
-      }, (error) => {
-        console.error('Erro ao adicionar item de pedido:', error);
-      });
+
+  this.pedidoService.updatePedido(this.pedidoId, pedido).subscribe((pedidoAdicionado) => {
+
+    // Mapeie os itens da API para o formato de itens de pedido
+    const itensPedidoAPI = this.itenspedidoApi.map((item: { pedido: any; preco: any; produto_id: any; quantidade: any; itensPedidoid: any; produto: any; }) => ({
+      pedido: item.pedido,
+      preco: item.preco,
+      produto_id: item.produto_id,
+      quantidade: item.quantidade,
+      itensPedidoid: item.itensPedidoid,
+      produto: item.produto
+    }));
+
+    // Mapeie cada item na lista de produtos para o formato de itens de pedido
+    const novosItensPedido = this.produtoslista.map(item => ({
+      pedido: pedidoAdicionado.pedidoid,
+      preco: item.produto.preco,
+      produto_id: item.produto.produtoid,
+      quantidade: item.quantidade,
+      itensPedidoid: '',
+      produto: item.produto.nome
+    }));
+
+    // Combine os itens da API com os novos itens da lista de produtos
+    const listaItensPedido = [...itensPedidoAPI, ...novosItensPedido];
+
+    console.log(listaItensPedido);
+
+    // Chama o método updateItensPedidoLista para enviar a lista completa de itens de pedido
+    this.pedidoService.updateItensPedidoLista(this.pedidoId, listaItensPedido).subscribe(() => {
+      console.log('Lista de itens de pedido adicionada com sucesso!');
+    }, (error) => {
+      console.error('Erro ao adicionar lista de itens de pedido:', error);
     });
-    this.produtoslista = [];
-    addForm.resetForm();
   }, (error) => {
     console.error('Erro ao adicionar pedido:', error);
   });
+
+  this.openModal();
 }
+
 
 async adicionarProduto() {
   // Adicione o produto à lista

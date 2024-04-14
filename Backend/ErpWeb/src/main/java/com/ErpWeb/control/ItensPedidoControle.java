@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -67,22 +71,61 @@ public class ItensPedidoControle {
         return ResponseEntity.status(HttpStatus.OK).body(itensPedidoServico.findAll());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> editarItemPedido(@PathVariable(value = "id")Long id, @RequestBody @Valid ItensPedidoDto itensPedidoDto){
 
-        Optional<ItensPedidoModelo> itemPedidoModeloOptional = itensPedidoServico.findById(id);
 
-        if (!itemPedidoModeloOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro não encontrado");
+    @PutMapping("/{pedido}")
+    public ResponseEntity<Object> editarItensPedido(@PathVariable(value = "pedido") Long pedidoId, @RequestBody @Valid List<ItensPedidoDto> itensPedidoDtoList) {
+        // Buscar todos os itens de pedido associados ao pedido fornecido
+        List<ItensPedidoModelo> itensPedidoModeloList = itensPedidoServico.findByPedido(pedidoId);
+
+        // Criar um mapa para armazenar os itens existentes usando o produto_id como chave
+        Map<Long, ItensPedidoModelo> itensExistentesMap = new HashMap<>();
+        for (ItensPedidoModelo itemExistente : itensPedidoModeloList) {
+            itensExistentesMap.put(itemExistente.getProduto_id(), itemExistente);
         }
-        var itensPedidoModelo = itemPedidoModeloOptional.get();
 
-        BeanUtils.copyProperties(itensPedidoDto, itensPedidoModelo);
+        // Iterar sobre os itens de pedido do DTO recebidos na requisição
+        for (ItensPedidoDto itensPedidoDto : itensPedidoDtoList) {
+            // Verificar se o item de pedido tem um ID válido (produto_id)
+            if (itensPedidoDto.getproduto_id() != null) {
+                // Encontrar o item de pedido correspondente na lista de itens existentes
+                ItensPedidoModelo itemExistente = itensExistentesMap.get(itensPedidoDto.getproduto_id());
+                if (itemExistente != null) {
+                    // Atualizar as propriedades do item existente com base no DTO recebido
+                    BeanUtils.copyProperties(itensPedidoDto, itemExistente);
+                    itensPedidoServico.save(itemExistente);
+                } else {
+                    // Se o item de pedido não existir na lista de itens existentes, é um novo item que deve ser adicionado
+                    ItensPedidoModelo novoItemPedido = new ItensPedidoModelo();
+                    // Copiar as propriedades do DTO para o novo item de pedido
+                    BeanUtils.copyProperties(itensPedidoDto, novoItemPedido);
+                    // Associar o novo item ao pedido existente
+                    novoItemPedido.setPedido(pedidoId);
+                    novoItemPedido.setProdutoModelo(novoItemPedido.getProdutoModelo());
+                    System.out.println("nome do produto é : " + novoItemPedido.getProdutoModelo());
+                    itensPedidoServico.save(novoItemPedido);
+                }
+            }
+        }
 
-        itensPedidoModelo.setItensPedidoid(itemPedidoModeloOptional.get().getItensPedidoid());
-
-        return ResponseEntity.status(HttpStatus.OK).body(itensPedidoServico.save(itensPedidoModelo));
+        // Retornar uma resposta de sucesso com a lista de itens de pedido atualizados
+        return ResponseEntity.ok("");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarPedido(@PathVariable(value = "id")Long id){
