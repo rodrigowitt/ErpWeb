@@ -40,6 +40,8 @@ export class EditarpedidosComponent {
   nomeProduto: string = '';
   pedidoId: any;
   itenspedidoId: any;
+  numeroTotalItens: number = 0;
+  
 
   constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private route: ActivatedRoute, private http: HttpClient, private router: Router){};
 
@@ -73,7 +75,8 @@ export class EditarpedidosComponent {
       (itenspedidoApi) => {
         this.itenspedidoApi = itenspedidoApi;
         itenspedidoApi.forEach(item => {
-          console.log("Preço do item:", item.preco);
+          this.numeroTotalItens = this.itenspedidoApi.length + 1;
+
         });
       },
       (error) => {
@@ -181,32 +184,19 @@ onAddPedido(addForm: NgForm): void {
 }
 
 async adicionarProduto() {
-  if (this.indiceItemEditando !== -1) {
-    const produto  : any = await this.http.get<Produtos>(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
-    if (produto && Object.keys(produto).length > 0){
-      const itemEditando = this.produtoslista[this.indiceItemEditando];
-      itemEditando.produto.codigo = this.codigoProduto;
-      itemEditando.produto = produto;
-      itemEditando.quantidade = this.quantidadeProduto;
-      this.codigoProduto = '';
-      this.quantidadeProduto = '';
-      this.nomeProduto = '';
-      this.indiceItemEditando = -1; 
-      this.editandoItem = false;
-      this.produtoNaoEncontrado = false;
-    }else{
-      this.produtoNaoEncontrado = true;
-    }
-
-  }else{
+  // Adicione o produto à lista
   try {
-    const produto  : any = await this.http.get<Produtos>(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
+    const produto: any = await this.http.get<Produtos>(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
     if (produto && Object.keys(produto).length > 0 && this.quantidadeProduto != 0 && this.quantidadeProduto != '' && this.quantidadeProduto != undefined) {
       this.produtoslista.push({ produto: produto, quantidade: this.quantidadeProduto });
       this.codigoProduto = '';
       this.quantidadeProduto = '';
       this.nomeProduto = '';
       this.produtoNaoEncontrado = false;
+      console.log("Produto adicionado na lista");
+
+      // Atualize a contagem total de itens
+      console.log("metodo adicionar produto" + this.numeroTotalItens)
     } else {
       this.produtoNaoEncontrado = true;
     }
@@ -215,9 +205,9 @@ async adicionarProduto() {
       console.error('Erro ao obter produto:', error);
     }
     this.produtoNaoEncontrado = true;
+    
   }
-  
-}}
+}
 
 buscarProduto() {
   if (this.codigoProduto.trim() !== '') {
@@ -244,23 +234,38 @@ produtoValido(produto: Produtos | any): boolean {
 }
 
 calcularTotalPedido(): number {
-  const total = this.produtoslista.reduce((total, item) => {
+  const totalProdutos = this.produtoslista.reduce((total, item) => {
     if (this.produtoValido(item.produto)) {
       total += item.quantidade * item.produto.preco;
     }
     return total;
   }, 0);
-  return + total.toFixed(2);
-}
-calcularQuantidadeTotalPedido(): number {
-  let total = 0;
 
-  for (let item of this.produtoslista) {
-    total += Number(item.quantidade);
+  if (!this.itenspedidoApi) {
+    return totalProdutos; // Retorna apenas o total dos produtos se não houver itens de pedido
   }
 
-  return total;
+  const totalItensPedido = this.itenspedidoApi.reduce((total: number, item: { quantidade: number; preco: number; }) => {
+    return total + (item.quantidade * item.preco);
+  }, 0);
+
+  return totalProdutos + totalItensPedido;
 }
+
+calcularQuantidadeTotalPedido(): number {
+  let totalQuantidadeProdutos = 0;
+
+  for (let item of this.produtoslista) {
+    totalQuantidadeProdutos += Number(item.quantidade);
+  }
+
+  let totalQuantidadeItensPedido = this.itenspedidoApi.reduce((total: number, item: { quantidade: any; }) => {
+    return total + Number(item.quantidade);
+  }, 0);
+
+  return totalQuantidadeProdutos + totalQuantidadeItensPedido;
+}
+
 
 
 calcularTotalLiquidoPedido(totalpedido : number, desconto : number) {
@@ -287,6 +292,6 @@ editarItem(indice: number) {
 }
 
 verificarSeHaItens(): boolean {
-  return this.produtoslista.length > 0;
+  return this.produtoslista.length > 0 || this.itenspedidoApi.length > 0
 }
 }

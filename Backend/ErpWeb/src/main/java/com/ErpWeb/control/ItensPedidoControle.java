@@ -25,22 +25,42 @@ public class ItensPedidoControle {
     @Autowired
     ProdutoServico produtoServico;
 
+
     @PostMapping
     public ResponseEntity<Object> saveItensPedido(
-            @RequestBody
-            @Valid
-            ItensPedidoDto itensPedidoDto, ProdutoDto produtoDto){
-        Optional<ProdutoModelo> produtoModelo = produtoServico.findById(itensPedidoDto.getproduto_id());
-        var itensPedidoModelo = new ItensPedidoModelo();
+            @RequestBody @Valid ItensPedidoDto itensPedidoDto) {
+        // Buscar o produto com base no ID fornecido no DTO de itens de pedido
+        Optional<ProdutoModelo> produtoOptional = produtoServico.findById(itensPedidoDto.getproduto_id());
 
-        itensPedidoDto.setProduto(produtoModelo.get().getNome());
-        System.out.println("setando nome de produto de itens de pedido: " + produtoModelo.get().getNome() );
+        // Verificar se o produto foi encontrado
+        if (!produtoOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
+        }
 
+        // Extrair o modelo de produto do Optional
+        ProdutoModelo produto = produtoOptional.get();
+
+        // Definir o nome do produto no DTO
+        itensPedidoDto.setProduto(produto.getNome());
+
+        // Criar um novo modelo de itens de pedido
+        ItensPedidoModelo itensPedidoModelo = new ItensPedidoModelo();
+
+        // Copiar os atributos do DTO para o modelo de itens de pedido
         BeanUtils.copyProperties(itensPedidoDto, itensPedidoModelo);
 
+        // Definir o modelo de produto no modelo de itens de pedido
+        itensPedidoModelo.setProdutoModelo(produto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(itensPedidoServico.save(itensPedidoModelo));
+        // Salvar o modelo de itens de pedido
+        ItensPedidoModelo savedItem = itensPedidoServico.save(itensPedidoModelo);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
     }
+
+
+
+
 
     @GetMapping
     public ResponseEntity<List<ItensPedidoModelo>> todosItensPedidos(){

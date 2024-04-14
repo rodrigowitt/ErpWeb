@@ -63,19 +63,45 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of produtoslista ; let i = index">
-                <ng-container *ngIf="produtoValido(item.produto)"> 
-                  <td>{{ i + 1}}</td>
-                  <td>{{ item.produto.produtoid }}</td>
-                  <td>{{ item.produto.nome }}</td>
-                  <td>{{ 'R$ ' + (item.produto.preco | number:'1.2-2') }}</td>
-                  <td>{{ item.quantidade }}</td> 
-                  <td>{{ 'R$ ' + (item.quantidade * item.produto.preco | number:'1.2-2')}}</td> 
-                  <td><a href="#" class="editar" data-toggle="modal" [ngClass]="{ 'disabled': editandoItem }" (click)="editarItem(i)"  ><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar" ></i></a>
-                    <a href="#" class="deletar" (click)="removerItemPedido(item)" [ngClass]="{ 'disabled': editandoItem }"data-toggle="modal"><i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i></a></td>
-                </ng-container>
+
+              <tr *ngFor="let item of itenspedidoApi; let i = index">
+                <!-- Cálculo da numeração contínua -->
+                <td>{{ i + 1}}</td>
+                <td>{{ item.produto_id }}</td>
+                <td>{{ item.produto }}</td>
+                <td>{{ 'R$ ' + (item.preco | number:'1.2-2') }}</td>
+                <td>{{ item.quantidade }}</td>
+                <td>{{ 'R$ ' + (item.preco * item.quantidade | number:'1.2-2') }}</td>
+                <td>                    
+                    <a href="#" class="editar" data-toggle="modal" [ngClass]="{ 'disabled': editandoItem }" (click)="editarItem(i)">
+                        <i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i>
+                    </a>
+                    <a href="#" class="deletar" (click)="removerItemPedido(item)" [ngClass]="{ 'disabled': editandoItem }" data-toggle="modal">
+                        <i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i>
+                    </a>
+                </td>
               </tr>
-              <tr>
+              
+            <!-- Primeiro, iteramos sobre os itens de produtoslista -->
+<tr *ngFor="let item of produtoslista; let i = index ">
+  <td>{{  numeroTotalItens + i  }}</td>
+  <td>{{ item.produto.produtoid}}</td> <!-- Certifique-se de acessar o ID do produto corretamente -->
+  <td>{{ item.produto.nome }}</td> <!-- Certifique-se de acessar o nome do produto corretamente -->
+  <td>{{ 'R$ ' + (item.produto.preco | number:'1.2-2') }}</td> <!-- Certifique-se de acessar o preço do produto corretamente -->
+  <td>{{ item.quantidade }}</td>
+  <td>{{ 'R$ ' + (item.produto.preco * item.quantidade | number:'1.2-2') }}</td>
+  <td>
+      <a href="#" class="editar" data-toggle="modal" [ngClass]="{ 'disabled': editandoItem }" (click)="editarItem(i)">
+          <i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i>
+      </a>
+      <a href="#" class="deletar" (click)="removerItemPedido(item)" [ngClass]="{ 'disabled': editandoItem }" data-toggle="modal">
+          <i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i>
+      </a>
+  </td>
+</tr>
+
+     
+       <tr>
                 <td colspan="5"></td>
                 <td>Quantidade de Produtos:</td>
                 <td>{{ calcularQuantidadeTotalPedido() }}</td>
@@ -100,7 +126,7 @@
         </div>
   
         <div class="form-group text-center">
-            <button type="submit" id="add-ped-form" class="btn btn-outline enviarpedido" [disabled]="!addForm.value.cliente || !addForm.value.forma_pagamento || !verificarSeHaItens()">Enviar Pedido</button>
+            <button type="submit" id="add-ped-form" class="btn btn-outline enviarpedido" [disabled]="(!addForm.value.cliente && !itenspedidoApi.cliente) || (!addForm.value.forma_pagamento && !itenspedidoApi.formaPagamento) || !verificarSeHaItens()">Editar Pedido</button>
         </div>
     </form>
   </div>
@@ -114,7 +140,7 @@
         <div class="modal-header">
           <div class="titulomodal">
             <i class="fa-solid fa-circle-check enviado" style="color: #63E6BE;"></i>
-            <h4 class="modal-title mt-4">Pedido Enviado</h4>
+            <h4 class="modal-title mt-4">Pedido Alterado</h4>
           </div>
         </div>
         <div class="modal-body">

@@ -40,6 +40,10 @@ public class ItensPedidoModelo {
         this.produtoModelo = produtoModelo;
     }
 
+    public Long getProduto_id() {
+        return produtoModelo != null ? produtoModelo.getProdutoid() : null;
+    }
+
     public Double getPreco() {
         return preco;
     }
@@ -72,3 +76,4 @@ public class ItensPedidoModelo {
         this.quantidade = quantidade;
     }
 }
+
