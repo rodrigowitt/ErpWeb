@@ -108,9 +108,25 @@ public class ItensPedidoControle {
             }
         }
 
+        // Apagar os itens de pedido que não estão presentes no DTO
+        for (ItensPedidoModelo itemExistente : itensPedidoModeloList) {
+            boolean encontrado = false;
+            for (ItensPedidoDto itensPedidoDto : itensPedidoDtoList) {
+                if (itemExistente.getProduto_id().equals(itensPedidoDto.getproduto_id())) {
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) {
+                // Se o item de pedido não foi encontrado no DTO, apagar o item
+                itensPedidoServico.delete(itemExistente);
+            }
+        }
+
         // Retornar uma resposta de sucesso com a lista de itens de pedido atualizados
         return ResponseEntity.ok("");
     }
+
 
 
 
