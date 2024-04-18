@@ -59,6 +59,10 @@ export class EditarpedidosComponent {
     this.calcularTotalPedido();
   }
 
+  removerItemPedidoapi(index: number) {
+    this.itenspedidoApi.splice(index, 1); // Remove o item da lista
+}
+
   carregarPedido(id: number): void {
     this.pedidoService.getPedidoById(id).subscribe(
       (pedidosApi) => {
@@ -201,30 +205,52 @@ onAddPedido(addForm: NgForm): void {
 
 
 async adicionarProduto() {
-  // Adicione o produto à lista
-  try {
-    const produto: any = await this.http.get<Produtos>(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
-    if (produto && Object.keys(produto).length > 0 && this.quantidadeProduto != 0 && this.quantidadeProduto != '' && this.quantidadeProduto != undefined) {
-      this.produtoslista.push({ produto: produto, quantidade: this.quantidadeProduto });
-      this.codigoProduto = '';
-      this.quantidadeProduto = '';
-      this.nomeProduto = '';
-      this.produtoNaoEncontrado = false;
-      console.log("Produto adicionado na lista");
+  if (this.indiceItemEditando !== -1) {
+    try {
+      const produto: any = await this.http.get(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
+      if (produto && typeof produto === 'object' && Object.keys(produto).length > 0) {
+        const itemEditando = this.produtoslista[this.indiceItemEditando] || this.itenspedidoApi[this.indiceItemEditando];
+        
+        // Atualiza apenas as propriedades necessárias do item editando
+        Object.assign(itemEditando.produto, produto);
+        itemEditando.quantidade = this.quantidadeProduto;
+   
 
-      // Atualize a contagem total de itens
-      console.log("metodo adicionar produto" + this.numeroTotalItens)
-    } else {
+        // Limpa as variáveis
+        this.codigoProduto = '';
+        this.quantidadeProduto = '';
+        this.nomeProduto = '';
+        this.indiceItemEditando = -1; 
+        this.editandoItem = false;
+        this.produtoNaoEncontrado = false;
+      } else {
+        this.produtoNaoEncontrado = true;
+      }
+    } catch (error: any) {
+      console.error('Erro ao obter produto:', error);
       this.produtoNaoEncontrado = true;
     }
-  } catch (error: any) {
-    if (!(error instanceof HttpErrorResponse) || error.status !== 404) {
+  } else {
+    try {
+      const produto: any = await this.http.get(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
+      if (produto && typeof produto === 'object' && Object.keys(produto).length > 0 && this.quantidadeProduto != 0 && this.quantidadeProduto != '' && this.quantidadeProduto != undefined) {
+        this.produtoslista.push({ produto: Object.assign({}, produto), quantidade: this.quantidadeProduto });
+        this.codigoProduto = '';
+        this.quantidadeProduto = '';
+        this.nomeProduto = '';
+        this.produtoNaoEncontrado = false;
+      } else {
+        this.produtoNaoEncontrado = true;
+      }
+    } catch (error: any) {
       console.error('Erro ao obter produto:', error);
+      this.produtoNaoEncontrado = true;
     }
-    this.produtoNaoEncontrado = true;
-    
   }
 }
+
+
+
 
 buscarProduto() {
   if (this.codigoProduto.trim() !== '') {
@@ -301,8 +327,8 @@ removerItemPedido(item: any) {
 }
 
 editarItem(indice: number) {
-  const itemEditando = this.produtoslista[indice];
-  this.codigoProduto = itemEditando.produto.produtoid;
+  const itemEditando = this.produtoslista[indice] || this.itenspedidoApi[indice];
+  this.codigoProduto = itemEditando.produto.produtoid || itemEditando.produto_id;
   this.quantidadeProduto = itemEditando.quantidade;
   this.indiceItemEditando = indice;
   this.editandoItem = true
