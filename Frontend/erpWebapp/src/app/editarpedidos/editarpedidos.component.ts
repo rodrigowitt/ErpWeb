@@ -35,6 +35,7 @@ export class EditarpedidosComponent {
   produtoNaoEncontrado: boolean = false;
   editandoItem: boolean = false;
   indiceItemEditando: number = -1;
+  indiceItemEditandolista: number = -1;
   totalPedido!: number;
   produto: any;
   nomeProduto: string = '';
@@ -205,22 +206,34 @@ onAddPedido(addForm: NgForm): void {
 
 
 async adicionarProduto() {
-  if (this.indiceItemEditando !== -1) {
+  if (this.indiceItemEditando !== -1 ||   this.indiceItemEditandolista !== -1) {
     try {
       const produto: any = await this.http.get(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
-      if (produto && typeof produto === 'object' && Object.keys(produto).length > 0) {
-        const itemEditando = this.produtoslista[this.indiceItemEditando] || this.itenspedidoApi[this.indiceItemEditando];
+      if (produto && Object.keys(produto).length > 0) {
+        const itemEditando =  this.itenspedidoApi[this.indiceItemEditando ] || this.produtoslista[ this.indiceItemEditandolista] ;
         
-        // Atualiza apenas as propriedades necessárias do item editando
-        Object.assign(itemEditando.produto, produto);
+        //controlar se está editando produto da api ou da lista
+        if (this.indiceItemEditando !== -1){
+        itemEditando.produto = produto.nome; 
+        itemEditando.preco = produto.preco; 
+        
         itemEditando.quantidade = this.quantidadeProduto;
-   
+        itemEditando.produto_id = this.codigoProduto;
+        
+        console.log("editando um produto de api" )
+        }else{
+          itemEditando.produto.codigo = this.codigoProduto;
+          itemEditando.produto = produto;
+          itemEditando.quantidade = this.quantidadeProduto;
+          console.log("editando um produto da lista" )
+        }
 
         // Limpa as variáveis
         this.codigoProduto = '';
         this.quantidadeProduto = '';
         this.nomeProduto = '';
         this.indiceItemEditando = -1; 
+        this.indiceItemEditandolista = -1;
         this.editandoItem = false;
         this.produtoNaoEncontrado = false;
       } else {
@@ -232,6 +245,7 @@ async adicionarProduto() {
     }
   } else {
     try {
+      console.log("indo adicionar produto")
       const produto: any = await this.http.get(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
       if (produto && typeof produto === 'object' && Object.keys(produto).length > 0 && this.quantidadeProduto != 0 && this.quantidadeProduto != '' && this.quantidadeProduto != undefined) {
         this.produtoslista.push({ produto: Object.assign({}, produto), quantidade: this.quantidadeProduto });
@@ -250,6 +264,16 @@ async adicionarProduto() {
 }
 
 
+limparVariaveis() {
+  this.codigoProduto = '';
+  this.quantidadeProduto = '';
+  this.nomeProduto = '';
+  this.indiceItemEditando = -1; 
+  this.indiceItemEditandolista = -1
+  this.editandoItem = false;
+  this.produtoNaoEncontrado = false;
+}
+
 
 
 buscarProduto() {
@@ -258,6 +282,11 @@ buscarProduto() {
       (produto: any) => {
         if (produto && produto.nome) {
           this.nomeProduto = produto.nome;
+          // Atualiza o valor do campo de descrição do produto
+          const descricaoProdutoInput = document.getElementById('descricaoProduto') as HTMLInputElement;
+          if (descricaoProdutoInput) {
+            descricaoProdutoInput.value = produto.nome;
+          }
         } else {
           this.nomeProduto = 'Produto não encontrado';
         }
@@ -327,10 +356,23 @@ removerItemPedido(item: any) {
 }
 
 editarItem(indice: number) {
-  const itemEditando = this.produtoslista[indice] || this.itenspedidoApi[indice];
-  this.codigoProduto = itemEditando.produto.produtoid || itemEditando.produto_id;
+  console.log("Valor do indice: " + indice)
+  const itemEditando = this.itenspedidoApi[indice ] ;
+  this.codigoProduto =  this.itenspedidoApi[indice].produto_id 
   this.quantidadeProduto = itemEditando.quantidade;
+  this.nomeProduto = this.itenspedidoApi[indice].produto
   this.indiceItemEditando = indice;
+  this.editandoItem = true
+}
+
+editarItemlista(indice: number) {
+  console.log("Valor do indice da lista: " + indice)
+  const itemEditando = this.produtoslista[indice];
+  this.codigoProduto = itemEditando.produto.produtoid;
+  this.quantidadeProduto = itemEditando.quantidade;
+  this.nomeProduto = itemEditando.produto.nome
+  console.log("nome do produto da lista: " + itemEditando.produto.nome)
+  this.indiceItemEditandolista = indice;
   this.editandoItem = true
 }
 
