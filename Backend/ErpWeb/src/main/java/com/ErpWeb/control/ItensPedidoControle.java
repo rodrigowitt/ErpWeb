@@ -3,6 +3,7 @@ package com.ErpWeb.control;
 import com.ErpWeb.dto.ItensPedidoDto;
 import com.ErpWeb.dto.ProdutoDto;
 import com.ErpWeb.model.ItensPedidoModelo;
+import com.ErpWeb.model.PedidoModelo;
 import com.ErpWeb.model.ProdutoModelo;
 import com.ErpWeb.services.ItensPedidoServico;
 import com.ErpWeb.services.ProdutoServico;
@@ -127,32 +128,47 @@ public class ItensPedidoControle {
         return ResponseEntity.ok("");
     }
 
+    @DeleteMapping("/{pedidoId}")
+    public ResponseEntity<Object> deletarItensPedido(@PathVariable(value = "pedidoId") Long pedidoId) {
+        // Primeiro, buscamos os itens associados ao pedido
+        List<ItensPedidoModelo> itensPedido = itensPedidoServico.findByPedido(pedidoId);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarPedido(@PathVariable(value = "id")Long id){
-        Optional<ItensPedidoModelo> itensPedidoModeloOptional = itensPedidoServico.findById(id);
-        if (!itensPedidoModeloOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro de item não encontrado");
-        }else {
-            itensPedidoServico.delete(itensPedidoModeloOptional.get());
-            return  ResponseEntity.status(HttpStatus.OK).body("Item de Pedido Deletado!");
+        // Em seguida, excluímos os itens encontrados
+        for (ItensPedidoModelo itemPedido : itensPedido) {
+            itensPedidoServico.delete(itemPedido); // Excluímos o item do pedido passando o próprio objeto
         }
+
+
+
+        // Por fim, retornamos uma resposta indicando que os itens do pedido e o pedido foram excluídos
+        return ResponseEntity.status(HttpStatus.OK).body("");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping(value = "/{pedido}")
     public ResponseEntity<List<ItensPedidoModelo>> getIdItenspedido(@PathVariable(value = "pedido") Long pedido){

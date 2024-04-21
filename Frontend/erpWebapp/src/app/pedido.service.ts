@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ItensPedidos } from 'src/itenspedidos';
 import {Pedidos} from 'src/pedidos'
@@ -51,6 +51,27 @@ export class PedidosService {
   }
   
   
+  public deletePedido(pedidoId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiServerUrl}itenspedido/${pedidoId}`).pipe(
+      catchError(error => {
+        console.error('Erro ao excluir itens de pedido:', error);
+        return throwError(error);
+      }),
+      switchMap(() => {
+        // Após excluir os itens de pedido, agora podemos excluir o pedido
+        return this.http.delete<void>(`${this.apiServerUrl}pedido/${pedidoId}`).pipe(
+          catchError(error => {
+            console.error('Erro ao excluir pedido:', error);
+            return throwError(error);
+          })
+        );
+      })
+    );
+  }
+
+  public deleteCliente(clienteId: number): Observable<void>{
+    return this.http.delete<void>(`${this.apiServerUrl}cliente/${clienteId}`)
+}
   
   
   

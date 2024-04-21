@@ -25,6 +25,8 @@ public class PedidoModelo {
 
     private String forma_pagamento;
 
+    private String status;
+
     public Long getPedidoid() {
         return pedidoid;
     }
@@ -72,5 +74,13 @@ public class PedidoModelo {
 
     public void setForma_pagamento(String forma_pagamento) {
         this.forma_pagamento = forma_pagamento;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

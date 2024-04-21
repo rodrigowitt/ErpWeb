@@ -1,5 +1,8 @@
 .colunapreco{
-    width: 90vh!important;
+    width: 51vh!important;
+}
+.status{
+  width: 50vh!important;
 }
 
 .colunapreco input{

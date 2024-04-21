@@ -103,6 +103,7 @@ onAddPedido(addForm: NgForm): void {
   const cliente = addForm.value.cliente;
   const formaPagamento = addForm.value.forma_pagamento;
   let  desconto = addForm.value.desconto;
+  let status = addForm.value.status;
   const total = this.calcularTotalPedido();
 
   if (!desconto || isNaN(desconto)) {
@@ -113,6 +114,7 @@ onAddPedido(addForm: NgForm): void {
   const pedido: Pedidos = {
     cliente: cliente,
     forma_pagamento: formaPagamento,
+    status : status,
     desconto: desconto,
     total: total,
     pedidoid: 0,

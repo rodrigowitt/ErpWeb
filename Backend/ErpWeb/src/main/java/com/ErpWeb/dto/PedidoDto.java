@@ -14,6 +14,8 @@ public class PedidoDto {
     @NotNull(message = "A forma de pagamento não deve estar em branco")
     private String forma_pagamento;
 
+    private String status;
+
     public String getCliente() {
         return cliente;
     }
@@ -44,5 +46,13 @@ public class PedidoDto {
 
     public void setForma_pagamento(String forma_pagamento) {
         this.forma_pagamento = forma_pagamento;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

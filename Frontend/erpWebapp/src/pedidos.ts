@@ -5,4 +5,5 @@ export interface Pedidos {
     desconto: number;
     total: number;
     forma_pagamento: string;
+    status: string;
 }

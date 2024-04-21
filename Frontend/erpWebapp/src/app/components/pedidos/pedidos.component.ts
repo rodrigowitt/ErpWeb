@@ -21,6 +21,17 @@ export class PedidosComponent {
 
   constructor( private pedidosService : PedidosService, private router: Router ){}
 
+  public deletePedido(pedidoId: number ):void{
+    this.pedidosService.deletePedido(pedidoId).subscribe(
+      (response:void) =>{
+        this.getPedidos();
+      },
+      (error: HttpErrorResponse)=>{
+        alert(error.message)
+      }
+    )
+  }
+
   public getPedidos():void{
     this.pedidosService.getPedidos().subscribe(
       (response : Pedidos[]) => {

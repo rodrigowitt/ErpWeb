@@ -34,6 +34,7 @@ public class PedidoControle {
         var pedidoModelo = new PedidoModelo();
         BeanUtils.copyProperties(pedidoDto, pedidoModelo);
         pedidoModelo.setEntrada(LocalDateTime.from(LocalDateTime.now()));
+        pedidoModelo.setStatus("Pedido Efetuado");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoServico.save(pedidoModelo));
     }
@@ -66,7 +67,7 @@ public class PedidoControle {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro não encontrado");
         }else {
             pedidoServico.delete(pedidoModeloOptional.get());
-            return  ResponseEntity.status(HttpStatus.OK).body("Pedido Deletado!");
+            return  ResponseEntity.status(HttpStatus.OK).body("");
         }
 
 
