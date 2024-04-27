@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Clientes } from 'src/clientes';
 import { ClientesConsulta } from 'src/clientesConsulta';
-import { ClienteService } from '../cliente.service';
+import { ClienteService } from '../../cliente.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

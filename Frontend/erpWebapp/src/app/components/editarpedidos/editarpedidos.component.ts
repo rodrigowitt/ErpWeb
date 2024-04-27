@@ -5,8 +5,8 @@ import { environment } from 'src/environments/environment';
 import { ItensPedidos } from 'src/itenspedidos';
 import { Pedidos } from 'src/pedidos';
 import { Produtos } from 'src/produtos';
-import { PedidosService } from '../pedido.service';
-import { ProdutosService } from '../produtos.service';
+import { PedidosService } from '../../pedido.service';
+import { ProdutosService } from '../../produtos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

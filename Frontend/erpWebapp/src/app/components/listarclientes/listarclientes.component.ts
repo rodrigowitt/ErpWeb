@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ClienteService } from '../cliente.service';
+import { ClienteService } from '../../cliente.service';
 import { Clientes } from 'src/clientes';
 import { HttpErrorResponse } from '@angular/common/http';
 import {  response } from 'express';

@@ -14,6 +14,8 @@ public class ProdutoDto {
     private String codigoEan;
     @NotNull
     private double preco;
+    @NotNull
+    private double estoque;
 
     public String getNome() {
         return nome;
@@ -53,5 +55,13 @@ public class ProdutoDto {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public double getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(double estoque) {
+        this.estoque = estoque;
     }
 }

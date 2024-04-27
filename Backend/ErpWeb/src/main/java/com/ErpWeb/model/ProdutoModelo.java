@@ -29,6 +29,8 @@ public class ProdutoModelo {
 
     private double preco;
 
+    private int estoque;
+
     public long getProdutoid() {
         return produtoid;
     }
@@ -85,4 +87,11 @@ public class ProdutoModelo {
         this.preco = preco;
     }
 
+    public int getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(int estoque) {
+        this.estoque = estoque;
+    }
 }

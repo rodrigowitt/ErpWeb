@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
-import { PedidosService } from '../pedido.service';
+import { PedidosService } from '../../pedido.service';
 import { Pedidos } from 'src/pedidos';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {ProdutosService} from 'src/app/produtos.service'
