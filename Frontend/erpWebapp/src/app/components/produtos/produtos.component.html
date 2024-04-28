@@ -48,4 +48,42 @@
       <button type="submit" class="btn btn-primary mt-4">Cadastrar Produto</button>
     </form>
   </div>
+
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header">
+          <div class="titulomodal">
+            <i class="fa-solid fa-circle-check enviado" style="color: #63E6BE;"></i>
+            <h4 class="modal-title mt-4">Produto Cadastrado</h4>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Produto:</strong></p>
+              <p><strong>Código:</strong></p>
+              <p><strong>Status:</strong></p>
+              <p><strong>Preço:</strong></p>
+              <p><strong>Estoque:</strong></p>
+            </div>
+            <div class="col-md-6">
+              <p class="text-end">{{nome}}</p>
+              <p class="text-end">{{codigo}}</p>
+              <p class="text-end">{{status}}</p>
+              <p class="text-end">{{preco}}</p>
+              <p class="text-end">{{estoqueProduto}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-primary">Listar Produtos</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   
