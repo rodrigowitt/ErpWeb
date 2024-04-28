@@ -1,46 +1,47 @@
 <div class=" container mt-2 text-center" >
-    <h2>Cadastro de Produtos</h2>
-    <form >
+  <h5 class="mb-4"><i class="fa-solid fa-parachute-box"></i>Cadastro de Produtos</h5>
+    <form #addForm="ngForm" (ngSubmit)="onAddProduto(addForm)">
       <div class="row ">
         <div class="col-4" >
           <div class="form-group ">
-            <label for="productName">Nome do Produto</label>
-            <input type="text" class="form-control" id="productName" name="productName" ngModel required>
+            <label for="nome">Nome do Produto</label>
+            <input type="text" class="form-control" ngModel name="nome" id="nome" name="nome" ngModel required>
           </div>
         </div>
         <div class="col-4">
           <div class="form-group">
             <label for="status">Status</label>
-            <select class="form-control" id="status" name="status" ngModel required>
-              <option value="ativo">Ativo</option>
-              <option value="inativo">Inativo</option>
+            <select class="form-control" id="status" name="status" ngModel name="status" required>
+              <option value="" disabled selected hidden>Selecione uma opção</option>
+              <option value="1">Ativo</option>
+              <option value="2">Inativo</option>
             </select>
           </div>
         </div>
         <div class="col-4">
           <div class="form-group">
-            <label for="productCode">Código do Produto</label>
-            <input type="text" class="form-control" id="productCode" name="productCode" ngModel required>
+            <label for="codigo">Código do Produto</label>
+            <input type="text" class="form-control" id="codigo" ngModel name="codigo" required>
           </div>
         </div>
       </div>
       <div class="row mt-2">
         <div class="col-4">
           <div class="form-group">
-            <label for="barcode">Código de Barras</label>
-            <input type="text" class="form-control" id="barcode" name="barcode" ngModel required>
+            <label for="codigoEan">Código de Barras</label>
+            <input type="text" class="form-control" id="codigoEan" ngModel name="codigoEan">
           </div>
         </div>
         <div class="col-4">
           <div class="form-group">
-            <label for="price">Preço</label>
-            <input type="number" class="form-control" id="price" name="price" ngModel required>
+            <label for="preco">Preço</label>
+            <input type="number" class="form-control" id="preco" ngModel name="preco" required>
           </div>
         </div>
         <div class="col-4">
           <div class="form-group">
-            <label for="stock">Estoque</label>
-            <input type="number" class="form-control" id="stock" name="stock" ngModel required>
+            <label for="estoque">Estoque</label>
+            <input type="number" class="form-control" id="estoque" [(ngModel)]="estoque" ngModel name="estoque" required>
           </div>
         </div>
       </div>

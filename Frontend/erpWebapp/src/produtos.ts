@@ -1,8 +1,9 @@
 export interface Produtos{
-    produtoid: string;
+    produtoid: number;
     nome: string;
     status: number;
     codigo: string;
     codigoEan: string;
-    preco: number
+    preco: number;
+    estoqueProduto: number;
 }

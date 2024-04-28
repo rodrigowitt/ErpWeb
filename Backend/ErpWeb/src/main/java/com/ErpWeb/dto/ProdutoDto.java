@@ -15,7 +15,7 @@ public class ProdutoDto {
     @NotNull
     private double preco;
     @NotNull
-    private double estoque;
+    private int estoqueProduto;
 
     public String getNome() {
         return nome;
@@ -57,11 +57,11 @@ public class ProdutoDto {
         this.preco = preco;
     }
 
-    public double getEstoque() {
-        return estoque;
+    public int getEstoqueProduto() {
+        return estoqueProduto;
     }
 
-    public void setEstoque(double estoque) {
-        this.estoque = estoque;
+    public void setEstoqueProduto(int estoqueProduto) {
+        this.estoqueProduto = estoqueProduto;
     }
 }
