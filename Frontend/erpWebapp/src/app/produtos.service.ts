@@ -20,4 +20,12 @@ export class ProdutosService {
   public addProduto(produto: Produtos): Observable<Produtos>{
     return this.http.post<Produtos>(`${this.apiServerUrl}produto`, produto)
   }
+
+  public deleteProduto(produtoId: number): Observable<void>{
+    return this.http.delete<void>(`${this.apiServerUrl}produto/${produtoId}`)
+}
+
+public getProdutoById(produtoId: number): Observable<Produtos> {
+  return this.http.get<Produtos>(`${this.apiServerUrl}produto/${produtoId}`);
+}
 }

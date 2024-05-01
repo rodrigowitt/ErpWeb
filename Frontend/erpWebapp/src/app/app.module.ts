@@ -14,6 +14,7 @@ import { ListarclientesComponent } from './components/listarclientes/listarclien
 import { EditarclientesComponent } from './components/editarclientes/editarclientes.component';
 import { EditarpedidosComponent } from './components/editarpedidos/editarpedidos.component';
 import { ProdutosComponent } from './components/produtos/produtos.component';
+import { ListarprodutosComponent } from './components/listarprodutos/listarprodutos.component';
 
 
 
@@ -28,7 +29,8 @@ import { ProdutosComponent } from './components/produtos/produtos.component';
     ListarclientesComponent,
     EditarclientesComponent,
     EditarpedidosComponent,
-    ProdutosComponent
+    ProdutosComponent,
+    ListarprodutosComponent
   ],
   imports: [
     BrowserModule,

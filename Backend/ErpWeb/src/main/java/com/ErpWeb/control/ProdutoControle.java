@@ -69,7 +69,7 @@ public class ProdutoControle {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro não encontrado");
         }else {
             produtoServico.delete(produtoModeloOptional.get());
-            return  ResponseEntity.status(HttpStatus.OK).body("Produto Deletado!");
+            return  ResponseEntity.status(HttpStatus.OK).body("");
         }
     }
 
