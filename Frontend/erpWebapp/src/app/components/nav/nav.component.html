@@ -1,36 +1,43 @@
-<nav class="navbar navbar-expand-sm bg-light navbar-light ">
-    <div class="container-fluid justify-content-center">
-      <ul class="navbar-nav ">
-        <li class="nav-item">
-          <a class="nav-link menu active" href="#">Dashboard</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Novo
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="">Pedido</a>
-            <a class="dropdown-item" href="/clientes/novo">Cliente</a>
-            <a class="dropdown-item" href="/produtos/novo">Produto</a>
-            <a class="dropdown-item" href="#">Tabela</a> 
-          </div>
-       <li class="nav-item">
-          <a class="nav-link menu" href="/pedidos">Pedidos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link menu" href="/clientes">Clientes</a>
-        </li> 
-        <li class="nav-item">
-          <a class="nav-link menu" href="/produtos">Produtos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link menu" href="#">Tabelas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link menu" href="#">Relatórios</a>
-        </li>
-      </ul>
+<div class="container-fluid ">
+  <div class="row">
+    <!-- Navbar -->
+    <div class="col-md-custom p-0 d-flex flex-column">
+      <nav class="navbar navbar-vertical fixed-left bg-light" style="height: 100vh;">
+        <ul class="navbar-nav mt-3" style="font-size: 18px;">
+          <li class="nav-item">
+            <a class="nav-link py-3" routerLink="/dashboard" routerLinkActive="active"><i class="fa-solid fa-chart-line icone"></i>Dashboard</a> 
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle py-3" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-plus icone"></i>Novo</a> 
+            <div class="dropdown-menu dropdown-width" aria-labelledby="navbarDropdown" id="navbarDropdownMenu">
+              <a class="dropdown-item" routerLink="/pedido">Pedido</a>
+              <a class="dropdown-item" routerLink="/clientes/novo">Cliente</a>
+              <a class="dropdown-item" routerLink="/produtos/novo">Produto</a>
+              <a class="dropdown-item" href="#">Tabela</a>
+            </div>
+          </li>          
+          
+          <li class="nav-item ">
+            <a class="nav-link py-3" routerLink="/pedidos"><i class="fa-solid fa-cart-shopping icone"></i>Pedidos</a> 
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-3" routerLink="/clientes"><i class="fa-solid fa-user-group icone"></i>Clientes</a> 
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-3" routerLink="/produtos"><i class="fa-solid fa-box icone"></i>Produtos</a> 
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-3" href="#"><i class="fa-solid fa-table-list icone"></i>Tabelas</a> 
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-3" href="#"><i class="fa-regular fa-clipboard icone"></i>Relatórios</a> 
+          </li>
+        </ul>
+      </nav>
     </div>
-  </nav>
-  
-  
+    <!-- Conteúdo -->
+    <div class="col-md-10 p-0"> 
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

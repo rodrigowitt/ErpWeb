@@ -36,7 +36,8 @@ import { ListarprodutosComponent } from './components/listarprodutos/listarprodu
     BrowserModule,
     HttpClientModule, 
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
