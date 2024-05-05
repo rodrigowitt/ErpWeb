@@ -13,6 +13,8 @@ export class PedidosComponent {
   public pedido : Pedidos [] = [];
   numeroPedido: string = '';
   numeroCliente: string = '';
+  dataInicio: string = '';
+  dataFim: string = '';
 
 
   ngOnInit(): void {

@@ -15,6 +15,7 @@ import { EditarclientesComponent } from './components/editarclientes/editarclien
 import { EditarpedidosComponent } from './components/editarpedidos/editarpedidos.component';
 import { ProdutosComponent } from './components/produtos/produtos.component';
 import { ListarprodutosComponent } from './components/listarprodutos/listarprodutos.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -37,6 +38,7 @@ import { ListarprodutosComponent } from './components/listarprodutos/listarprodu
     HttpClientModule, 
     AppRoutingModule,
     FormsModule,
+    NoopAnimationsModule,
     
   ],
   providers: [],

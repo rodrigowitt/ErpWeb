@@ -55,3 +55,7 @@ body, html {
     font-style: inherit;
     border-bottom: 2px solid black;
 }
+.dropdown-width {
+    min-width: 250px!important; 
+    width: auto !important;
+}

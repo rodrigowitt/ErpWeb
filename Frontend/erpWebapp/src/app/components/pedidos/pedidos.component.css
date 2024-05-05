@@ -1,9 +1,25 @@
+.container-fluid{
+  width: 105%;
+  --bs-gutter-x: 3rem;
+} 
+.icone{
+  margin-right: 10px;
+}   
 .titulos{
-    display: flex;
-    margin-left: 82vh;
-    margin-bottom: 2vh;
+    margin-left: 72vh;
+    margin-bottom: 3vh;
 }
 
+.adicionar button{
+  width: 15vh;
+  margin-top: 20px;
+  border-color: #000
+}
+.add{
+  margin-right: 15px;
+  font-size: 1.3rem;
+  margin-top: 2px;
+}
 .tupla{
     font-size: 1.2rem ;
     margin-right: 15px;
@@ -30,15 +46,6 @@
     margin-top: 23px;
     margin-left: 100px;
   }
-  .adicionar button{
-    width: 15vh;
-    margin-top: 20px;
-    margin-left: 30px;
-    border-color: #000
-  }
-  .row{
-    margin-left: 25vh;
-  }
 .deletar{
     color: #F44336;
     font-size: 1.3rem;
@@ -49,11 +56,7 @@
   font-size: 1.3rem;
   cursor: pointer;
 }
-.add{
-  margin-right: 15px;
-  font-size: 1.3rem;
-  margin-top: 2px;
-}
+
 .table td a:nth-child(n+2) {
   margin-left: 15px;
 }
@@ -64,4 +67,7 @@
 button.btn a {
   text-decoration: none;
   color: inherit; 
+}
+.date-range-separator {
+  margin: 0 5px;
 }

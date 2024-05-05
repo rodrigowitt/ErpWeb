@@ -1,20 +1,9 @@
-<div class="container"></div>
-
+<div class="container-fluid">
 <div class="titulos">
-    <h2 class="mt-4">Pedidos</h2>
+    <h4 class="mt-4"><i class="fa-solid fa-cart-shopping icone"></i>Pedidos</h4>
 </div>
 
-  <div class="row">
-    <div class="col-2">
-      <div class="adicionar">
-        <button type="button" class="btn btn-light rounded-pill">
-          <a href="/pedidos/novo">
-            <i class="fa-solid fa-plus fa-beat-fade add"></i> Adicionar
-          </a>
-        </button>
-        
-      </div>
-    </div>
+  <div class="row no-gutters">
     <div class="col-2">
       <div class="form-group pedidoin">
         <label for="pedido1">Digite o número do pedido:</label>
@@ -27,9 +16,33 @@
         <input type="text" id="cliente"  placeholder="Código do cliente" class="form-control rounded-input " [(ngModel)]="numeroCliente">
       </div>
     </div>
-    <div class="col-3">
+    <div class="col-2 cliente_input">
+      <div class="form-group">
+        <label for="dataInicio">Data de Início</label>
+        <input type="date" id="dataInicio" class="form-control rounded-input" [(ngModel)]="dataInicio">
+      </div>
+    </div>
+    <div class="col-2 cliente_input">
+      <div class="form-group">
+        <label for="dataFim">Data Final</label>
+        <input type="date" id="dataFim" class="form-control rounded-input" [(ngModel)]="dataFim">
+      </div>
+    </div>
+    
+    
+    <div class="col-2">
       <div class="botao">
         <button (click)="getBuscar(numeroPedido, numeroCliente)" type="button" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass tupla"></i>Pesquisar</button>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="adicionar">
+        <button type="button" class="btn btn-light rounded-pill">
+          <a href="/pedidos/novo">
+            <i class="fa-solid fa-plus fa-beat-fade add"></i> Adicionar
+          </a>
+        </button>
+        
       </div>
     </div>
 
@@ -61,3 +74,4 @@
     </tr>
     </tbody>
   </table>
+</div>
