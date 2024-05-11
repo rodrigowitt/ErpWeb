@@ -1,3 +1,7 @@
+.container-fluid{
+  width: 105%;
+  --bs-gutter-x: 3rem;
+}
 .salvar{
     color: white;
     font-size: 1.1rem;

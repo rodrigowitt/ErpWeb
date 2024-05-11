@@ -1,3 +1,7 @@
+.container-fluid{
+  width: 105%;
+  --bs-gutter-x: 3rem;
+}
 .inputesquerda{
     margin-left: 500px;
 }
