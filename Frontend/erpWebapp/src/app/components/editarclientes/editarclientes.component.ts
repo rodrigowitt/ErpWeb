@@ -59,6 +59,7 @@ export class EditarclientesComponent {
     this.clientesService.getClienteById(id).subscribe(
       (clienteApi) => {
         this.clienteApi = clienteApi;
+        this.cnpjoucpf= clienteApi.cnpjoucpf
       },
       (error) => {
         console.error('Erro ao carregar cliente:', error);
