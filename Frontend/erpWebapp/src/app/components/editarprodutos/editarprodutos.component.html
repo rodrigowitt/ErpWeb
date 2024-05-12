@@ -1,0 +1,89 @@
+<div class=" container-fluid mt-2 text-center" *ngIf="produtoApi">
+    <h5 class="mb-4"><i class="fa-solid fa-parachute-box"></i>Edição de Produtos</h5>
+      <form #addForm="ngForm" (ngSubmit)="onAddProduto(addForm)">
+        <div class="row ">
+          <div class="col-4" >
+            <div class="form-group ">
+              <label for="nome">Nome do Produto</label>
+              <input type="text" class="form-control" [(ngModel)]="produtoApi.nome" ngModel name="nome" id="nome" name="nome" required>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select class="form-control" id="status" name="status" [(ngModel)]="produtoApi.status" ngModel name="status" required>
+                <option value="" disabled selected hidden>Selecione uma opção</option>
+                <option value="1">Ativo</option>
+                <option value="2">Inativo</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label for="codigo">Código do Produto</label>
+              <input type="text" class="form-control" id="codigo" [(ngModel)]="produtoApi.codigo" ngModel name="codigo" required>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-4">
+            <div class="form-group">
+              <label for="codigoEan">Código de Barras</label>
+              <input type="text" class="form-control" id="codigoEan" [(ngModel)]="produtoApi.codigoEan" ngModel name="codigoEan">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label for="preco">Preço</label>
+              <input type="number" class="form-control" id="preco" [(ngModel)]="produtoApi.preco" ngModel name="preco" required>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label for="estoque">Estoque</label>
+              <input type="number" class="form-control" id="estoque" [(ngModel)]="produtoApi.estoqueProduto" ngModel name="estoque" required>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">Editar Produto</button>
+      </form>
+    </div>
+  
+  
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-header">
+            <div class="titulomodal">
+              <i class="fa-solid fa-circle-check enviado" style="color: #63E6BE;"></i>
+              <h4 class="modal-title mt-4">Produto Editado</h4>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <p><strong>Produto:</strong></p>
+                <p><strong>Código:</strong></p>
+                <p><strong>Status:</strong></p>
+                <p><strong>Preço:</strong></p>
+                <p><strong>Estoque:</strong></p>
+              </div>
+              <div class="col-md-6">
+                <p class="text-end">{{nome}}</p>
+                <p class="text-end">{{codigo}}</p>
+                <p class="text-end">{{status}}</p>
+                <p class="text-end">{{preco}}</p>
+                <p class="text-end">{{estoqueProduto}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-primary">Listar Produtos</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    

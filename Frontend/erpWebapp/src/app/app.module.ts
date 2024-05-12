@@ -16,6 +16,7 @@ import { EditarpedidosComponent } from './components/editarpedidos/editarpedidos
 import { ProdutosComponent } from './components/produtos/produtos.component';
 import { ListarprodutosComponent } from './components/listarprodutos/listarprodutos.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { EditarprodutosComponent } from './components/editarprodutos/editarprodutos.component';
 
 
 
@@ -31,7 +32,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     EditarclientesComponent,
     EditarpedidosComponent,
     ProdutosComponent,
-    ListarprodutosComponent
+    ListarprodutosComponent,
+    EditarprodutosComponent
   ],
   imports: [
     BrowserModule,

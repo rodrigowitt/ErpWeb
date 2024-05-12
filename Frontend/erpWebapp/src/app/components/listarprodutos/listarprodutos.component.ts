@@ -37,7 +37,7 @@ public deletarProdutos(produtoId: number ):void{
   )
 }
 
-public AbrirProduto(produtoId: number): void {
+public AbrirProduto(produtoId: string): void {
   this.produtosService.getProdutoById(produtoId).subscribe(
     (produto: Produtos) => {
       this.router.navigate(['produtos/editar/', produtoId], { state: { produto: produto } });

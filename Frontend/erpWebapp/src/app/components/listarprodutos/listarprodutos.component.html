@@ -47,7 +47,7 @@
         <td>{{produtos.preco}}</td>
         <td>{{produtos.estoqueProduto}}</td>
         <td>
-          <a (click)="AbrirProduto(produtos.produtoid)" class="editar" data-toggle="modal"><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i></a>
+          <a (click)="AbrirProduto(produtos.codigo)" class="editar" data-toggle="modal"><i class="material-icons fa fa-pencil icone" data-toggle="tooltip" title="Editar"></i></a>
           <a (click)="deletarProdutos(produtos.produtoid)" href="#" class="deletar" data-toggle="modal"><i class="fa-solid fa-trash icone" data-toggle="tooltip" title="Deletar"></i></a>
         </td>
   

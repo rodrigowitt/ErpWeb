@@ -21,11 +21,15 @@ export class ProdutosService {
     return this.http.post<Produtos>(`${this.apiServerUrl}produto`, produto)
   }
 
+  public updateProduto(produtoId: number , produto: Produtos): Observable<Produtos>{
+    return this.http.put<Produtos>(`${this.apiServerUrl}produto/${produtoId}`, produto)
+  }
+
   public deleteProduto(produtoId: number): Observable<void>{
     return this.http.delete<void>(`${this.apiServerUrl}produto/${produtoId}`)
 }
 
-public getProdutoById(produtoId: number): Observable<Produtos> {
+public getProdutoById(produtoId: string): Observable<Produtos> {
   return this.http.get<Produtos>(`${this.apiServerUrl}produto/${produtoId}`);
 }
 }
