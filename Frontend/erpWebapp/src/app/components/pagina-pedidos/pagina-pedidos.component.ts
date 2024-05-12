@@ -192,6 +192,7 @@ buscarProduto() {
   if (this.codigoProduto.trim() !== '') {
     this.http.get<any>(`${this.apiServerUrl}produto/${this.codigoProduto}`).subscribe(
       (produto: any) => {
+        console.log("Código do produto: " + this.codigoProduto)
         if (produto && produto.nome) {
           this.nomeProduto = produto.nome;
         } else {

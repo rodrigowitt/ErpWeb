@@ -32,6 +32,10 @@ public class ProdutoServico {
         return produtoRepositorio.findById(id);
     }
 
+    public Optional<ProdutoModelo> findByCodigo(String codigo) {
+        return produtoRepositorio.findByCodigo(codigo);
+    }
+
 
     public void delete(ProdutoModelo produtoModelo) {
         produtoRepositorio.delete(produtoModelo);

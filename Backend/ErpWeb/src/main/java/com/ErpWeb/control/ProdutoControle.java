@@ -73,9 +73,9 @@ public class ProdutoControle {
         }
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getIdProduto(@PathVariable(value = "id") Long id){
-        Optional<ProdutoModelo> produtoModeloOptional = produtoServico.findById(id);
+    @GetMapping(value = "/{codigo}")
+    public ResponseEntity<Object> getIdProduto(@PathVariable(value = "codigo") String codigo){
+        Optional<ProdutoModelo> produtoModeloOptional = produtoServico.findByCodigo(codigo);
         if (!produtoModeloOptional.isPresent()){
             return  ResponseEntity.status(HttpStatus.OK).body(new HashMap<>());
         }
