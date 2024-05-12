@@ -75,9 +75,9 @@ public class PedidoControle {
     }
 
 
-    @GetMapping(value = "/buscar/{pedido}/{cliente}")
-    public ResponseEntity<List<PedidoModelo>> buscarPedidos(@PathVariable (value = "pedido") String numeroPedido,@PathVariable(value = "cliente") String numeroCliente){
-        return ResponseEntity.status(HttpStatus.OK).body(pedidoServico.findBySearch(numeroPedido, numeroCliente));
+    @GetMapping(value = "/buscar/{pedido}/{cliente}/{dataInicio}/{dataFim}")
+    public ResponseEntity<List<PedidoModelo>> buscarPedidos(@PathVariable (value = "pedido") String numeroPedido,@PathVariable(value = "cliente") String numeroCliente, @PathVariable(value = "dataInicio") String dataInicio,@PathVariable(value = "dataFim") String dataFim){
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoServico.findBySearch(numeroPedido, numeroCliente, dataInicio, dataFim));
     }
 
     @GetMapping(value = "/{id}")

@@ -20,8 +20,8 @@ export class PedidosService {
   public getPedidos(): Observable<Pedidos[]>{
   return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido`)}
 
-  public getPesquisa(numeroPedido : string, numeroCliente: string): Observable<Pedidos[]>{
-    return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/buscar/${numeroPedido}/${numeroCliente}`)
+  public getPesquisa(numeroPedido : string, numeroCliente: string, dataInicio : string, dataFim : string): Observable<Pedidos[]>{
+    return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/buscar/${numeroPedido}/${numeroCliente}/${dataInicio}/${dataFim}`)
   }
   public addPedido(pedido: Pedidos): Observable<Pedidos>{
     return this.http.post<Pedidos>(`${this.apiServerUrl}pedido`, pedido)
@@ -73,17 +73,6 @@ export class PedidosService {
     return this.http.delete<void>(`${this.apiServerUrl}cliente/${clienteId}`)
 }
   
-  
-  
 
-
-  adicionarProduto() {
-    this.itensPedido.push({
-      produto: this.novoProduto.produto,
-      quantidade: this.novoProduto.quantidade,
-      preco: this.novoProduto.preco
-    });
-    this.novoProduto = {};
-  }
   
 }

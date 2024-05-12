@@ -42,10 +42,14 @@ export class PedidosComponent {
       )    
 }
 
-public getBuscar(numeroPedido : string, numeroCliente : string):void{
+public getBuscar(numeroPedido : string, numeroCliente : string, dataInicio : string, dataFim : string):void{
   if (numeroPedido.trim() === ''){numeroPedido = "0"}
   if (numeroCliente.trim() === ''){numeroCliente = "0"}
-  this.pedidosService.getPesquisa(numeroPedido, numeroCliente).subscribe(
+  if (dataInicio.trim() === ''){dataInicio = "0"}
+  if (dataFim.trim() === ''){dataFim = "0"}
+  dataInicio.replace(/\//g, '&');
+  dataFim.replace(/\//g, '&');
+  this.pedidosService.getPesquisa(numeroPedido, numeroCliente, dataInicio, dataFim).subscribe(
     (response : Pedidos[]) => {
       this.pedido = response;
     }, (error: HttpErrorResponse) => {alert(error.message)}

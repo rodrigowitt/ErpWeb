@@ -39,37 +39,47 @@ public class PedidoServico {
         pedidoRepositorio.delete(pedidoModelo);
     }
 
-    public List<PedidoModelo> findBySearch(String numeroPedido, String Cliente){
-        String sql = "Select * From tb_pedido";
+    public List<PedidoModelo> findBySearch(String numeroPedido, String cliente, String dataInicio, String dataFim) {
+        // Substituir '&' por '/' em dataInicio e dataFim
+        dataInicio = dataInicio.replace("&", "/");
+        dataFim = dataFim.replace("&", "/");
 
-        if (!numeroPedido.isEmpty() || !Cliente.isEmpty()){
+        // Construir a consulta SQL básica
+        StringBuilder sql = new StringBuilder("SELECT * FROM tb_pedido");
 
+        // Construir a cláusula WHERE conforme os parâmetros fornecidos
+        boolean hasWhereClause = false;
 
-            if (!numeroPedido.equals("0")){
-                sql += " Where pedidoid = '" + numeroPedido + "'";
-            }
-
-            if (!Cliente.equals(0)){
-                if (!numeroPedido.equals("0")){
-                    sql += " and cliente = '" + Cliente + "'";
-                }else{
-                    sql += " where cliente like '%" + Cliente + "%'";
-                    System.out.println("Executando o sql DE CLIENTE:" + sql);
-                }
-
-            }
-            if (Cliente.equals("0") && !numeroPedido.equals("0")){
-                sql = "Select * From tb_pedido where pedidoid = '" + numeroPedido + "'";
-            }
-            if (Cliente.equals("0") && numeroPedido.equals("0")){
-                sql = "Select * From tb_pedido";
-                System.out.println("Executando o sql:" + sql);
-            }
-
-
+        if (!numeroPedido.isEmpty() && !numeroPedido.equals("0")) {
+            sql.append(" WHERE pedidoid = '").append(numeroPedido).append("'");
+            hasWhereClause = true;
         }
-        List <PedidoModelo> resultado = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(PedidoModelo.class));
 
-        return resultado;
+        if (!cliente.isEmpty() && !cliente.equals("0")) {
+            sql.append(hasWhereClause ? " AND" : " WHERE")
+                    .append(" cliente LIKE '%").append(cliente).append("%'");
+            hasWhereClause = true;
+        }
+
+        if (!dataInicio.isEmpty() && !dataInicio.equals("0")) {
+            sql.append(hasWhereClause ? " AND" : " WHERE")
+                    .append(" entrada >= '").append(dataInicio).append("'");
+            hasWhereClause = true;
+        }
+
+        if (!dataFim.isEmpty() && !dataFim.equals("0")) {
+            sql.append(hasWhereClause ? " AND" : " WHERE")
+                    .append(" entrada <= '").append(dataFim).append("'");
+            hasWhereClause = true;
+        }
+
+        // Se nenhum critério de pesquisa foi fornecido, retornar todos os pedidos
+        if (!hasWhereClause) {
+            sql = new StringBuilder("SELECT * FROM tb_pedido");
+        }
+
+        // Executar a consulta SQL e retornar o resultado
+        return jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(PedidoModelo.class));
     }
+
 }
