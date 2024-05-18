@@ -17,6 +17,7 @@ import { ProdutosComponent } from './components/produtos/produtos.component';
 import { ListarprodutosComponent } from './components/listarprodutos/listarprodutos.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EditarprodutosComponent } from './components/editarprodutos/editarprodutos.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 
@@ -33,7 +34,8 @@ import { EditarprodutosComponent } from './components/editarprodutos/editarprodu
     EditarpedidosComponent,
     ProdutosComponent,
     ListarprodutosComponent,
-    EditarprodutosComponent
+    EditarprodutosComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

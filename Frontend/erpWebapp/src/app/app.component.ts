@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Importando o arquivo do plugin Bootstrap
+import { FormsModule } from '@angular/forms';
 
 
 @Component({

@@ -1,0 +1,83 @@
+
+.icon-right {
+    font-size: 4rem;
+    color: #289F7B;
+    position: absolute;
+    top: 40%;
+    right: 10px; 
+    transform: translateY(-50%);
+    text-shadow: 
+      0 0 5px rgba(99, 230, 190, 0.5),
+      0 0 10px rgba(99, 230, 190, 0.3),
+      0 0 15px rgba(99, 230, 190, 0.2);
+  }
+  
+  .card-height {
+    height: 150px; 
+  }
+
+  .card {
+    margin-bottom: 20px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(199, 47, 47, 0.1);
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    margin-top: 5px;
+
+    color: black; 
+  }
+  .card-value {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: black; 
+  }
+  
+  .card-text {
+    font-size: 0.8rem;
+    color: black; 
+    margin-top: 8px;
+  }
+  
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px 0;
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+  
+  .card.bg-success {
+    background-color: #63E6BE !important;
+  }
+  
+  .card.bg-success .card-body {
+    background-color: #63E6BE !important;
+    color: white;
+  }
+  
+  .card.bg-light {
+    background-color: #f8f9fa !important;
+  }
+  
+  .card.bg-light .card-body {
+    background-color: #f8f9fa !important;
+  }
+  
+  .card.bg-danger {
+    background-color: #dc3545 !important;
+  }
+  
+  .card.bg-danger .card-body {
+    background-color: #dc3545 !important;
+  }
+  
+  .card.bg-light .card-title {
+    color: #6c757d !important;
+  }
+  

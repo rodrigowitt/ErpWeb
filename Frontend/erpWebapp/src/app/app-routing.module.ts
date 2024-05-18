@@ -9,6 +9,7 @@ import { EditarpedidosComponent } from './components/editarpedidos/editarpedidos
 import { ProdutosComponent } from './components/produtos/produtos.component';
 import { ListarprodutosComponent } from './components/listarprodutos/listarprodutos.component';
 import { EditarprodutosComponent } from './components/editarprodutos/editarprodutos.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes:Routes = [
   {path: 'pedidos', component: PedidosComponent},
@@ -19,7 +20,9 @@ const routes:Routes = [
   {path: 'pedidos/editar/:id', component: EditarpedidosComponent},
   {path: 'produtos/novo', component: ProdutosComponent},
   {path: 'produtos', component: ListarprodutosComponent},
-  {path: 'produtos/editar/:id', component: EditarprodutosComponent}
+  {path: 'produtos/editar/:id', component: EditarprodutosComponent},
+  {path: 'dashboard', component: DashboardComponent}
+  
 ]
 
 @NgModule({
