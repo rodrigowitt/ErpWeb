@@ -1,5 +1,5 @@
 
-.icon-right {
+.icone-venda{
     font-size: 4rem;
     color: #289F7B;
     position: absolute;
@@ -10,7 +10,58 @@
       0 0 5px rgba(99, 230, 190, 0.5),
       0 0 10px rgba(99, 230, 190, 0.3),
       0 0 15px rgba(99, 230, 190, 0.2);
+
+      
+      
   }
+  
+.icone-pedido{
+  font-size: 4rem;
+  position: absolute;
+  top: 40%;
+  right: 10px; 
+  transform: translateY(-50%);
+  text-shadow: 
+    0 0 5px rgba(43, 103, 170, 0.5),
+    0 0 10px rgba(43, 103, 170, 0.5),
+    0 0 15px rgba(43, 103, 170, 0.5);
+}
+.icone-cliente{
+  font-size: 4rem;
+  position: absolute;
+  top: 40%;
+  right: 10px; 
+  transform: translateY(-50%);
+  text-shadow: 
+    0 0 5px rgba(207, 97, 53, 0.5),
+    0 0 10px rgba(207, 97, 53, 0.5),
+    0 0 15px rgba(207, 97, 53, 0.5);
+}
+
+.icone-titulo{
+  font-size: 4rem;
+  position: absolute;
+  top: 40%;
+  right: 10px; 
+  transform: translateY(-50%);
+  text-shadow: 
+    0 0 5px rgba(236, 9, 1, 0.5),
+    0 0 10px rgba(236, 9, 1, 0.5),
+    0 0 15px rgba(236, 9, 1, 0.5);
+}
+  
+.icon-right {
+  font-size: 4rem;
+  color: #289F7B;
+  position: absolute;
+  top: 40%;
+  right: 10px; 
+  transform: translateY(-50%);
+  text-shadow: 
+    0 0 5px rgba(99, 230, 190, 0.5),
+    0 0 10px rgba(99, 230, 190, 0.3),
+    0 0 15px rgba(99, 230, 190, 0.2);
+}
   
   .card-height {
     height: 150px; 
@@ -27,8 +78,7 @@
   .card-title {
     font-size: 1.5rem;
     margin-top: 5px;
-
-    color: black; 
+    color: black!important; 
   }
   .card-value {
     font-size: 1.75rem;
@@ -80,4 +130,7 @@
   .card.bg-light .card-title {
     color: #6c757d !important;
   }
-  
+  .cardvalorgrafico{
+    color: black;
+    font-size: 1.5rem;
+  }

@@ -18,7 +18,7 @@
                 <p class="card-value">R$ {{ vendas | number:'1.2-2' }}</p>
               </div>
               <div class="col-4 text-right">
-                <i class="fa-solid fa-money-bill-trend-up icon-right" style="color: #289F7B;"></i>
+                <i class="fa-solid fa-money-bill-trend-up icone-venda" style="color: #289F7B;"></i>
               </div>
             </div>
             <hr class="divider">
@@ -27,26 +27,59 @@
         </div>
       </div>
       <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card text-white">
+        <div class="card bg-white text-dark card-height">
           <div class="card-body">
-            <h5 class="card-title">Número de Pedidos</h5>
-            <p class="card-text">{{ numPedidos }}</p>
+            <div class="row">
+              <div class="col-8">
+                <h5 class="card-title">
+                  Pedidos
+                </h5>
+                <p class="card-value">{{ numPedidos}}</p>
+              </div>
+              <div class="col-4 text-right">
+                <i class="fa-solid fa-cart-shopping icone-pedido" style="color: #1086e0;"></i>
+              </div>
+            </div>
+            <hr class="divider">
+            <p class="card-text text-center">Comparado ao mês anterior: +5%</p>
           </div>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card text-dark">
+        <div class="card bg-white text-dark card-height">
           <div class="card-body">
-            <h5 class="card-title">Novos Clientes</h5>
-            <p class="card-text">{{ novosClientes }}</p>
+            <div class="row">
+              <div class="col-8">
+                <h5 class="card-title">
+                  Clientes
+                </h5>
+                <p class="card-value">{{ novosClientes}}</p>
+              </div>
+              <div class="col-4 text-right">
+                <i class="fa-regular fa-address-card icone-cliente" style="color: #d3613c;"></i>
+              </div>
+            </div>
+            <hr class="divider">
+            <p class="card-text text-center">Comparado ao mês anterior: +5%</p>
           </div>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 mb-3">
-        <div class="card text-white">
+        <div class="card bg-white text-dark card-height">
           <div class="card-body">
-            <h5 class="card-title">Títulos Vencidos</h5>
-            <p class="card-text">{{ titulosVencidos }}</p>
+            <div class="row">
+              <div class="col-8">
+                <h5 class="card-title">
+                  Títulos Vencidos
+                </h5>
+                <p class="card-value">{{ titulosVencidos}}</p>
+              </div>
+              <div class="col-4 text-right">
+                <i class="fa-solid fa-file-invoice-dollar icone-titulo" style="color: #df0c0c;"></i>
+              </div>
+            </div>
+            <hr class="divider">
+            <p class="card-text text-center">Comparado ao mês anterior: +5%</p>
           </div>
         </div>
       </div>
@@ -57,18 +90,18 @@
       <div class="col-lg-9 mb-3">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Vendas Diárias</h5>
+            <h5 class="card-title text-center">Vendas Diárias</h5>
             <canvas id="salesChart" style="height: 300px;"></canvas>
           </div>
         </div>
       </div>
       <div class="col-lg-3 mb-3">
-        <div class="card bg-light">
+        <div class="card">
           <div class="card-body">
-            <h5 class="card-title text-success">Vendas do Dia</h5>
-            <p class="card-text">R$ {{ vendasHoje | number:'1.2-2' }}</p>
-            <h5 class="card-title text-success">Pedidos do Dia</h5>
-            <p class="card-text">{{ pedidosHoje }}</p>
+            <h5 class="card-title ">Vendas do Dia</h5>
+            <p class="card-text cardvalorgrafico">R$ {{ vendasHoje | number:'1.2-2' }}</p>
+            <h5 class="card-title">Pedidos do Dia</h5>
+            <p class="card-text cardvalorgrafico">{{ pedidosHoje }}</p>
           </div>
         </div>
       </div>

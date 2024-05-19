@@ -37,8 +37,14 @@ export class DashboardComponent implements OnInit {
     const salesData = [];
     const ordersData = [];
     for (let i = 0; i < 7; i++) {
-      salesData.push(this.getRandomNumber(50, 200));
-      ordersData.push(this.getRandomNumber(10, 30));
+      if (i == 6){
+        console.log("o valor de i é: " + i)
+        salesData.push(this.vendasHoje);
+        ordersData.push(this.pedidosHoje);
+        }else{
+      salesData.push(this.getRandomNumber(100, 1000));
+      ordersData.push(this.getRandomNumber(10, 80));
+        }
     }
 
     // Atualizar o gráfico  Chart.js
@@ -51,15 +57,15 @@ export class DashboardComponent implements OnInit {
           {
             label: 'Vendas Diárias',
             data: salesData,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(28, 245, 93, 0.596)',
+            borderColor: 'rgba(28, 245, 93, 0.596)',
             borderWidth: 1
           },
           {
             label: 'Pedidos Diários',
             data: ordersData,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(16, 134, 224, 0.596)',
+            borderColor: 'rgba(16, 134, 224, 0.596)',
             borderWidth: 1
           }
         ]
