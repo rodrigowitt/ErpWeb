@@ -21,7 +21,9 @@ const routes:Routes = [
   {path: 'produtos/novo', component: ProdutosComponent},
   {path: 'produtos', component: ListarprodutosComponent},
   {path: 'produtos/editar/:id', component: EditarprodutosComponent},
-  {path: 'dashboard', component: DashboardComponent}
+  {path: 'dashboard', component: DashboardComponent},
+  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+  {path: '**', redirectTo: 'dashboard'}
   
 ]
 

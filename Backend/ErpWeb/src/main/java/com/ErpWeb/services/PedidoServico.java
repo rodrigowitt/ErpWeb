@@ -7,6 +7,10 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +84,33 @@ public class PedidoServico {
 
         // Executar a consulta SQL e retornar o resultado
         return jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(PedidoModelo.class));
+    }
+
+    public BigDecimal vendasMes() {
+        String sql = "SELECT cast(sum(total) as numeric(10,2)) as total " +
+                "FROM tb_pedido " +
+                "WHERE entrada >= date_trunc('month', current_date) " +
+                "AND entrada < (date_trunc('month', current_date) + interval '1 month')";
+
+        return jdbcTemplate.queryForObject(sql, BigDecimal.class);
+    }
+
+    public BigInteger pedidosMes() {
+        String sql = "SELECT count(*) as total\n" +
+                "FROM tb_pedido\n" +
+                "WHERE entrada >= date_trunc('month', current_date)\n" +
+                "  AND entrada < (date_trunc('month', current_date) + interval '1 month');";
+
+        return jdbcTemplate.queryForObject(sql, BigInteger.class);
+    }
+
+    public BigInteger clientesMes() {
+        String sql = "select count(*) as total\n" +
+                "from tb_cliente\n" +
+                "WHERE data_cadastro >= date_trunc('month', current_date)\n" +
+                " AND data_cadastro < (date_trunc('month', current_date) + interval '1 month');";
+
+        return jdbcTemplate.queryForObject(sql, BigInteger.class);
     }
 
 }

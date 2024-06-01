@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +90,22 @@ public class PedidoControle {
         }
         return ResponseEntity.status(HttpStatus.OK).body(pedidoModeloOptional.get());
     }
+    @GetMapping(value = "/totalmes")
+    public ResponseEntity<Object> buscarTotalMes() {
+        BigDecimal totalMes = pedidoServico.vendasMes();
+        return ResponseEntity.status(HttpStatus.OK).body(totalMes);
+    }
 
+    @GetMapping(value = "/pedidomes")
+    public ResponseEntity<Object> buscarPedidoMes() {
+        BigInteger pedidoMes = pedidoServico.pedidosMes();
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoMes);
+    }
+
+    @GetMapping(value = "/clientemes")
+    public ResponseEntity<Object> buscarClienteMes() {
+        BigInteger clienteMes = pedidoServico.clientesMes();
+        return ResponseEntity.status(HttpStatus.OK).body(clienteMes);
+    }
 
 }

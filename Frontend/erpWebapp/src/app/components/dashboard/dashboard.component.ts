@@ -1,5 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
+import { PedidosService } from 'src/app/pedido.service';
+import { Pedidos } from 'src/pedidos';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,26 +10,55 @@ import Chart from 'chart.js/auto';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  vendas!: number;
-  numPedidos!: number;
-  novosClientes!: number;
+  public pedido: Pedidos[] = []
+  vendas!: number | any;
+  numPedidos!: number | any;
+  novosClientes!: number | any;
   titulosVencidos!: number;
   vendasHoje!: number;
   pedidosHoje!: number;
 
-  constructor() { }
+  constructor(private pedidosService : PedidosService ){}
 
   ngOnInit(): void {
-    this.vendas = this.getRandomNumber(1000, 10000);
-    this.numPedidos = this.getRandomNumber(50, 200);
-    this.novosClientes = this.getRandomNumber(5, 20);
+    this.vendas = this.getTotalMes();
+    this.numPedidos = this.getPedidoMes();
+    this.novosClientes = this.getClienteMes();
     this.titulosVencidos = this.getRandomNumber(1, 10);
     this.vendasHoje = this.getRandomNumber(100, 500);
     this.pedidosHoje = this.getRandomNumber(10, 50);
 
 
+
     this.generateSalesChart();
   }
+
+  public getTotalMes():any{
+    this.pedidosService.getTotalMes().subscribe(
+      (response : Pedidos[]) => {
+          this.vendas = response;
+      }, (error: HttpErrorResponse) => {alert(error.message)}
+      ) 
+       
+}
+
+public getPedidoMes():any{
+  this.pedidosService.getPedidoMes().subscribe(
+    (response : Pedidos[]) => {
+        this.numPedidos = response;
+    }, (error: HttpErrorResponse) => {alert(error.message)}
+    ) 
+     
+}
+
+public getClienteMes():any{
+  this.pedidosService.getClienteMes().subscribe(
+    (response : Pedidos[]) => {
+        this.novosClientes = response;
+    }, (error: HttpErrorResponse) => {alert(error.message)}
+    ) 
+     
+}
 
   getRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -89,4 +121,6 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+
 }
