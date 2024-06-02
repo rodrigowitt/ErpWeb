@@ -15,8 +15,8 @@ export class DashboardComponent implements OnInit {
   numPedidos!: number | any;
   novosClientes!: number | any;
   titulosVencidos!: number;
-  vendasHoje!: number;
-  pedidosHoje!: number;
+  vendasHoje!: number | any;
+  pedidosHoje!: number | any;
 
   constructor(private pedidosService : PedidosService ){}
 
@@ -25,8 +25,8 @@ export class DashboardComponent implements OnInit {
     this.numPedidos = this.getPedidoMes();
     this.novosClientes = this.getClienteMes();
     this.titulosVencidos = this.getRandomNumber(1, 10);
-    this.vendasHoje = this.getRandomNumber(100, 500);
-    this.pedidosHoje = this.getRandomNumber(10, 50);
+    this.vendasHoje = this.getTotalDia();
+    this.pedidosHoje = this.getPedidoDia();
 
 
 
@@ -42,10 +42,28 @@ export class DashboardComponent implements OnInit {
        
 }
 
+public getTotalDia():any{
+  this.pedidosService.getTotalDia().subscribe(
+    (response : Pedidos[]) => {
+        this.vendasHoje = response;
+    }, (error: HttpErrorResponse) => {alert(error.message)}
+    ) 
+     
+}
+
 public getPedidoMes():any{
   this.pedidosService.getPedidoMes().subscribe(
     (response : Pedidos[]) => {
         this.numPedidos = response;
+    }, (error: HttpErrorResponse) => {alert(error.message)}
+    ) 
+     
+}
+
+public getPedidoDia():any{
+  this.pedidosService.getPedidoDia().subscribe(
+    (response : Pedidos[]) => {
+        this.pedidosHoje = response;
     }, (error: HttpErrorResponse) => {alert(error.message)}
     ) 
      
@@ -65,60 +83,51 @@ public getClienteMes():any{
   }
 
   generateSalesChart(): void {
-    const days = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
-    const salesData = [];
-    const ordersData = [];
-    for (let i = 0; i < 7; i++) {
-      if (i == 6){
-        console.log("o valor de i é: " + i)
-        salesData.push(this.vendasHoje);
-        ordersData.push(this.pedidosHoje);
-        }else{
-      salesData.push(this.getRandomNumber(100, 1000));
-      ordersData.push(this.getRandomNumber(10, 80));
-        }
-    }
+    this.pedidosService.getVendasSemana().subscribe((data: Pedidos[]) => {
+      const days = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+      const salesData = new Array(7).fill(0);
 
-    // Atualizar o gráfico  Chart.js
-    const ctx = document.getElementById('salesChart') as HTMLCanvasElement;
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: days,
-        datasets: [
-          {
-            label: 'Vendas Diárias',
-            data: salesData,
-            backgroundColor: 'rgba(28, 245, 93, 0.596)',
-            borderColor: 'rgba(28, 245, 93, 0.596)',
-            borderWidth: 1
-          },
-          {
-            label: 'Pedidos Diários',
-            data: ordersData,
-            backgroundColor: 'rgba(16, 134, 224, 0.596)',
-            borderColor: 'rgba(16, 134, 224, 0.596)',
-            borderWidth: 1
-          }
-        ]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
+      data.forEach(item => {
+        const date = new Date(item.date);
+        const dayOfWeek = (date.getDay() + 7) % 7; // Ajuste para começar de segunda-feira
+        salesData[dayOfWeek] = item.total;
+        console.log("salesdata é " + salesData)
+      });
+
+      // Atualizar o gráfico Chart.js
+      const ctx = document.getElementById('salesChart') as HTMLCanvasElement;
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: days,
+          datasets: [
+            {
+              label: 'Vendas Diárias',
+              data: salesData,
+              backgroundColor: 'rgba(28, 245, 93, 0.596)',
+              borderColor: 'rgba(28, 245, 93, 0.596)',
+              borderWidth: 1
+            }
+          ]
         },
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom'
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
           },
-          tooltip: {
-            mode: 'index',
-            intersect: false
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom'
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false
+            }
           }
         }
-      }
+      });
     });
   }
 

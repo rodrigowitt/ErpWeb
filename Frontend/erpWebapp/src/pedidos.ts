@@ -1,4 +1,5 @@
 export interface Pedidos {
+    date: string | number | Date;
     pedidoid: number;
     entrada: string;
     cliente: string;

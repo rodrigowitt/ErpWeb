@@ -117,6 +117,7 @@ onAddPedido(addForm: NgForm): void {
     status : status,
     desconto: desconto,
     total: total,
+    date: '',
     pedidoid: 0,
     entrada: ''
   };

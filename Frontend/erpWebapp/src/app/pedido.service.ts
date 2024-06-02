@@ -23,11 +23,20 @@ export class PedidosService {
   public getTotalMes(): Observable<Pedidos[]>{
     return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/totalmes`)}
 
+  public getTotalDia(): Observable<Pedidos[]>{
+    return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/totaldia`)}
+
   public getPedidoMes(): Observable<Pedidos[]>{
     return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/pedidomes`)}
 
+  public getPedidoDia(): Observable<Pedidos[]>{
+    return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/pedidodia`)}
+
   public getClienteMes(): Observable<Pedidos[]>{
     return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/clientemes`)}
+
+  public getVendasSemana(): Observable<Pedidos[]>{
+    return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/vendas-semana`)}
 
   public getPesquisa(numeroPedido : string, numeroCliente: string, dataInicio : string, dataFim : string): Observable<Pedidos[]>{
     return this.http.get<Pedidos[]>(`${this.apiServerUrl}pedido/buscar/${numeroPedido}/${numeroCliente}/${dataInicio}/${dataFim}`)

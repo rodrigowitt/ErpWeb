@@ -1,6 +1,7 @@
 package com.ErpWeb.control;
 
 import com.ErpWeb.dto.PedidoDto;
+import com.ErpWeb.dto.VendasDiarias;
 import com.ErpWeb.model.ClienteModelo;
 import com.ErpWeb.model.PedidoModelo;
 import com.ErpWeb.services.PedidoServico;
@@ -96,16 +97,33 @@ public class PedidoControle {
         return ResponseEntity.status(HttpStatus.OK).body(totalMes);
     }
 
+    @GetMapping(value = "/totaldia")
+    public ResponseEntity<Object> buscarTotalDia() {
+        BigDecimal totalDia = pedidoServico.vendasDia();
+        return ResponseEntity.status(HttpStatus.OK).body(totalDia);
+    }
+
     @GetMapping(value = "/pedidomes")
     public ResponseEntity<Object> buscarPedidoMes() {
         BigInteger pedidoMes = pedidoServico.pedidosMes();
         return ResponseEntity.status(HttpStatus.OK).body(pedidoMes);
     }
+    @GetMapping(value = "/pedidodia")
+    public ResponseEntity<Object> buscarPedidoDia() {
+        BigInteger pedidoDia = pedidoServico.pedidosDiario();
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoDia);
+    }
+
 
     @GetMapping(value = "/clientemes")
     public ResponseEntity<Object> buscarClienteMes() {
         BigInteger clienteMes = pedidoServico.clientesMes();
         return ResponseEntity.status(HttpStatus.OK).body(clienteMes);
+    }
+
+    @GetMapping("/vendas-semana")
+    public List<VendasDiarias> getVendasDaSemana() {
+        return pedidoServico.vendasSemanal();
     }
 
 }
