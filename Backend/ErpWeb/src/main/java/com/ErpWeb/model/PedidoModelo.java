@@ -1,5 +1,6 @@
 package com.ErpWeb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
@@ -17,7 +18,11 @@ public class PedidoModelo {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime entrada;
 
-    private String cliente;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "cliente_id", referencedColumnName = "clienteid")
+    private ClienteModelo clienteModelo;
 
     private double desconto;
 
@@ -27,12 +32,22 @@ public class PedidoModelo {
 
     private String status;
 
+    private String cliente;
+
     public Long getPedidoid() {
         return pedidoid;
     }
 
     public void setPedidoid(Long pedidoid) {
         this.pedidoid = pedidoid;
+    }
+
+    public ClienteModelo getClienteModelo() {
+        return clienteModelo;
+    }
+
+    public void setClienteModelo(ClienteModelo clienteModelo) {
+        this.clienteModelo = clienteModelo;
     }
 
     public LocalDateTime getEntrada() {
@@ -42,14 +57,6 @@ public class PedidoModelo {
     public LocalDateTime setEntrada(LocalDateTime entrada) {
         this.entrada = entrada;
         return entrada;
-    }
-
-    public String getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
     }
 
     public double getDesconto() {
@@ -82,5 +89,13 @@ public class PedidoModelo {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
     }
 }

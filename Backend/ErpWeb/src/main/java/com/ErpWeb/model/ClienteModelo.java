@@ -20,6 +20,7 @@ public class ClienteModelo {
 
     private int status;
 
+
     private String inscricaoEstadual;
 
     private String nomeFantasia;

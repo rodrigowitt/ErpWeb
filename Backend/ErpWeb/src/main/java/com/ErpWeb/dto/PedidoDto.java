@@ -1,18 +1,22 @@
 package com.ErpWeb.dto;
 
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class PedidoDto {
 
-    @NotBlank
-    private String cliente;
+    @Id
+    private Long cliente_id;
+
     @NotNull
     private double desconto;
     @NotNull
     private double total;
     @NotNull(message = "A forma de pagamento não deve estar em branco")
     private String forma_pagamento;
+
+    private String cliente;
 
     private String status;
 
@@ -54,5 +58,13 @@ public class PedidoDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getCliente_id() {
+        return cliente_id;
+    }
+
+    public void setCliente_id(Long cliente_id) {
+        this.cliente_id = cliente_id;
     }
 }

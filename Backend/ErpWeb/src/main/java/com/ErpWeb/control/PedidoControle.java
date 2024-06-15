@@ -1,9 +1,12 @@
 package com.ErpWeb.control;
 
+import com.ErpWeb.dto.ClienteDto;
 import com.ErpWeb.dto.PedidoDto;
 import com.ErpWeb.dto.VendasDiarias;
 import com.ErpWeb.model.ClienteModelo;
 import com.ErpWeb.model.PedidoModelo;
+import com.ErpWeb.model.ProdutoModelo;
+import com.ErpWeb.services.ClienteServico;
 import com.ErpWeb.services.PedidoServico;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +28,8 @@ import java.util.Optional;
 public class PedidoControle {
     @Autowired
     private PedidoServico pedidoServico;
+    @Autowired
+    private ClienteServico clienteServico;
 
     public PedidoControle(PedidoServico pedidoServico) {
         this.pedidoServico = pedidoServico;
@@ -34,9 +39,32 @@ public class PedidoControle {
             @RequestBody
             @Valid
             PedidoDto pedidoDto){
+
+
+        Optional<ClienteModelo> clienteOptional = clienteServico.findById(pedidoDto.getCliente_id());
+
+        System.out.println("O id do cliente é: " + clienteServico.findById(pedidoDto.getCliente_id()));
+
+        // Verificar se o cliente foi encontrado
+        if (!clienteOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+        }
+
+
+
+        ClienteModelo cliente = clienteOptional.get();
+
+        pedidoDto.setCliente(cliente.getRazaoSocial());
+
+
         var pedidoModelo = new PedidoModelo();
+
         BeanUtils.copyProperties(pedidoDto, pedidoModelo);
+
         pedidoModelo.setEntrada(LocalDateTime.from(LocalDateTime.now()));
+
+        pedidoModelo.setClienteModelo(cliente);
+
         pedidoModelo.setStatus("Pedido Efetuado");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoServico.save(pedidoModelo));

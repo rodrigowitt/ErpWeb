@@ -1,11 +1,14 @@
 package com.ErpWeb.dto;
 
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class ClienteDto {
     @NotBlank
     private String cnpjoucpf;
+
+
 
     private String inscricaoEstadual;
     @NotBlank
@@ -46,6 +49,8 @@ public class ClienteDto {
     public void setInscricaoEstadual(String inscricaoEstadual) {
         this.inscricaoEstadual = inscricaoEstadual;
     }
+
+
 
     public String getNomeFantasia() {
         return nomeFantasia;
