@@ -112,12 +112,13 @@ onAddPedido(addForm: NgForm): void {
   
 
   const pedido: Pedidos = {
-    cliente: cliente,
+    cliente_id: cliente,
     forma_pagamento: formaPagamento,
     status : status,
     desconto: desconto,
     total: total,
     date: '',
+    cliente: '',
     pedidoid: 0,
     entrada: ''
   };

@@ -43,7 +43,6 @@ public class PedidoControle {
 
         Optional<ClienteModelo> clienteOptional = clienteServico.findById(pedidoDto.getCliente_id());
 
-        System.out.println("O id do cliente é: " + clienteServico.findById(pedidoDto.getCliente_id()));
 
         // Verificar se o cliente foi encontrado
         if (!clienteOptional.isPresent()) {

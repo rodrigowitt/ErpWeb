@@ -78,4 +78,14 @@ public class ClienteControle {
         }
         return ResponseEntity.status(HttpStatus.OK).body(clienteModeloOptional.get());
     }
+
+    @GetMapping(value = "/buscar/{cliente}")
+    public ResponseEntity<Object> getBuscarCliente(@PathVariable(value = "cliente") String cliente) {
+        List<ClienteModelo> clientes = clienteServico.findCustomerBySearch(cliente);
+        if (clientes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(new HashMap<>());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(clientes);
+    }
+
 }
