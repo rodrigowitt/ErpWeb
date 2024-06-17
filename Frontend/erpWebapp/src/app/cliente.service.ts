@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
 import { ClientesConsulta } from 'src/clientesConsulta'; // Importe corrigido do modelo
 import { environment } from 'src/environments/environment';
 import { Clientes } from 'src/clientes';
@@ -23,6 +23,17 @@ export class ClienteService {
 
   public addCliente(cliente: Clientes): Observable<Clientes>{
     return this.http.post<Clientes>(`${this.apiServerUrl}cliente`, cliente);
+  }
+
+  public buscarCliente(cliente: string): Observable<Clientes[]> {
+    return this.http.get<Clientes[]>(`${this.apiServerUrl}cliente/buscar/${cliente}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('Erro ao obter cliente:', error);
+    return throwError('Erro ao obter cliente; por favor, tente novamente mais tarde.');
   }
 
   public getClientes(): Observable<Clientes[]>{

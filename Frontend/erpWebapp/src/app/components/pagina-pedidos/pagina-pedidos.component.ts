@@ -7,6 +7,8 @@ import {ProdutosService} from 'src/app/produtos.service'
 import { Produtos } from 'src/produtos';
 import { environment } from 'src/environments/environment';
 import { ItensPedidos } from 'src/itenspedidos';
+import { Clientes } from 'src/clientes';
+import { ClienteService } from 'src/app/cliente.service';
 
 
 @Component({
@@ -36,10 +38,15 @@ export class PaginaPedidosComponent {
   totalPedido!: number;
   produto: any;
   nomeProduto: string = '';
+  cliente: string = '';
+  clientes: Clientes[] = [];
+  mensagem: string = '';
+  clientesSugeridos: Clientes[] = [];
+  idclientepedido: any;
 
   
 
-  constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private http: HttpClient){};
+  constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private http: HttpClient, private clienteService: ClienteService){};
 
   ngOnInit(): void {
    }
@@ -73,9 +80,41 @@ export class PaginaPedidosComponent {
     }
   }
   
+  buscarCliente() {
+    if (this.cliente.trim() !== '') {
+      this.clienteService.buscarCliente(this.cliente).subscribe(
+        (clientes: Clientes[]) => {
+          if (clientes && clientes.length > 0) {
+            this.clientesSugeridos = clientes;
+            this.mensagem = '';
+          } else {
+            this.clientesSugeridos = [];
+            this.mensagem = 'Cliente não encontrado';
+          }
+        },
+        (error: any) => {
+          console.error('Erro ao obter cliente:', error);
+          this.clientesSugeridos = [];
+          this.mensagem = 'Erro ao obter cliente';
+        }
+      );
+    } else {
+      this.clientesSugeridos = [];
+      this.mensagem = '';
+    }
+  }
 
-  
-  
+  selecionarCliente(cliente: Clientes) {
+    this.cliente = cliente.nomeFantasia;
+    this.clientesSugeridos = [];
+    this.idclientepedido = cliente.clienteid;
+  }
+
+  limparSugestoes() {
+    setTimeout(() => {
+      this.clientesSugeridos = [];
+    }, 200);
+  }
 
   ajustarDesconto() {
     this.descontoDigitado = true;
@@ -100,21 +139,21 @@ export class PaginaPedidosComponent {
 
 
 onAddPedido(addForm: NgForm): void {
-  const cliente = addForm.value.cliente;
+  const clienteId = this.idclientepedido;
   const formaPagamento = addForm.value.forma_pagamento;
-  let  desconto = addForm.value.desconto;
-  let status = addForm.value.status;
+  let desconto = addForm.value.desconto;
+  const status = addForm.value.status;
   const total = this.calcularTotalPedido();
+
 
   if (!desconto || isNaN(desconto)) {
     desconto = 0;
   }
-  
 
   const pedido: Pedidos = {
-    cliente_id: cliente,
+    cliente_id: clienteId,
     forma_pagamento: formaPagamento,
-    status : status,
+    status: status,
     desconto: desconto,
     total: total,
     date: '',
@@ -122,35 +161,43 @@ onAddPedido(addForm: NgForm): void {
     pedidoid: 0,
     entrada: ''
   };
-  this.ultimocliente = cliente;
+
+  this.ultimocliente = clienteId;
   this.ultimaFormaPagamento = formaPagamento;
   this.ultimoTotal = total;
   this.ultimoDesconto = desconto;
-  this.pedidoService.addPedido(pedido).subscribe((pedidoAdicionado) => {
-    this.produtoslista.forEach((item) => {
-      const itemPedido: ItensPedidos = {
-        pedido: pedidoAdicionado.pedidoid, 
-        preco: item.produto.preco,
-        produto_id: item.produto.produtoid,
-        quantidade: item.quantidade,
-        itensPedidoid: '',
-        produto: ''
-        
-      };
-      this.pedidoFeito = pedidoAdicionado.pedidoid;
-      this.openModal();
-      this.pedidoService.addITensPedido(itemPedido).subscribe(() => {
-      }, (error) => {
-        console.error('Erro ao adicionar item de pedido:', error);
-      });
-    });
-    this.produtoslista = [];
-    addForm.resetForm();
-  }, (error) => {
-    console.error('Erro ao adicionar pedido:', error);
-  });
-}
 
+  // Chamada ao serviço para adicionar o pedido
+  this.pedidoService.addPedido(pedido).subscribe(
+    (pedidoAdicionado: any) => {
+      // Adicionando itens do pedido
+      this.produtoslista.forEach((item) => {
+        const itemPedido: ItensPedidos = {
+          pedido: pedidoAdicionado.pedidoid,
+          preco: item.produto.preco,
+          produto_id: item.produto.produtoid,
+          quantidade: item.quantidade,
+          itensPedidoid: '',
+          produto: ''
+        };
+        this.pedidoFeito = pedidoAdicionado.pedidoid;
+        this.openModal();
+        this.pedidoService.addITensPedido(itemPedido).subscribe(() => {
+          // Lógica após adicionar item de pedido
+        }, (error) => {
+          console.error('Erro ao adicionar item de pedido:', error);
+        });
+      });
+
+      // Resetando o formulário e a lista de produtos
+      this.produtoslista = [];
+      addForm.resetForm();
+    },
+    (error) => {
+      console.error('Erro ao adicionar pedido:', error);
+    }
+  );
+}
 async adicionarProduto() {
   if (this.indiceItemEditando !== -1) {
     const produto  : any = await this.http.get<Produtos>(`${this.apiServerUrl}produto/${this.codigoProduto}`).toPromise();
