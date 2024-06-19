@@ -2,6 +2,7 @@ package com.ErpWeb.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
 
 
@@ -23,6 +24,11 @@ public class PedidoModelo {
     @JsonBackReference
     @JoinColumn(name = "cliente_id", referencedColumnName = "clienteid")
     private ClienteModelo clienteModelo;
+
+    @JsonGetter("cliente_id")
+    public Long getClienteId() {
+        return clienteModelo != null ? clienteModelo.getClienteid() : null;
+    }
 
     private double desconto;
 

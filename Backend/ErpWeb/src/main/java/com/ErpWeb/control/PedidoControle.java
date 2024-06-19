@@ -77,6 +77,12 @@ public class PedidoControle {
 
         Optional<PedidoModelo> pedidoModeloOptional = pedidoServico.findById(id);
 
+        Optional<ClienteModelo> clienteOptional = clienteServico.findById(pedidoDto.getCliente_id());
+
+        ClienteModelo cliente = clienteOptional.get();
+
+        pedidoDto.setCliente(cliente.getRazaoSocial());
+
         if (!pedidoModeloOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro não encontrado");
         }
@@ -85,6 +91,8 @@ public class PedidoControle {
         BeanUtils.copyProperties(pedidoDto, pedidoModelo);
 
         pedidoModelo.setPedidoid(pedidoModeloOptional.get().getPedidoid());
+
+        pedidoModelo.setClienteModelo(cliente);
 
         System.out.println("Pedido editado com sucesso !");
 

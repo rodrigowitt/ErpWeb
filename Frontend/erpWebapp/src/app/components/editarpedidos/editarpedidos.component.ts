@@ -8,6 +8,8 @@ import { Produtos } from 'src/produtos';
 import { PedidosService } from '../../pedido.service';
 import { ProdutosService } from '../../produtos.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ClienteService } from 'src/app/cliente.service';
+import { Clientes } from 'src/clientes';
 
 @Component({
   selector: 'app-editarpedidos',
@@ -42,9 +44,13 @@ export class EditarpedidosComponent {
   pedidoId: any;
   itenspedidoId: any;
   numeroTotalItens: number = 0;
-  
+  cliente: string = '';
+  clientes: Clientes[] = [];
+  mensagem: string = '';
+  clientesSugeridos: Clientes[] = [];
+  idclientepedido: any = 3;
 
-  constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private route: ActivatedRoute, private http: HttpClient, private router: Router){};
+  constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private route: ActivatedRoute, private http: HttpClient, private router: Router, private clienteService: ClienteService){};
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -68,6 +74,8 @@ export class EditarpedidosComponent {
     this.pedidoService.getPedidoById(id).subscribe(
       (pedidosApi) => {
         this.pedidosApi = pedidosApi;
+        this.idclientepedido = pedidosApi.cliente_id;
+        console.log("o id carregado do pedido é " + this.idclientepedido)
       },
       (error) => {
         console.error('Erro ao carregar pedido:', error);
@@ -114,7 +122,41 @@ export class EditarpedidosComponent {
     }
   }
   
+  buscarCliente() {
+    if (this.pedidosApi.cliente !== '') {
+      this.clienteService.buscarCliente(this.pedidosApi.cliente ).subscribe(
+        (clientes: Clientes[]) => {
+          if (clientes && clientes.length > 0) {
+            this.clientesSugeridos = clientes;
+            this.mensagem = '';
+          } else {
+            this.clientesSugeridos = [];
+            this.mensagem = 'Cliente não encontrado';
+          }
+        },
+        (error: any) => {
+          console.error('Erro ao obter cliente:', error);
+          this.clientesSugeridos = [];
+          this.mensagem = 'Erro ao obter cliente';
+        }
+      );
+    } else {
+      this.clientesSugeridos = [];
+      this.mensagem = '';
+    }
+  }
 
+  selecionarCliente(cliente: Clientes) {
+    this.pedidosApi.cliente = cliente.nomeFantasia;
+    this.clientesSugeridos = [];
+    this.idclientepedido = cliente.clienteid;
+  }
+
+  limparSugestoes() {
+    setTimeout(() => {
+      this.clientesSugeridos = [];
+    }, 200);
+  }
   
   
 
@@ -141,10 +183,11 @@ export class EditarpedidosComponent {
 
 
 onAddPedido(addForm: NgForm): void {
-  const cliente = addForm.value.cliente;
+  const cliente = this.idclientepedido;
   const formaPagamento = addForm.value.forma_pagamento;
   let desconto = addForm.value.desconto;
   let status = addForm.value.status;
+  console.log("o id do pedido enviado é " + this.idclientepedido)
   const total = this.calcularTotalPedido();
 
   if (!desconto || isNaN(desconto)) {

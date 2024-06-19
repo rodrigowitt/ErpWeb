@@ -1,9 +1,19 @@
-<div class="container-fluid mt-2" *ngIf="pedidosApi && itenspedidoApi">
+<div class="container-fluid mt-3" *ngIf="pedidosApi && itenspedidoApi">
     <h5 class="text-center">Edição de Pedido</h5>
     <form #addForm="ngForm" class="row mt-3" (ngSubmit)="onAddPedido(addForm)">
         <div class="form-group col-md-3">
             <label for="cliente">Cliente:</label>
-            <input type="text" [(ngModel)]="pedidosApi.cliente"  ngModel name="cliente" class="form-control" id="cliente" placeholder="Nome do cliente">
+            <input type="text" [(ngModel)]="pedidosApi.cliente"  ngModel name="cliente" class="form-control" id="cliente" placeholder="Nome do cliente" 
+            (keyup)="buscarCliente()" 
+            autocomplete="off"> 
+            <ul class="suggestions-list" *ngIf="clientesSugeridos.length > 0 && !mensagem">
+              <li *ngFor="let cliente of clientesSugeridos" (click)="selecionarCliente(cliente)">
+                {{ cliente.nomeFantasia }}
+              </li>
+            </ul>
+            <div class="mensagem mt-2" *ngIf="mensagem">
+              {{ mensagem }}
+            </div>
         </div>
         <div class="form-group col-md-3">
             <label for="formaPagamento">Forma de Pagamento:</label>
