@@ -115,7 +115,7 @@
       </div>
 
       <div class="form-group text-center">
-          <button type="submit" id="add-ped-form" class="btn btn-outline enviarpedido" [disabled]="!addForm.value.cliente || !addForm.value.forma_pagamento || !verificarSeHaItens()">Enviar Pedido</button>
+          <button type="submit" id="add-ped-form" class="btn btn-outline enviarpedido" [disabled]="!addForm.value.cliente || clienteselecionado == false || !addForm.value.forma_pagamento || !verificarSeHaItens()">Enviar Pedido</button>
       </div>
   </form>
 </div>

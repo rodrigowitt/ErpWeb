@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { PedidosService } from '../../pedido.service';
 import { Pedidos } from 'src/pedidos';
@@ -43,10 +43,11 @@ export class PaginaPedidosComponent {
   mensagem: string = '';
   clientesSugeridos: Clientes[] = [];
   idclientepedido: any;
+  clienteselecionado : boolean = false;
 
   
 
-  constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private http: HttpClient, private clienteService: ClienteService){};
+  constructor (private pedidoService: PedidosService, private produtosService : ProdutosService, private http: HttpClient, private clienteService: ClienteService, private eRef: ElementRef){};
 
   ngOnInit(): void {
    }
@@ -89,6 +90,7 @@ export class PaginaPedidosComponent {
             this.mensagem = '';
           } else {
             this.clientesSugeridos = [];
+            this.clienteselecionado = false;
             this.mensagem = 'Cliente não encontrado';
           }
         },
@@ -105,15 +107,24 @@ export class PaginaPedidosComponent {
   }
 
   selecionarCliente(cliente: Clientes) {
+    console.log("adicionou cliente")
     this.cliente = cliente.nomeFantasia;
     this.clientesSugeridos = [];
     this.idclientepedido = cliente.clienteid;
+    this.clienteselecionado = true;
   }
 
   limparSugestoes() {
     setTimeout(() => {
       this.clientesSugeridos = [];
     }, 200);
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOut(event: Event) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.clientesSugeridos = [];
+    }
   }
 
   ajustarDesconto() {
@@ -181,15 +192,16 @@ onAddPedido(addForm: NgForm): void {
           produto: ''
         };
         this.pedidoFeito = pedidoAdicionado.pedidoid;
+        this.clienteselecionado = false;
         this.openModal();
         this.pedidoService.addITensPedido(itemPedido).subscribe(() => {
-          // Lógica após adicionar item de pedido
+          
         }, (error) => {
           console.error('Erro ao adicionar item de pedido:', error);
         });
       });
 
-      // Resetando o formulário e a lista de produtos
+      
       this.produtoslista = [];
       addForm.resetForm();
     },
