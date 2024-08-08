@@ -1,4 +1,4 @@
 export const environment = {
     production : true,
-    apiBaseUrl :'https://34.229.232.195/'
+    apiBaseUrl :'https://pedidofacil.free.nf/pedido/'
 };
